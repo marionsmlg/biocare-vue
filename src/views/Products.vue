@@ -10,11 +10,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 const products = ref([])
 
-onMounted(async () => {
+async function fetchData() {
   try {
     const response = await fetch('https://dummyjson.com/products')
     const data = await response.json()
@@ -22,5 +22,6 @@ onMounted(async () => {
   } catch (error) {
     console.error(error)
   }
-})
+}
+fetchData()
 </script>
