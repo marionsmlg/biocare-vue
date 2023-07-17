@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import ProductView from '../views/Products.vue'
 import LoginView from '../views/LoginView.vue'
 import SignUp from '../views/SignUp.vue'
+import QuizView from '../views/QuizView.vue'
+import QuizSkinTypes from '../components/SkinTypes.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +17,7 @@ const router = createRouter({
     { path: '/products', name: 'products', component: ProductView },
     { path: '/login', name: 'login', component: LoginView },
     { path: '/sign-up', name: 'sign-up', component: SignUp },
+    { path: '/quiz', name: 'quiz', component: QuizView },
     {
       path: '/about',
       name: 'about',

@@ -1,12 +1,13 @@
 <script setup>
-import CompositionCosmetics from '../assets/composition-cosmetics.jpg'
-import UniqueProducts from '../assets/unique-products.png'
-import SaveMoney from '../assets/save-money.png'
-import IconClick from '../components/icons/InconClick.vue'
+import CompositionCosmetics from '../assets/composition-cosmetics.svg'
+import UniqueProducts from '../assets/unique-products.svg'
+import SaveMoney from '../assets/save-money.svg'
+import IconClick from '../components/icons/IconClick.vue'
 import ButtonPrimary from '../components/buttons/ButtonPrimary.vue'
 import { RouterLink } from 'vue-router'
 import IconPeople from '../components/icons/IconPeople.vue'
 import IconMolecule from '../components/icons/IconMolecule.vue'
+import MainSvg from '../assets/femme-qui-sinterroge.svg'
 
 const argumentsList = [
   {
@@ -33,8 +34,6 @@ const argumentsList = [
 <template>
   <section class="my-4">
     <div class="text-center flex flex-col">
-      <img src="@/assets/femme-qui-sinterroge.png" class="w-full mb-4 mt-4" alt="" />
-
       <div class="px-6 lg:absolute lg:w-1/2">
         <h1 class="text-[#605E5E] text-xl font-medium mb-3 md:text-2xl lg:text-4xl">
           Vous cherchez une recette cosmétique adaptée à <span class="text-[#62D0E3]">vous</span> ?
@@ -42,7 +41,12 @@ const argumentsList = [
         <h2 class="text-[#605E5E] md:text-xl lg:text-2xl lg:mb-12">
           BioCare sélectionne des recettes de cosmétiques DIY qui vous ressemble !
         </h2>
-        <ButtonPrimary />
+      </div>
+
+      <img :src="MainSvg" alt="Main SVG" class="mb-4" />
+
+      <div class="lg:absolute top-96 start-40">
+        <RouterLink to="/quiz"><ButtonPrimary /></RouterLink>
       </div>
     </div>
   </section>
@@ -149,21 +153,25 @@ const argumentsList = [
     </li>
   </ul>
 
-  <div class="my-4">
-    <h1 class="text-center text-[#605E5E] font-semibold mx-4 mt-6 md:mt-10 md:text-xl lg:text-2xl">
-      Pour plus de personnalisation, créez votre profil beauté et obtenez une sélection de recettes
-      adaptées à vous !
-    </h1>
+  <div class="my-4 flex justify-center">
+    <div class="absolute flex flex-col items-center">
+      <h1
+        class="text-center text-[#605E5E] font-semibold mx-4 mt- md:mt-10 md:text-xl lg:text-2xl pb-20"
+      >
+        Pour plus de personnalisation, créez votre profil beauté et obtenez une sélection de
+        recettes adaptées à vous !
+      </h1>
+      <div class="">
+        <ButtonPrimary />
+      </div>
+    </div>
 
-    <div class="flex relative inline-block w-full md:justify-center">
+    <div class="flex inline-block w-full md:justify-center mt-12">
       <img
-        src="@/assets/products.png"
+        src="@/assets/products.svg"
         alt="Votre image"
         class="flex w-full opacity-50 md:max-w-xl"
       />
-      <div class="absolute md:top-1/2">
-        <ButtonPrimary />
-      </div>
     </div>
   </div>
 </template>
