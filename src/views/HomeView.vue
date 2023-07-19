@@ -180,7 +180,7 @@ const bodyPart = [
         recettes adaptées à vous !
       </h1>
       <div>
-        <RouterLink to="/quiz"
+        <RouterLink to="/recipe"
           ><ButtonPrimary>Je cherche les recette qui me ressemble !</ButtonPrimary></RouterLink
         >
       </div>
