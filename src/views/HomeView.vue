@@ -83,18 +83,15 @@ const bodyPart = [
       <IconClick />
     </div>
 
-    <div class="flex flex-col text-center lg:flex-row md:justify-between lg:justify-start">
+    <div
+      class="flex flex-col items-center text-center lg:flex-row md:justify-between lg:justify-start"
+    >
       <div class="mb-3 lg:mr-8">
         <ListBox />
       </div>
 
       <div class="mb-3 lg:mr-8">
-        <button
-          type="button"
-          class="md:px-14 md:py-3 w-full rounded-xl bg-white px-3 py-2 text-md font-semibold shadow-sm border-2 hover:border-[#F3B8B4] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Type de problème
-        </button>
+        <ListBox />
       </div>
       <div class="mb-3">
         <button
