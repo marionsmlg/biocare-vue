@@ -70,7 +70,9 @@ const bodyPart = [
       <img :src="MainSvg" alt="Main SVG" class="mb-4" />
 
       <div class="lg:absolute top-96 start-40">
-        <RouterLink to="/quiz"><ButtonPrimary /></RouterLink>
+        <RouterLink to="/quiz"
+          ><ButtonPrimary>Je cherche les recette qui me ressemble !</ButtonPrimary></RouterLink
+        >
       </div>
     </div>
   </section>
@@ -78,7 +80,7 @@ const bodyPart = [
   <section class="bg-[#FBDFDB] py-10 px-20 md:rounded-xl md:mx-20">
     <div class="flex justify-center lg:justify-start">
       <h2 class="font-bold mb-6 mr-2 text-center md:text-left lg:text-xl">
-        Trouver ma recette en 2 clics !
+        Trouver ma recette en 2 clics
       </h2>
       <IconClick />
     </div>
@@ -178,7 +180,9 @@ const bodyPart = [
         recettes adaptées à vous !
       </h1>
       <div>
-        <RouterLink to="/quiz"><ButtonPrimary /></RouterLink>
+        <RouterLink to="/quiz"
+          ><ButtonPrimary>Je cherche les recette qui me ressemble !</ButtonPrimary></RouterLink
+        >
       </div>
     </div>
 
