@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import SignUp from '../views/SignUp.vue'
 import QuizView from '../views/QuizView.vue'
 import Recipe from '../views/Recipe.vue'
+import Category from '../views/Category.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +19,8 @@ const router = createRouter({
     { path: '/login', name: 'login', component: LoginView },
     { path: '/sign-up', name: 'sign-up', component: SignUp },
     { path: '/quiz', name: 'quiz', component: QuizView },
-    { path: '/recipe', name: 'recipe', component: Recipe },
+    { path: '/category/recipe', name: 'recipe', component: Recipe },
+    { path: '/category', name: 'category', component: Category },
     {
       path: '/about',
       name: 'about',

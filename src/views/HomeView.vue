@@ -4,6 +4,7 @@ import UniqueProducts from '../assets/unique-products.svg'
 import SaveMoney from '../assets/save-money.svg'
 import IconClick from '../components/icons/IconClick.vue'
 import ButtonPrimary from '../components/buttons/ButtonPrimary.vue'
+import ListBox from '../components/buttons/ListBox.vue'
 import { RouterLink } from 'vue-router'
 import IconPeople from '../components/icons/IconPeople.vue'
 import IconMolecule from '../components/icons/IconMolecule.vue'
@@ -27,6 +28,29 @@ const argumentsList = [
     img: SaveMoney,
     content:
       "Grâce à nos recettes à base d'ingrédients abordables, vous pouvez obtenir des résultats similaires à ceux des produits cosmétiques commerciaux, tout en réalisant des économies significatives."
+  }
+]
+
+const bodyPart = [
+  {
+    name: 'Peau',
+    problems: [
+      'Acné',
+      'Sensibilité cutanée',
+      'Rougeurs',
+      'Relâchement cutané',
+      'Aucun problème particulier'
+    ]
+  },
+  {
+    name: 'Cheveux',
+    problems: [
+      'Acné',
+      'Sensibilité cutanée',
+      'Rougeurs',
+      'Relâchement cutané',
+      'Aucun problème particulier'
+    ]
   }
 ]
 </script>
@@ -61,12 +85,7 @@ const argumentsList = [
 
     <div class="flex flex-col text-center lg:flex-row md:justify-between lg:justify-start">
       <div class="mb-3 lg:mr-8">
-        <button
-          type="button"
-          class="md:px-14 md:py-3 w-full rounded-xl bg-white px-3 py-2 text-md font-semibold shadow-sm border-2 hover:border-[#F3B8B4] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Partie du corps
-        </button>
+        <ListBox />
       </div>
 
       <div class="mb-3 lg:mr-8">

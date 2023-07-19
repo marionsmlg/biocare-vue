@@ -17,7 +17,8 @@ const recipes = [
     level: 'Facile',
     time: '5 min',
     quantity: '50 g',
-    img: 'https://images.unsplash.com/photo-1597854710119-dbb43d562f78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1097&q=80',
+    imgUrl:
+      'https://images.unsplash.com/photo-1597854710119-dbb43d562f78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1097&q=80',
     use: 'Appliquez une noisette sur pointes sèches ou mouillées.',
     precautions:
       "Faites toujours un test de votre préparation dans le pli du coude 24h avant utilisation afin de vous assurer que vous ne faites aucune réaction. Dans le cas contraire, n'utilisez pas la préparation. Tenir hors de portée des enfants.",
@@ -35,23 +36,31 @@ const recipes = [
         name: 'Huile végétale de grenade BIO',
         quantity: '27mL',
         description:
-          'Connues pour ses propriétés anti-oxydantes, régénérantes, elle redonne éclat et hydrate les cheveux.'
+          'Connues pour ses propriétés anti-oxydantes, régénérantes, elle redonne éclat et hydrate les cheveux.',
+        imgUrl:
+          'https://www.jaimefruitsetlegumes.ca/wp-content/uploads/2019/09/grenade-scaled-e1643120930744.jpg'
       },
       {
         name: 'Huile végétale de Jojoba BIO',
         quantity: '20mL',
         description:
-          'Réputée pour ses propriétés sébo-régulatrices, hydratantes, assouplissantes et régénérantes sans graisser.'
+          'Réputée pour ses propriétés sébo-régulatrices, hydratantes, assouplissantes et régénérantes sans graisser.',
+        imgUrl:
+          'https://t3.ftcdn.net/jpg/04/59/82/42/360_F_459824261_02e8jwgYCvQhKxWXvqL1Od6hGtkYITPR.jpg'
       },
       {
         name: 'Huile végétale Argan BIO',
         quantity: '8mL',
-        description: 'Connue pour ses propriétés réparatrices, antioxydantes et protectrices.'
+        description: 'Connue pour ses propriétés réparatrices, antioxydantes et protectrices.',
+        imgUrl:
+          'https://media.istockphoto.com/id/1177329454/fr/photo/huile-dargan.jpg?s=612x612&w=0&k=20&c=MReCt3tXRWebEvos3W6gIrV6jjTZn52VX3XAZR1ms-k='
       },
       {
-        name: 'Huile végétale Argan BIO',
-        quantity: '8mL',
-        description: 'Connue pour ses propriétés réparatrices, antioxydantes et protectrices.'
+        name: 'Fragrance Monoï',
+        quantity: '17 gouttes',
+        description: 'Connue pour ses propriétés réparatrices, antioxydantes et protectrices.',
+        imgUrl:
+          'https://i.pinimg.com/736x/e8/7e/19/e87e1966bf98a7bd6602bccc6bc4e78f--monoi-homemade-cosmetics.jpg'
       }
     ]
   }
@@ -86,7 +95,7 @@ const data = ref(recipes[0])
 
     <div class="flex flex-col items-center">
       <div class="flex w-full lg:w-4/5 h-96 overflow-hidden lg:mb-8">
-        <img :src="recipe.img" class="w-full h-auto object-cover lg:rounded-xl" />
+        <img :src="recipe.imgUrl" class="w-full h-auto object-cover lg:rounded-xl" />
       </div>
       <div class="bg-[#FBDFDB] lg:w-4/5 lg:rounded-xl w-full px-4 py-6">
         <div class="flex items-center justify-center">
@@ -113,14 +122,19 @@ const data = ref(recipes[0])
 
     <div class="px-4 py-8 w-full">
       <div class="flex flex-col items-center mb-12 w-full">
-        <h2 class="text-2xl font-semibold mb-4">Ingredients</h2>
+        <h2 class="text-2xl font-semibold mb-4">Ingrédients</h2>
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 w-full lg:w-7/12">
           <div
             v-for="ingredient in recipe.ingredients"
             class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm"
           >
-            <div class="flex-shrink-0"></div>
+            <!-- <div class="flex-shrink-0"><component :is="ingredient.icon" class="w-14 h-14" /></div> -->
+            <img
+              class="mx-auto h-14 w-14 flex-shrink-0 rounded-full object-cover"
+              :src="ingredient.imgUrl"
+              alt=""
+            />
             <div class="min-w-0 flex-1">
               <span class="absolute inset-0" aria-hidden="true" />
               <p class="text-sm font-medium text-gray-900">{{ ingredient.name }}</p>
@@ -135,7 +149,7 @@ const data = ref(recipes[0])
 
         <div class="flex flex-col border rounded-xl px-8 py-2 lg:w-7/12">
           <div v-for="(step, index) in recipe.steps" class="py-8 border-b last:border-none">
-            <p class="font-semibold text-gray-900">Etape {{ index + 1 }}</p>
+            <p class="font-semibold text-gray-900">Étape {{ index + 1 }}</p>
             <p class="text-gray-500">{{ step }}</p>
           </div>
         </div>
@@ -154,7 +168,7 @@ const data = ref(recipes[0])
               <DisclosureButton
                 class="flex w-full justify-between pt-8 text-left font-medium font-semibold text-gray-900"
               >
-                <span>Precautions</span>
+                <span>Précautions</span>
                 <ChevronUpIcon :class="open ? 'rotate-180 transform' : ''" class="h-5 w-5" />
               </DisclosureButton>
               <DisclosurePanel class="pt-4 pb-4 text-gray-500">
@@ -166,7 +180,7 @@ const data = ref(recipes[0])
               <DisclosureButton
                 class="flex w-full justify-between pt-8 text-left font-medium font-semibold text-gray-900"
               >
-                <span>Allergenes</span>
+                <span>Allergènes</span>
                 <ChevronUpIcon :class="open ? 'rotate-180 transform' : ''" class="h-5 w-5" />
               </DisclosureButton>
               <DisclosurePanel class="pt-4 pb-4 text-gray-500">
@@ -189,5 +203,28 @@ const data = ref(recipes[0])
         </div>
       </div>
     </div>
+
+    <ul
+      role="list"
+      class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-4"
+    >
+      <li
+        v-for="ingredient in recipe.ingredients"
+        class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
+      >
+        <div class="flex flex-1 flex-col p-8">
+          <img
+            class="mx-auto h-32 w-32 flex-shrink-0 rounded-full object-cover"
+            :src="ingredient.imgUrl"
+            alt=""
+          />
+          <h3 class="mt-6 text-sm font-medium text-gray-900">{{ ingredient.name }}</h3>
+          <div class="mt-1 flex flex-grow flex-col justify-between">
+            <p class="text-sm text-gray-500">{{ ingredient.description }}</p>
+          </div>
+        </div>
+        <div></div>
+      </li>
+    </ul>
   </div>
 </template>
