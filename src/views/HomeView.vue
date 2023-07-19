@@ -100,7 +100,7 @@ const bodyPart = [
           type="button"
           class="md:px-14 md:py-3 w-full rounded-xl bg-[#F3B8B4] px-3 py-2 text-md font-bold shadow-sm hover:bg-[#F19B95] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Trouver ma recette
+          <RouterLink to="/category">Trouver ma recette</RouterLink>
         </button>
       </div>
     </div>
