@@ -10,5 +10,5 @@ import { RouterLink, RouterView } from 'vue-router'
   </header>
 
   <RouterView />
-  <!-- <BiocareFooter /> -->
+  <BiocareFooter />
 </template>
