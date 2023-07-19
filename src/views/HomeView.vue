@@ -161,17 +161,13 @@ const argumentsList = [
         Pour plus de personnalisation, créez votre profil beauté et obtenez une sélection de
         recettes adaptées à vous !
       </h1>
-      <div class="">
-        <ButtonPrimary />
+      <div>
+        <RouterLink to="/quiz"><ButtonPrimary /></RouterLink>
       </div>
     </div>
 
     <div class="flex inline-block w-full md:justify-center mt-12">
-      <img
-        src="@/assets/products.svg"
-        alt="Votre image"
-        class="flex w-full opacity-50 md:max-w-xl"
-      />
+      <img src="@/assets/products.svg" alt="Votre image" class="flex w-full md:max-w-xl" />
     </div>
   </div>
 </template>
