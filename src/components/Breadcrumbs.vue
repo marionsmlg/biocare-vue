@@ -1,3 +1,9 @@
+<script setup>
+import { ChevronRightIcon, HomeIcon } from '@heroicons/vue/20/solid'
+
+const pages = [{ name: 'Mon profil', href: '/quiz', current: true }]
+</script>
+
 <template>
   <nav class="flex" aria-label="Breadcrumb">
     <ol role="list" class="flex items-center space-x-4">
@@ -23,9 +29,3 @@
     </ol>
   </nav>
 </template>
-
-<script setup>
-import ChevronRightIcon from '@/components/icons/IconChevronRight.vue'
-import HomeIcon from '@/components/icons/IconHome.vue'
-const pages = [{ name: 'Mon profil', href: '/quiz', current: true }]
-</script>

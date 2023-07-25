@@ -1,6 +1,5 @@
 <script setup>
-import BurgerIcon from './icons/IconBurger.vue'
-import UserIcon from './icons/IconUser.vue'
+import { UserIcon } from '@heroicons/vue/20/solid'
 import { RouterLink } from 'vue-router'
 import logoBiocare from '@/assets/biocare-logo.svg'
 </script>

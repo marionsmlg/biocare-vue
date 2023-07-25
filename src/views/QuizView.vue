@@ -1,10 +1,8 @@
 <script setup>
-import IconChevronLeft from '../components/icons/IconChevronLeft.vue'
-import StepsQuiz from '../components/StepsQuiz.vue'
+import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import SkinTypes from '../components/SkinTypes.vue'
 import SkinProblems from '../components/SkinProblems.vue'
 import HairTypes from '../components/HairTypes.vue'
-import { RouterLink } from 'vue-router'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
 import { ref } from 'vue'
 
@@ -30,8 +28,8 @@ const previousQuestion = () => {
     <div v-show="currentQuestionIndex === 0"><Breadcrumbs /></div>
 
     <div class="text-gray-400 hover:text-gray-500 flex">
-      <button @click="previousQuestion" v-show="currentQuestionIndex > 0" class="flex">
-        <IconChevronLeft /><span class="ml-2">Précédent</span>
+      <button v-show="currentQuestionIndex > 0" class="flex" @click="previousQuestion">
+        <ChevronLeftIcon /><span class="ml-2">Précédent</span>
       </button>
     </div>
   </div>

@@ -1,3 +1,19 @@
+<script setup>
+import { ref } from 'vue'
+import { ChevronUpDownIcon, CheckIcon } from '@heroicons/vue/20/solid'
+
+import {
+  Listbox,
+  ListboxLabel,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption
+} from '@headlessui/vue'
+
+const people = [{ name: 'Partie du corps' }, { name: 'Peau' }, { name: 'Cheveux' }]
+const selectedPerson = ref(people[0])
+</script>
+
 <template>
   <div class="w-72">
     <Listbox v-model="selectedPerson">
@@ -49,19 +65,3 @@
     </Listbox>
   </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import ChevronUpDownIcon from '../icons/IconChevronUpDown.vue'
-import CheckIcon from '../icons/IconCheck.vue'
-import {
-  Listbox,
-  ListboxLabel,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption
-} from '@headlessui/vue'
-
-const people = [{ name: 'Partie du corps' }, { name: 'Peau' }, { name: 'Cheveux' }]
-const selectedPerson = ref(people[0])
-</script>

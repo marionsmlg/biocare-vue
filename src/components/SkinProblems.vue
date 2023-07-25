@@ -1,3 +1,27 @@
+<script setup>
+import { ref } from 'vue'
+import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
+
+const problems = [
+  'Acné',
+  'Sensibilité cutanée',
+  'Rougeurs',
+  'Relâchement cutané',
+  'Aucun problème particulier'
+]
+
+const hairProblems = [
+  'Cheveux abîmés/fourchus/cassants',
+  'Cheveux secs',
+  'Cheveux gras',
+  'Chute de cheveux',
+  'Pellicules',
+  'Aucun problème particulier'
+]
+
+const selected = ref(problems[0])
+</script>
+
 <template>
   <p class="mb-8 text-sm text-gray-500">Plusieurs choix sont possibles</p>
   <RadioGroup v-model="selected">
@@ -37,27 +61,3 @@
     </div>
   </RadioGroup>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
-
-const problems = [
-  'Acné',
-  'Sensibilité cutanée',
-  'Rougeurs',
-  'Relâchement cutané',
-  'Aucun problème particulier'
-]
-
-const hairProblems = [
-  'Cheveux abîmés/fourchus/cassants',
-  'Cheveux secs',
-  'Cheveux gras',
-  'Chute de cheveux',
-  'Pellicules',
-  'Aucun problème particulier'
-]
-
-const selected = ref(problems[0])
-</script>

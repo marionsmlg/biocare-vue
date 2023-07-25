@@ -1,3 +1,44 @@
+<script setup>
+import { ref } from 'vue'
+import {
+  RadioGroup,
+  RadioGroupDescription,
+  RadioGroupLabel,
+  RadioGroupOption
+} from '@headlessui/vue'
+import { RouterLink } from 'vue-router'
+import IconOilySkin from './icons/SkinTypes/IconOilySkin.vue'
+import IconDrySkin from './icons/SkinTypes/IconDrySkin.vue'
+import IconNormalSkin from './icons/SkinTypes/IconNormalSkin.vue'
+import IconMixedSkin from './icons/SkinTypes/IconMixedSkin.vue'
+
+const skinTypes = [
+  {
+    name: 'Peau sèche',
+    description: "Texture rugueuse, manque d'hydratation et tendance à la desquamation.",
+    icon: IconDrySkin
+  },
+  {
+    name: 'Peau grasse',
+    description: 'Production excessive de sébum, brillante, sujette aux imperfections.',
+    icon: IconOilySkin
+  },
+  {
+    name: 'Peau mixte',
+    description:
+      'Zone T grasse, joues sèches, nécessite un équilibre entre hydratation et contrôle de sébum.',
+    icon: IconMixedSkin
+  },
+  {
+    name: 'Peau normale',
+    description: "Équilibrée, texture lisse, production régulée de sébum, peu d'imperfections.",
+    icon: IconNormalSkin
+  }
+]
+
+const selected = ref(skinTypes[0])
+</script>
+
 <template>
   <RadioGroup v-model="selected">
     <RadioGroupLabel class="sr-only">Skin type</RadioGroupLabel>
@@ -42,44 +83,3 @@
     </div>
   </RadioGroup>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import {
-  RadioGroup,
-  RadioGroupDescription,
-  RadioGroupLabel,
-  RadioGroupOption
-} from '@headlessui/vue'
-import { RouterLink } from 'vue-router'
-import IconOilySkin from './icons/SkinTypes/IconOilySkin.vue'
-import IconDrySkin from './icons/SkinTypes/IconDrySkin.vue'
-import IconNormalSkin from './icons/SkinTypes/IconNormalSkin.vue'
-import IconMixedSkin from './icons/SkinTypes/IconMixedSkin.vue'
-
-const skinTypes = [
-  {
-    name: ' Peau sèche ',
-    description: "Texture rugueuse, manque d'hydratation et tendance à la desquamation.",
-    icon: IconDrySkin
-  },
-  {
-    name: ' Peau grasse ',
-    description: 'Production excessive de sébum, brillante, sujette aux imperfections.',
-    icon: IconOilySkin
-  },
-  {
-    name: ' Peau mixte ',
-    description:
-      'Zone T grasse, joues sèches, nécessite un équilibre entre hydratation et contrôle de sébum.',
-    icon: IconMixedSkin
-  },
-  {
-    name: ' Peau normale ',
-    description: "Équilibrée, texture lisse, production régulée de sébum, peu d'imperfections.",
-    icon: IconNormalSkin
-  }
-]
-
-const selected = ref(skinTypes[0])
-</script>

@@ -2,7 +2,7 @@
 import CompositionCosmetics from '../assets/composition-cosmetics.svg'
 import UniqueProducts from '../assets/unique-products.svg'
 import SaveMoney from '../assets/save-money.svg'
-import IconClick from '../components/icons/IconClick.vue'
+import { CursorArrowRaysIcon } from '@heroicons/vue/20/solid'
 import ButtonPrimary from '../components/buttons/ButtonPrimary.vue'
 import ListBox from '../components/buttons/ListBox.vue'
 import { RouterLink } from 'vue-router'
@@ -66,12 +66,11 @@ const bodyPart = [
           BioCare sélectionne des recettes de cosmétiques DIY qui vous ressemble !
         </h2>
       </div>
-
       <img :src="MainSvg" alt="Main SVG" class="mb-4" />
 
       <div class="lg:absolute top-96 start-40">
         <RouterLink to="/quiz"
-          ><ButtonPrimary>Je cherche les recette qui me ressemble !</ButtonPrimary></RouterLink
+          ><ButtonPrimary>Je cherche les recettes qui me ressemble !</ButtonPrimary></RouterLink
         >
       </div>
     </div>
@@ -82,7 +81,7 @@ const bodyPart = [
       <h2 class="font-bold mb-6 mr-2 text-center md:text-left lg:text-xl">
         Trouver ma recette en 2 clics
       </h2>
-      <IconClick />
+      <CursorArrowRaysIcon class="w-5 h-5" />
     </div>
 
     <div
@@ -181,7 +180,7 @@ const bodyPart = [
       </h1>
       <div>
         <RouterLink to="/category/recipe"
-          ><ButtonPrimary>Je cherche les recette qui me ressemble !</ButtonPrimary></RouterLink
+          ><ButtonPrimary>Je cherche les recettes qui me ressemble !</ButtonPrimary></RouterLink
         >
       </div>
     </div>

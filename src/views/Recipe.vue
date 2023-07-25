@@ -1,13 +1,19 @@
 <script setup>
 import { ref } from 'vue'
-import IconChevronLeft from '../components/icons/IconChevronLeft.vue'
+import {
+  BeakerIcon,
+  ChevronUpIcon,
+  ChevronLeftIcon,
+  InformationCircleIcon,
+  ChartBarIcon,
+  ClockIcon
+} from '@heroicons/vue/24/outline'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
-import IconBeaker from '../components/icons/Recipe/IconBeaker.vue'
 import IconConservation from '../components/icons/Recipe/IconConservation.vue'
-import IconLevel from '../components/icons/Recipe/IconLevel.vue'
-import IconTime from '../components/icons/Recipe/IconTime.vue'
-import ChevronUpIcon from '../components/icons/IconChevronUp.vue'
+
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 const recipes = [
   {
@@ -58,7 +64,7 @@ const recipes = [
       {
         name: 'Fragrance Monoï',
         quantity: '17 gouttes',
-        description: 'Connue pour ses propriétés réparatrices, antioxydantes et protectrices.',
+        description: "Réputée pour son parfum sensuel rappelant l'été.",
         imgUrl:
           'https://i.pinimg.com/736x/e8/7e/19/e87e1966bf98a7bd6602bccc6bc4e78f--monoi-homemade-cosmetics.jpg'
       }
@@ -75,14 +81,16 @@ const data = ref(recipes[0])
 
     <div class="text-gray-400 hover:text-gray-500 flex lg:hidden">
       <button class="flex">
-        <IconChevronLeft />
+        <ChevronLeftIcon />
       </button>
     </div>
   </div>
 
   <div v-for="recipe in recipes" class="flex flex-col">
     <div class="px-4 flex flex-col items-center">
-      <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">{{ recipe.title }}</h1>
+      <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">
+        {{ recipe.title }}
+      </h1>
       <div class="flex space-x-3 mb-8">
         <span
           v-for="benefit in recipe.benefits"
@@ -100,11 +108,11 @@ const data = ref(recipes[0])
       <div class="bg-[#FBDFDB] lg:w-4/5 lg:rounded-xl w-full px-4 py-6">
         <div class="flex items-center justify-center">
           <div class="flex flex-col items-center px-8">
-            <IconTime />
+            <ClockIcon class="w-8 h-8" />
             <p class="font-semibold mt-2">{{ recipe.time }}</p>
           </div>
           <div class="flex flex-col items-center px-8">
-            <IconLevel />
+            <ChartBarIcon class="w-8 h-8" />
             <p class="font-semibold mt-2">{{ recipe.level }}</p>
           </div>
           <div class="flex flex-col items-center px-8">
@@ -116,7 +124,7 @@ const data = ref(recipes[0])
 
       <div class="flex justify-end px-4 py-4 lg:w-4/5 text-gray-600">
         <p class="truncate text-sm mr-2">Pour {{ recipe.quantity }}</p>
-        <div><IconBeaker /></div>
+        <div><BeakerIcon class="w-6 h-6" /></div>
       </div>
     </div>
 
@@ -129,15 +137,49 @@ const data = ref(recipes[0])
             v-for="ingredient in recipe.ingredients"
             class="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm"
           >
-            <!-- <div class="flex-shrink-0"><component :is="ingredient.icon" class="w-14 h-14" /></div> -->
             <img
               class="mx-auto h-14 w-14 flex-shrink-0 rounded-full object-cover"
               :src="ingredient.imgUrl"
               alt=""
             />
             <div class="min-w-0 flex-1">
-              <span class="absolute inset-0" aria-hidden="true" />
-              <p class="text-sm font-medium text-gray-900">{{ ingredient.name }}</p>
+              <div class="flex items-center">
+                <p class="text-sm font-medium text-gray-900">
+                  {{ ingredient.name }}
+                </p>
+
+                <div class="inline-flex rounded-md shadow-sm">
+                  <Menu as="div" class="relative -ml-px block">
+                    <MenuButton
+                      class="relative inline-flex items-center rounded-md bg-white px-2 py-2 text-gray-500 hover:text-gray-700 focus:z-10"
+                    >
+                      <span class="sr-only">Open options</span>
+                      <InformationCircleIcon class="h-5 w-5" aria-hidden="true" />
+                    </MenuButton>
+                    <transition
+                      enter-active-class="transition ease-out duration-100"
+                      enter-from-class="transform opacity-0 scale-95"
+                      enter-to-class="transform opacity-100 scale-100"
+                      leave-active-class="transition ease-in duration-75"
+                      leave-from-class="transform opacity-100 scale-100"
+                      leave-to-class="transform opacity-0 scale-95"
+                    >
+                      <MenuItems
+                        class="absolute right-0 z-10 -mr-1 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                      >
+                        <div class="py-1">
+                          <MenuItem>
+                            <p class="block px-4 py-2 text-sm text-gray-500">
+                              {{ ingredient.description }}
+                            </p>
+                          </MenuItem>
+                        </div>
+                      </MenuItems>
+                    </transition>
+                  </Menu>
+                </div>
+              </div>
+
               <p class="truncate text-sm text-gray-500">{{ ingredient.quantity }}</p>
             </div>
           </div>
@@ -193,7 +235,7 @@ const data = ref(recipes[0])
                 class="flex w-full justify-between pt-8 text-left font-medium font-semibold text-gray-900"
               >
                 <span>Conservation</span>
-                <ChevronUpIcon :class="open ? 'rotate-180 transform' : ''" class="h-4 w-4" />
+                <ChevronUpIcon :class="open ? 'rotate-180 transform' : ''" class="h-5 w-5" />
               </DisclosureButton>
               <DisclosurePanel class="pt-4 pb-4 text-gray-500">
                 {{ recipe.conservation }}
@@ -204,7 +246,7 @@ const data = ref(recipes[0])
       </div>
     </div>
 
-    <ul
+    <!-- <ul
       role="list"
       class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-4"
     >
@@ -225,6 +267,6 @@ const data = ref(recipes[0])
         </div>
         <div></div>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>

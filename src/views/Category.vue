@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import IconChevronLeft from '../components/icons/IconChevronLeft.vue'
+import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
 
 const categories = ['Soins cheveux', 'Soins corps', 'Soins visage']
@@ -87,7 +87,7 @@ const recipes = [
 
     <div class="text-gray-400 hover:text-gray-500 flex lg:hidden">
       <button class="flex">
-        <IconChevronLeft />
+        <ChevronLeftIcon />
       </button>
     </div>
   </div>

@@ -1,3 +1,26 @@
+<script setup>
+import { ref } from 'vue'
+import {
+  RadioGroup,
+  RadioGroupDescription,
+  RadioGroupLabel,
+  RadioGroupOption
+} from '@headlessui/vue'
+import IconSmoothHair from './icons/HairTypes/IconSmoothHair.vue'
+import IconFrizzyHair from './icons/HairTypes/IconFrizzyHair.vue'
+import IconWavyHair from './icons/HairTypes/IconWavyHair.vue'
+import IconCurlyHair from './icons/HairTypes/IconCurlyHair.vue'
+
+const hairTypes = [
+  { name: 'Lisse', icon: IconSmoothHair },
+  { name: 'Ondulée', icon: IconWavyHair },
+  { name: 'Bouclée', icon: IconCurlyHair },
+  { name: 'Frisée / Crépus', icon: IconFrizzyHair }
+]
+
+const selected = ref(hairTypes[0])
+</script>
+
 <template>
   <RadioGroup v-model="selected">
     <RadioGroupLabel class="sr-only">Skin Problems</RadioGroupLabel>
@@ -38,26 +61,3 @@
     </div>
   </RadioGroup>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import {
-  RadioGroup,
-  RadioGroupDescription,
-  RadioGroupLabel,
-  RadioGroupOption
-} from '@headlessui/vue'
-import IconSmoothHair from './icons/HairTypes/IconSmoothHair.vue'
-import IconFrizzyHair from './icons/HairTypes/IconFrizzyHair.vue'
-import IconWavyHair from './icons/HairTypes/IconWavyHair.vue'
-import IconCurlyHair from './icons/HairTypes/IconCurlyHair.vue'
-
-const hairTypes = [
-  { name: 'Lisse', icon: IconSmoothHair },
-  { name: 'Ondulée', icon: IconWavyHair },
-  { name: 'Bouclée', icon: IconCurlyHair },
-  { name: 'Frisée / Crépus', icon: IconFrizzyHair }
-]
-
-const selected = ref(hairTypes[0])
-</script>
