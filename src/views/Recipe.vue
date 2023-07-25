@@ -76,7 +76,7 @@ const data = ref(recipes[0])
 </script>
 
 <template>
-  <div class="ml-8 mb-4 flex">
+  <div class="ml-8 mb-4 flex mt-12">
     <div class="hidden lg:flex"><Breadcrumbs /></div>
 
     <div class="text-gray-400 hover:text-gray-500 flex lg:hidden">
@@ -151,7 +151,7 @@ const data = ref(recipes[0])
                 <div class="inline-flex rounded-md shadow-sm">
                   <Menu as="div" class="relative -ml-px block">
                     <MenuButton
-                      class="relative inline-flex items-center rounded-md bg-white px-2 py-2 text-gray-500 hover:text-gray-700 focus:z-10"
+                      class="relative inline-flex items-center rounded-full bg-white px-2 py-2 text-gray-500 hover:text-gray-700 focus:z-10"
                     >
                       <span class="sr-only">Open options</span>
                       <InformationCircleIcon class="h-5 w-5" aria-hidden="true" />

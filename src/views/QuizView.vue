@@ -24,7 +24,7 @@ const previousQuestion = () => {
 </script>
 
 <template>
-  <div class="ml-8 mb-4 flex">
+  <div class="ml-8 mb-4 mt-12 flex">
     <div v-show="currentQuestionIndex === 0"><Breadcrumbs /></div>
 
     <div class="text-gray-400 hover:text-gray-500 flex">

@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-  <div class="ml-4">
+  <div class="ml-4 mt-12">
     <RouterLink to="/"><ChevronLeftIcon class="w-7 h-7" /></RouterLink>
   </div>
 

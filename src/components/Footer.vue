@@ -7,6 +7,7 @@
 
 <script setup>
 import { defineComponent, h } from 'vue'
+import LogoBiocare from '@/components/BiocareLogo.vue'
 
 const navigation = {
   about: [
@@ -15,8 +16,8 @@ const navigation = {
   ],
   legal: [
     { name: 'CGU', href: '#' },
-    { name: 'Politique de confidentialite', href: '#' },
-    { name: 'Mentions legales', href: '#' },
+    { name: 'Politique de confidentialité', href: '#' },
+    { name: 'Mentions légales', href: '#' },
     { name: 'Cookies', href: '#' }
   ],
 
@@ -63,7 +64,7 @@ const navigation = {
     },
     {
       name: 'GitHub',
-      href: '#',
+      href: 'https://github.com/marionsmlg/biocare-vue',
       icon: defineComponent({
         render: () =>
           h('svg', { fill: 'currentColor', viewBox: '0 0 24 24' }, [
@@ -96,10 +97,12 @@ const navigation = {
 <template>
   <footer class="bg-white" aria-labelledby="footer-heading">
     <h2 id="footer-heading" class="sr-only">Footer</h2>
-    <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
+    <div
+      class="mx-auto max-w-7xl px-6 pb-8 pt-16 lg:px-8 border border-transparent border-t-gray-300 mt-4"
+    >
       <div class="xl:grid xl:grid-cols-3 xl:gap-8">
         <div class="space-y-8">
-          <img class="w-32" src="@/assets/biocare-logo.svg" alt="BioCare" />
+          <LogoBiocare class="w-24" />
           <p class="text-sm leading-6 text-gray-600">Des soins sains pour une beauté durable.</p>
           <div class="flex space-x-6">
             <a
@@ -116,7 +119,7 @@ const navigation = {
         <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
           <div class="md:grid md:grid-cols-2 md:gap-8">
             <div>
-              <h3 class="text-sm font-semibold leading-6 text-gray-900">A propos</h3>
+              <h3 class="text-sm font-semibold leading-6 text-gray-900">À propos</h3>
               <ul role="list" class="mt-6 space-y-4">
                 <li v-for="item in navigation.about" :key="item.name">
                   <a
@@ -128,7 +131,7 @@ const navigation = {
               </ul>
             </div>
             <div class="mt-10 md:mt-0">
-              <h3 class="text-sm font-semibold leading-6 text-gray-900">Informations legales</h3>
+              <h3 class="text-sm font-semibold leading-6 text-gray-900">Informations légales</h3>
               <ul role="list" class="mt-6 space-y-4">
                 <li v-for="item in navigation.legal" :key="item.name">
                   <a

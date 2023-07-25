@@ -82,7 +82,7 @@ const recipes = [
 </script>
 
 <template>
-  <div class="ml-8 mb-4 flex">
+  <div class="ml-8 mb-4 mt-12 flex">
     <div class="hidden lg:flex"><Breadcrumbs /></div>
 
     <div class="text-gray-400 hover:text-gray-500 flex lg:hidden">

@@ -1,14 +1,15 @@
 <script setup>
-import CompositionCosmetics from '../assets/composition-cosmetics.svg'
-import UniqueProducts from '../assets/unique-products.svg'
-import SaveMoney from '../assets/save-money.svg'
-import { CursorArrowRaysIcon } from '@heroicons/vue/20/solid'
+import CompositionCosmetics from '../components/landing-page/CompositionCosmetics.vue'
+import UniqueProducts from '../components/landing-page/UniqueProducts.vue'
+import SaveMoney from '../components/landing-page/SaveMoney.vue'
+import MainSvg from '../components/landing-page/FemmeQuiSinterroge.vue'
+import Products from '../components/landing-page/Products.vue'
+import { CursorArrowRaysIcon, ArrowLongRightIcon } from '@heroicons/vue/20/solid'
 import ButtonPrimary from '../components/buttons/ButtonPrimary.vue'
 import ListBox from '../components/buttons/ListBox.vue'
 import { RouterLink } from 'vue-router'
 import IconPeople from '../components/icons/IconPeople.vue'
 import IconMolecule from '../components/icons/IconMolecule.vue'
-import MainSvg from '../assets/femme-qui-sinterroge.svg'
 
 const argumentsList = [
   {
@@ -56,7 +57,7 @@ const bodyPart = [
 </script>
 
 <template>
-  <section class="my-4">
+  <section class="my-4 mt-12">
     <div class="text-center flex flex-col">
       <div class="px-6 lg:absolute lg:w-1/2">
         <h1 class="text-[#605E5E] text-xl font-medium mb-3 md:text-2xl lg:text-4xl">
@@ -65,13 +66,22 @@ const bodyPart = [
         <h2 class="text-[#605E5E] md:text-xl lg:text-2xl lg:mb-12">
           BioCare sélectionne des recettes de cosmétiques DIY qui vous ressemble !
         </h2>
+        <div class="hidden lg:flex justify-center">
+          <RouterLink to="/quiz"
+            ><ButtonPrimary
+              >Je cherche les recettes qui me ressemble
+              <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
+          ></RouterLink>
+        </div>
       </div>
-      <img :src="MainSvg" alt="Main SVG" class="mb-4" />
+      <MainSvg class="mb-4" />
 
-      <div class="lg:absolute top-96 start-40">
+      <div class="lg:hidden flex justify-center">
         <RouterLink to="/quiz"
-          ><ButtonPrimary>Je cherche les recettes qui me ressemble !</ButtonPrimary></RouterLink
-        >
+          ><ButtonPrimary
+            >Je cherche les recettes qui me ressemble
+            <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
+        ></RouterLink>
       </div>
     </div>
   </section>
@@ -90,14 +100,14 @@ const bodyPart = [
       <div class="mb-3 lg:mr-8">
         <ListBox />
       </div>
-
+      <!-- 
       <div class="mb-3 lg:mr-8">
         <ListBox />
-      </div>
-      <div class="mb-3">
+      </div> -->
+      <div class="mb-3 flex">
         <button
           type="button"
-          class="md:px-14 md:py-3 w-full rounded-xl bg-[#F3B8B4] px-3 py-2 text-md font-bold shadow-sm hover:bg-[#F19B95] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          class="md:px-14 md:py-3 w-full rounded-xl bg-[#F3B8B4] px-3 py-2 text-md font-bold shadow-sm hover:bg-[#F19B95] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           <RouterLink to="/category">Trouver ma recette</RouterLink>
         </button>
@@ -141,7 +151,7 @@ const bodyPart = [
     </h1>
   </div>
 
-  <ul class="mx-8 pb-8 border border-transparent border-b-[#949494] md:mx-20">
+  <ul class="mx-8 pb-8 border border-transparent border-b-gray-200 md:mx-20">
     <li
       v-for="(argument, index) in argumentsList"
       class="flex flex-col items-center md:flex-row my-8"
@@ -153,8 +163,8 @@ const bodyPart = [
             : 'order-none md:w-2/4 flex md:justify-center'
         "
       >
-        <img
-          :src="argument.img"
+        <component
+          :is="argument.img"
           alt=""
           :class="[index === 1 ? 'md:w-72 w-60' : '', index === 2 ? 'md:w-56 w-40' : '']"
         />
@@ -173,20 +183,22 @@ const bodyPart = [
   <div class="my-4 flex justify-center">
     <div class="absolute flex flex-col items-center">
       <h1
-        class="text-center text-[#605E5E] font-semibold mx-4 mt- md:mt-10 md:text-xl lg:text-2xl pb-20"
+        class="text-center text-[#605E5E] font-semibold mx-4 mt- md:mt-10 md:text-xl lg:text-2xl pb-20 z-10"
       >
         Pour plus de personnalisation, créez votre profil beauté et obtenez une sélection de
         recettes adaptées à vous !
       </h1>
-      <div>
-        <RouterLink to="/category/recipe"
-          ><ButtonPrimary>Je cherche les recettes qui me ressemble !</ButtonPrimary></RouterLink
-        >
+      <div class="z-10">
+        <RouterLink to="/quiz"
+          ><ButtonPrimary
+            >Je cherche les recettes qui me ressemble
+            <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
+        ></RouterLink>
       </div>
     </div>
 
     <div class="flex inline-block w-full md:justify-center mt-12">
-      <img src="@/assets/products.svg" alt="Votre image" class="flex w-full md:max-w-xl" />
+      <Products alt="Votre image" class="flex w-full md:max-w-xl opacity-60" />
     </div>
   </div>
 </template>
