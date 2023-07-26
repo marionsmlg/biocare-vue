@@ -2,7 +2,13 @@
 import { ref } from 'vue'
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
 
-const problems = [
+const props = defineProps({
+  problems: Array
+})
+
+const selectedOption = ref(props.problems[0])
+
+const skinProblems = [
   'Acné',
   'Sensibilité cutanée',
   'Rougeurs',
@@ -19,17 +25,17 @@ const hairProblems = [
   'Aucun problème particulier'
 ]
 
-const selected = ref(problems[0])
+const selected = ref(props.problems[0])
 </script>
 
 <template>
   <p class="mb-8 text-sm text-gray-500">Plusieurs choix sont possibles</p>
   <RadioGroup v-model="selected">
-    <RadioGroupLabel class="sr-only">Skin Problems</RadioGroupLabel>
+    <RadioGroupLabel class="sr-only">Problems</RadioGroupLabel>
     <div class="space-y-4 w-full lg:w-80">
       <RadioGroupOption
         as="template"
-        v-for="problem in problems"
+        v-for="problem in props.problems"
         :key="problem.name"
         :value="problem"
         v-slot="{ active, checked }"

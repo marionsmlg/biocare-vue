@@ -7,10 +7,10 @@ import {
   RadioGroupOption
 } from '@headlessui/vue'
 import { RouterLink } from 'vue-router'
-import IconOilySkin from './icons/SkinTypes/IconOilySkin.vue'
-import IconDrySkin from './icons/SkinTypes/IconDrySkin.vue'
-import IconNormalSkin from './icons/SkinTypes/IconNormalSkin.vue'
-import IconMixedSkin from './icons/SkinTypes/IconMixedSkin.vue'
+import IconOilySkin from '@/components/icons/SkinTypes/IconOilySkin.vue'
+import IconDrySkin from '@/components/icons/SkinTypes/IconDrySkin.vue'
+import IconNormalSkin from '@/components/icons/SkinTypes/IconNormalSkin.vue'
+import IconMixedSkin from '@/components/icons/SkinTypes/IconMixedSkin.vue'
 
 const skinTypes = [
   {

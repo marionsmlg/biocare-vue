@@ -6,10 +6,10 @@ import {
   RadioGroupLabel,
   RadioGroupOption
 } from '@headlessui/vue'
-import IconSmoothHair from './icons/HairTypes/IconSmoothHair.vue'
-import IconFrizzyHair from './icons/HairTypes/IconFrizzyHair.vue'
-import IconWavyHair from './icons/HairTypes/IconWavyHair.vue'
-import IconCurlyHair from './icons/HairTypes/IconCurlyHair.vue'
+import IconSmoothHair from '@/components/icons/HairTypes/IconSmoothHair.vue'
+import IconFrizzyHair from '@/components/icons/HairTypes/IconFrizzyHair.vue'
+import IconWavyHair from '@/components/icons/HairTypes/IconWavyHair.vue'
+import IconCurlyHair from '@/components/icons/HairTypes/IconCurlyHair.vue'
 
 const hairTypes = [
   { name: 'Lisse', icon: IconSmoothHair },

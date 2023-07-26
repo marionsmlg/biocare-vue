@@ -32,9 +32,11 @@ const argumentsList = [
   }
 ]
 
-const bodyPart = [
+const bodyParts = [{ label: 'Peau' }, { label: 'Cheveux' }]
+
+const data = [
   {
-    name: 'Peau',
+    label: 'Peau',
     problems: [
       'Acné',
       'Sensibilité cutanée',
@@ -44,7 +46,7 @@ const bodyPart = [
     ]
   },
   {
-    name: 'Cheveux',
+    label: 'Cheveux',
     problems: [
       'Acné',
       'Sensibilité cutanée',
@@ -98,12 +100,9 @@ const bodyPart = [
       class="flex flex-col items-center text-center lg:flex-row md:justify-between lg:justify-start"
     >
       <div class="mb-3 lg:mr-8">
-        <ListBox />
+        <ListBox :options="bodyParts" placeholder="Partie du corps" />
       </div>
-      <!-- 
-      <div class="mb-3 lg:mr-8">
-        <ListBox />
-      </div> -->
+
       <div class="mb-3 flex">
         <button
           type="button"

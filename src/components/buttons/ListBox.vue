@@ -10,18 +10,27 @@ import {
   ListboxOption
 } from '@headlessui/vue'
 
-const people = [{ name: 'Partie du corps' }, { name: 'Peau' }, { name: 'Cheveux' }]
-const selectedPerson = ref(people[0])
+const props = defineProps({
+  options: Array,
+  placeholder: {
+    type: String,
+    defaut: 'Select options'
+  }
+})
+
+const selectedOption = ref(props.options[0])
 </script>
 
 <template>
   <div class="w-72">
-    <Listbox v-model="selectedPerson">
+    <Listbox v-model="selectedOption">
       <div class="relative mt-1">
         <ListboxButton
+          placeholder="Partie du corps"
           class="md:px-14 md:py-3 w-full rounded-xl bg-white px-3 py-2 text-md font-semibold shadow-sm border-2 hover:border-[#F3B8B4] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:"
         >
-          <span class="block truncate">{{ selectedPerson.name }}</span>
+          <span class="block truncate" v-if="selectedOption.label">{{ selectedOption.label }}</span>
+          <span v-else>{{ props.placeholder }}</span>
           <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
           </span>
@@ -33,13 +42,13 @@ const selectedPerson = ref(people[0])
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            class="z-10 absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
           >
             <ListboxOption
               v-slot="{ active, selected }"
-              v-for="person in people"
-              :key="person.name"
-              :value="person"
+              v-for="option in props.options"
+              :key="option.label"
+              :value="option"
               as="template"
             >
               <li
@@ -49,7 +58,7 @@ const selectedPerson = ref(people[0])
                 ]"
               >
                 <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{
-                  person.name
+                  option.label
                 }}</span>
                 <span
                   v-if="selected"
