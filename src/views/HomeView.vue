@@ -32,30 +32,37 @@ const argumentsList = [
   }
 ]
 
-const bodyParts = [{ label: 'Peau' }, { label: 'Cheveux' }]
-
-const data = [
-  {
-    label: 'Peau',
-    problems: [
-      'Acné',
-      'Sensibilité cutanée',
-      'Rougeurs',
-      'Relâchement cutané',
-      'Aucun problème particulier'
-    ]
-  },
-  {
-    label: 'Cheveux',
-    problems: [
-      'Acné',
-      'Sensibilité cutanée',
-      'Rougeurs',
-      'Relâchement cutané',
-      'Aucun problème particulier'
-    ]
-  }
+const bodyParts = ['Peau', 'Cheveux']
+const skinProblems = [
+  'Acné',
+  'Sensibilité cutanée',
+  'Rougeurs',
+  'Relâchement cutané',
+  'Aucun problème particulier'
 ]
+
+// const data = [
+//   {
+//     label: 'Peau',
+//     problems: [
+//       'Acné',
+//       'Sensibilité cutanée',
+//       'Rougeurs',
+//       'Relâchement cutané',
+//       'Aucun problème particulier'
+//     ]
+//   },
+//   {
+//     label: 'Cheveux',
+//     problems: [
+//       'Acné',
+//       'Sensibilité cutanée',
+//       'Rougeurs',
+//       'Relâchement cutané',
+//       'Aucun problème particulier'
+//     ]
+//   }
+// ]
 </script>
 
 <template>
@@ -88,7 +95,7 @@ const data = [
     </div>
   </section>
 
-  <section class="bg-[#FBDFDB] py-10 px-20 md:rounded-xl md:mx-20">
+  <section class="bg-[#FBDFDB] py-10 px-16 md:rounded-xl md:mx-20">
     <div class="flex justify-center lg:justify-start">
       <h2 class="font-bold mb-6 mr-2 text-center md:text-left lg:text-xl">
         Trouver ma recette en 2 clics
@@ -96,17 +103,18 @@ const data = [
       <CursorArrowRaysIcon class="w-5 h-5" />
     </div>
 
-    <div
-      class="flex flex-col items-center text-center lg:flex-row md:justify-between lg:justify-start"
-    >
-      <div class="mb-3 lg:mr-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-4 items-center">
+      <div class="flex justify-center lg:justify-start">
         <ListBox :options="bodyParts" placeholder="Partie du corps" />
       </div>
+      <div class="flex justify-center lg:justify-start">
+        <ListBox :options="skinProblems" placeholder="Type de probleme" />
+      </div>
 
-      <div class="mb-3 flex">
+      <div class="flex justify-center lg:justify-start">
         <button
           type="button"
-          class="md:px-14 md:py-3 w-full rounded-xl bg-[#F3B8B4] px-3 py-2 text-md font-bold shadow-sm hover:bg-[#F19B95] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="w-full md:px-14 md:py-3 w-full rounded-xl bg-[#F3B8B4] px-3 py-2 text-md font-bold shadow-sm hover:bg-[#F19B95]"
         >
           <RouterLink to="/category">Trouver ma recette</RouterLink>
         </button>

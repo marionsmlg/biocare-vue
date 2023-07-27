@@ -61,7 +61,7 @@ import { RouterLink } from 'vue-router'
             </div>
 
             <div class="text-sm leading-6">
-              <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500"
+              <a href="#" class="font-semibold text-gray-600 hover:text-gray-500"
                 >Mot de passe oublié ?</a
               >
             </div>
@@ -70,9 +70,9 @@ import { RouterLink } from 'vue-router'
           <div>
             <button
               type="submit"
-              class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              class="flex w-full justify-center rounded-md bg-[#F3B8B4] px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-[#F19B95]"
             >
-              Connexion
+              Je me connecte
             </button>
           </div>
         </form>
@@ -83,7 +83,7 @@ import { RouterLink } from 'vue-router'
               <div class="w-full border-t border-gray-200" />
             </div>
             <div class="relative flex justify-center text-sm font-medium leading-6">
-              <span class="bg-white px-6 text-gray-900">Ou continer avec</span>
+              <span class="bg-white px-6 text-gray-900">Ou continuer avec</span>
             </div>
           </div>
 

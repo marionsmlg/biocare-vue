@@ -28,7 +28,7 @@ const hairProblems = [
 const selected = ref(props.problems[0])
 </script>
 
-<template>
+<!-- <template>
   <p class="mb-8 text-sm text-gray-500">Plusieurs choix sont possibles</p>
   <RadioGroup v-model="selected">
     <RadioGroupLabel class="sr-only">Problems</RadioGroupLabel>
@@ -66,4 +66,28 @@ const selected = ref(props.problems[0])
       </RadioGroupOption>
     </div>
   </RadioGroup>
+</template> -->
+
+<template>
+  <p class="mb-8 text-sm text-gray-500">Plusieurs choix sont possibles</p>
+  <fieldset class="grid grid-cols-1 gap-4">
+    <div
+      class="relative flex items-center px-12 py-4 rounded-xl border border-gray-300"
+      v-for="problem in props.problems"
+      :key="problem.name"
+      :value="problem"
+    >
+      <div class="min-w-0 flex-1 text-sm leading-6">
+        <label for="problems" class="font-medium text-gray-900">{{ problem }}</label>
+      </div>
+      <div class="ml-3 flex h-6 items-center">
+        <input
+          id="problem"
+          name="problems"
+          type="checkbox"
+          class="h-4 w-4 rounded border-gray-300"
+        />
+      </div>
+    </div>
+  </fieldset>
 </template>

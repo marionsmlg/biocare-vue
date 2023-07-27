@@ -72,7 +72,7 @@ const recipes = [
   }
 ]
 
-const data = ref(recipes[0])
+// const data = ref(recipes[0])
 </script>
 
 <template>
