@@ -1,0 +1,50 @@
+import IconOilySkin from '@/components/icons/SkinTypes/IconOilySkin.vue'
+import IconDrySkin from '@/components/icons/SkinTypes/IconDrySkin.vue'
+import IconNormalSkin from '@/components/icons/SkinTypes/IconNormalSkin.vue'
+import IconMixedSkin from '@/components/icons/SkinTypes/IconMixedSkin.vue'
+import IconSmoothHair from '@/components/icons/HairTypes/IconSmoothHair.vue'
+import IconFrizzyHair from '@/components/icons/HairTypes/IconFrizzyHair.vue'
+import IconWavyHair from '@/components/icons/HairTypes/IconWavyHair.vue'
+import IconCurlyHair from '@/components/icons/HairTypes/IconCurlyHair.vue'
+
+import { ref, markRaw } from 'vue'
+
+export function addIcon(objectWithoutIcon) {
+  const arrOfIcons = [
+    {
+      name: 'Sèche',
+      icon: markRaw(IconDrySkin)
+    },
+    {
+      name: 'Grasse',
+      icon: markRaw(IconOilySkin)
+    },
+    {
+      name: 'Mixte',
+      icon: markRaw(IconMixedSkin)
+    },
+    {
+      name: 'Normale',
+      icon: markRaw(IconNormalSkin)
+    },
+    { name: 'Lisse', icon: markRaw(IconSmoothHair) },
+    { name: 'Ondulée', icon: markRaw(IconWavyHair) },
+    { name: 'Bouclée', icon: markRaw(IconCurlyHair) },
+    { name: 'Frisée / Crépus', icon: markRaw(IconFrizzyHair) }
+  ]
+
+  if (Array.isArray(objectWithoutIcon)) {
+    for (const objet of objectWithoutIcon) {
+      const correspondingIcon = arrOfIcons.find((icon) => icon.name === objet.name)
+
+      if (correspondingIcon) {
+        objet.icon = correspondingIcon.icon
+      }
+    }
+  } else {
+    const correspondingIcon = arrOfIcons.find((icon) => icon.name === objectWithoutIcon.name)
+    if (correspondingIcon) {
+      objectWithoutIcon.icon = correspondingIcon.icon
+    }
+  }
+}

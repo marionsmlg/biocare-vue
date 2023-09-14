@@ -2,39 +2,84 @@
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import { ClockIcon } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
-import HairIcon from '@/components/icons/RecipeCategories/Hair.vue'
-import BodyIcon from '@/components/icons/RecipeCategories/Body.vue'
-import FaceIcon from '@/components/icons/RecipeCategories/Face.vue'
-const categories = [
+import { ref, onMounted } from 'vue'
+import HairIcon from '@/components/icons/RecipeCategories/IconHair.vue'
+import SkinCareIcon from '@/components/icons/RecipeCategories/SkinCare.vue'
+import DamagedHairIcon from '@/components/icons/RecipeCategories/DamagedHair.vue'
+import { addIcon } from '@/utils.js'
+
+const hairTypeId = ref(localStorage.getItem('hairType') || '')
+const skinTypeId = ref(localStorage.getItem('skinType') || '')
+const strOfHairProblemId = ref(localStorage.getItem('hairProblem') || '')
+const strOfSkinProblemId = ref(localStorage.getItem('skinProblem') || '')
+const arrOfSkinProblemId = JSON.parse(strOfSkinProblemId.value)
+const arrOfHairProblemId = JSON.parse(strOfHairProblemId.value)
+
+const skinProblemCount = arrOfSkinProblemId.length
+const hairProblemCount = arrOfHairProblemId.length
+
+const skinType = ref('')
+const hairType = ref('')
+
+async function findSkinHairTypeById() {
+  try {
+    const response = await fetch('http://localhost:3000/api/physical-trait')
+    const data = await response.json()
+    const skinTypeData = data.find((skinType) => skinType.id === skinTypeId.value)
+    const hairTypeData = data.find((hairType) => hairType.id === hairTypeId.value)
+    addIcon(skinTypeData)
+    addIcon(hairTypeData)
+    skinType.value = skinTypeData
+    hairType.value = hairTypeData
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const highlightSkinRecipes = ref([])
+const highlightHairRecipes = ref([])
+
+async function fetchData() {
+  try {
+    const response = await fetch('http://localhost:3000/api/recipe')
+    const data = await response.json()
+    const skinRecipe = data.filter(
+      (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
+    )
+    highlightSkinRecipes.value = skinRecipe.slice(0, 5)
+    const hairRecipe = data.filter(
+      (id) => id.recipe_category_id === '157bb376-f516-4cfe-9ce8-baa56f5dba89'
+    )
+    highlightHairRecipes.value = hairRecipe.slice(0, 5)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+fetchData()
+
+// Appeler la fonction une fois que les données sont prêtes (peut-être dans onMounted)
+onMounted(async () => {
+  await findSkinHairTypeById()
+  // Vous pouvez également mettre à jour d'autres données ici si nécessaire
+})
+
+const beautyProfile = [
   {
-    name: 'Elixir de soin pointes sèches et abimées à la Grenade Bio',
-    href: '/category/recipe',
-    imageSrc:
-      'https://images.unsplash.com/photo-1597854710119-dbb43d562f78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1097&q=80'
+    icon: SkinCareIcon,
+    text: `Peau`
   },
   {
-    name: 'Sérum Réparateur de Pointes Phytokératine et Acide Hyaluronique',
-    href: '#',
-    imageSrc:
-      'https://images.unsplash.com/photo-1581453883350-288b2c19bea8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80'
+    icon: SkinCareIcon,
+    text: 'Problèmes de peau'
   },
   {
-    name: 'Spray Racines Tonifiant au Thé Vert & Pamplemousse BIO',
-    href: '#',
-    imageSrc:
-      'https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=696&q=80'
+    icon: HairIcon,
+    text: `Cheveux`
   },
   {
-    name: 'Shampoing Fortifiant Anti-Chute à l’Ylang Ylang Bio',
-    href: '#',
-    imageSrc:
-      'https://images.unsplash.com/photo-1560607162-26b0344e6943?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=765&q=80'
-  },
-  {
-    name: 'Shampoing anti chute gingembre & pamplemousse',
-    href: '#',
-    imageSrc:
-      'https://images.unsplash.com/photo-1577069861033-55d04cec4ef5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80'
+    icon: DamagedHairIcon,
+    text: 'Problèmes capillaires'
   }
 ]
 </script>
@@ -42,9 +87,34 @@ const categories = [
 <template>
   <div class="bg-white mt-8">
     <div class="px-4 py-4 xl:px-44">
-      <h1 class="text-xl font-semibold mb-4 lg:text-2xl text-gray-700">
-        Voici les recettes pour vous !
-      </h1>
+      <!-- <h1 class="text-xl font-semibold mb-4 lg:text-xl text-gray-700">Votre profil beauté</h1> -->
+      <ul class="flex justify-around border border-2 py-2 px-2 rounded-xl mb-3 border-[#6ECDDF]">
+        <li v-for="element in beautyProfile" class="flex flex-col items-center p-2">
+          <component
+            :is="
+              element.text === 'Peau'
+                ? skinType.icon
+                : element.text === 'Cheveux'
+                ? hairType.icon
+                : element.icon
+            "
+            class="w-14 h-14"
+          />
+          <p class="text-center text-xs md:text-sm font-bold">
+            {{
+              element.text === 'Peau'
+                ? `Peau ${skinType.name}`
+                : element.text === 'Cheveux'
+                ? `Cheveux ${hairType.name}`
+                : element.text === 'Problèmes de peau'
+                ? `Problèmes de peau (${skinProblemCount})`
+                : element.text === 'Problèmes capillaires'
+                ? `Problèmes capillaires (${hairProblemCount})`
+                : element.text
+            }}
+          </p>
+        </li>
+      </ul>
 
       <div
         class="relative isolate flex items-center gap-x-6 rounded-xl overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1"
@@ -126,11 +196,16 @@ const categories = [
       </div>
     </div>
 
-    <div class="py-16 sm:py-24 xl:mx-auto xl:max-w-7xl xl:px-8">
+    <div class="py-10 sm:py-26 xl:mx-auto xl:max-w-7xl xl:px-8">
+      <h1 class="text-xl font-semibold mb-4 lg:text-2xl text-gray-700 px-4 sm:px-6 lg:px-8 xl:px-0">
+        Voici vos recettes beauté !
+      </h1>
       <div class="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0">
-        <h2 class="text-base font-bold tracking-tight text-gray-900 flex">
-          Soins cheveux<HairIcon class="w-4 ml-3" />
-        </h2>
+        <div class="flex items-center">
+          <h2 class="text-base font-bold tracking-tight text-gray-900">Soins cheveux</h2>
+          <HairIcon class="w-8 ml-3" />
+        </div>
+
         <a
           href="/category"
           class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
@@ -149,14 +224,14 @@ const categories = [
               class="absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0"
             >
               <a
-                v-for="category in categories"
-                :key="category.name"
-                :href="category.href"
+                v-for="recipe in highlightHairRecipes"
+                :key="recipe.name"
+                :href="'/category/recipe'"
                 class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
               >
                 <span aria-hidden="true" class="absolute inset-0">
                   <img
-                    :src="category.imageSrc"
+                    :src="recipe.img_url"
                     alt=""
                     class="h-full w-full object-cover object-center"
                   />
@@ -171,11 +246,11 @@ const categories = [
                   <div class="p-4 w-full bg-white bg-opacity-80 rounded rounded-lg">
                     <div class="flex flex-row items-center text-gray-800">
                       <p class="ml-2 text-sm flex items-center">
-                        Facile | <ClockIcon class="w-4 h-4 mx-1" />5 min
+                        <ClockIcon class="w-4 h-4 mx-1" />5 min
                       </p>
                     </div>
                     <p class="mt-4 text-sm text-gray-800 sm:mt-2 lg:mt-3 font-bold">
-                      {{ category.name }}
+                      {{ recipe.title }}
                     </p>
                   </div>
                 </div>
@@ -201,7 +276,7 @@ const categories = [
     <div class="pb-12 sm:pb-24 xl:mx-auto xl:max-w-7xl xl:px-8">
       <div class="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0">
         <h2 class="text-base font-bold tracking-tight text-gray-900 flex">
-          Soins visage<FaceIcon class="w-10 h-10 ml-3" />
+          Soins visage<SkinCareIcon class="w-10 h-10 ml-3" />
         </h2>
         <a
           href="/category"
@@ -221,14 +296,14 @@ const categories = [
               class="absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0"
             >
               <a
-                v-for="category in categories"
-                :key="category.name"
-                :href="category.href"
+                v-for="recipe in highlightSkinRecipes"
+                :key="recipe.id"
+                :href="'/category/recipe'"
                 class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
               >
                 <span aria-hidden="true" class="absolute inset-0">
                   <img
-                    :src="category.imageSrc"
+                    :src="recipe.img_url"
                     alt=""
                     class="h-full w-full object-cover object-center"
                   />
@@ -243,11 +318,11 @@ const categories = [
                   <div class="p-4 w-full bg-white bg-opacity-80 rounded rounded-lg">
                     <div class="flex flex-row items-center text-gray-800">
                       <p class="ml-2 text-sm flex items-center">
-                        Facile | <ClockIcon class="w-4 h-4 mx-1" />5 min
+                        <ClockIcon class="w-4 h-4 mx-1" />{{ recipe.preparation_time }}
                       </p>
                     </div>
                     <p class="mt-4 text-sm text-gray-800 sm:mt-2 lg:mt-3 font-bold">
-                      {{ category.name }}
+                      {{ recipe.title }}
                     </p>
                   </div>
                 </div>
@@ -270,7 +345,7 @@ const categories = [
 
     <!-- ////////////////////////////////// -->
 
-    <div class="xl:mx-auto xl:max-w-7xl xl:px-8">
+    <!-- <div class="xl:mx-auto xl:max-w-7xl xl:px-8">
       <div class="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0">
         <h2 class="text-base font-bold tracking-tight text-gray-900 flex">
           Soins corps<BodyIcon class="w-7 ml-3" />
@@ -339,5 +414,7 @@ const categories = [
         </RouterLink>
       </div>
     </div>
+  </div>
+</template> -->
   </div>
 </template>

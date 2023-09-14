@@ -1,63 +1,54 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, markRaw } from 'vue'
 import {
   RadioGroup,
   RadioGroupDescription,
   RadioGroupLabel,
   RadioGroupOption
 } from '@headlessui/vue'
-import { RouterLink } from 'vue-router'
-import IconOilySkin from '@/components/icons/SkinTypes/IconOilySkin.vue'
-import IconDrySkin from '@/components/icons/SkinTypes/IconDrySkin.vue'
-import IconNormalSkin from '@/components/icons/SkinTypes/IconNormalSkin.vue'
-import IconMixedSkin from '@/components/icons/SkinTypes/IconMixedSkin.vue'
+import { addIcon } from '../../utils'
 
-const skinTypes = [
-  {
-    name: 'Peau sèche',
-    description: "Texture rugueuse, manque d'hydratation et tendance à la desquamation.",
-    icon: IconDrySkin
-  },
-  {
-    name: 'Peau grasse',
-    description: 'Production excessive de sébum, brillante, sujette aux imperfections.',
-    icon: IconOilySkin
-  },
-  {
-    name: 'Peau mixte',
-    description:
-      'Zone T grasse, joues sèches, nécessite un équilibre entre hydratation et contrôle de sébum.',
-    icon: IconMixedSkin
-  },
-  {
-    name: 'Peau normale',
-    description: "Équilibrée, texture lisse, production régulée de sébum, peu d'imperfections.",
-    icon: IconNormalSkin
+async function fetchData() {
+  try {
+    const response = await fetch('http://localhost:3000/api/physical-trait')
+    const data = await response.json()
+    const types = data.filter(
+      (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
+    )
+    addIcon(types)
+    const filteredData = types.filter((obj) => obj.name !== 'Tous types')
+
+    skinTypes.value = filteredData
+  } catch (error) {
+    console.error(error)
   }
-]
+}
+fetchData()
 
-const selected = ref(skinTypes[0])
+const skinTypes = ref([])
+const selectedSkinType = ref(skinTypes[0])
 </script>
 
 <template>
-  <RadioGroup v-model="selected">
+  <RadioGroup v-model="selectedSkinType">
     <RadioGroupLabel class="sr-only">Skin type</RadioGroupLabel>
     <div class="space-y-4">
       <RadioGroupOption
         as="template"
         v-for="skinType in skinTypes"
-        :key="skinType.name"
-        :value="skinType"
-        v-slot="{ active, checked }"
+        :key="skinType.id"
+        :value="skinType.id"
       >
         <div
           :class="[
-            active ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]' : 'border-gray-300',
+            selectedSkinType === skinType.id
+              ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]'
+              : 'border-gray-300',
             'relative block cursor-pointer rounded-xl border bg-white px-4 py-2 shadow-sm focus:outline-none sm:flex sm:justify-between'
           ]"
         >
           <div class="flex">
-            <component :is="skinType.icon" />
+            <component :is="skinType.icon" class="w-20 h-20" />
             <span class="flex items-center ml-3">
               <span class="flex flex-col text-sm">
                 <RadioGroupLabel as="span" class="font-medium text-gray-900">{{
@@ -72,8 +63,8 @@ const selected = ref(skinTypes[0])
 
           <span
             :class="[
-              active ? 'border' : 'border-1',
-              checked ? 'border-[#8CD4E0]' : 'border-transparent',
+              selectedSkinType === skinType.id ? 'border' : 'border-1',
+              selectedSkinType === skinType.id ? 'border-[#8CD4E0]' : 'border-transparent',
               'pointer-events-none absolute -inset-px rounded-lg'
             ]"
             aria-hidden="true"

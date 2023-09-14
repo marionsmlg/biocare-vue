@@ -14,7 +14,6 @@
     y="0px"
     fill-rule="evenodd"
     clip-rule="evenodd"
-    class="w-20 h-20"
   >
     <defs></defs>
     <g>

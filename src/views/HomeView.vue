@@ -11,6 +11,8 @@ import { RouterLink } from 'vue-router'
 import IconPeople from '../components/icons/IconPeople.vue'
 import IconMolecule from '../components/icons/IconMolecule.vue'
 
+import { ref, computed } from 'vue'
+
 const argumentsList = [
   {
     title: 'Evitez les ingrédients nocifs, priviligiez le fait maison',
@@ -41,28 +43,25 @@ const skinProblems = [
   'Aucun problème particulier'
 ]
 
-// const data = [
-//   {
-//     label: 'Peau',
-//     problems: [
-//       'Acné',
-//       'Sensibilité cutanée',
-//       'Rougeurs',
-//       'Relâchement cutané',
-//       'Aucun problème particulier'
-//     ]
-//   },
-//   {
-//     label: 'Cheveux',
-//     problems: [
-//       'Acné',
-//       'Sensibilité cutanée',
-//       'Rougeurs',
-//       'Relâchement cutané',
-//       'Aucun problème particulier'
-//     ]
-//   }
-// ]
+const hairProblems = [
+  'Cheveux abîmés/fourchus/cassants',
+  'Cheveux secs',
+  'Cheveux gras',
+  'Chute de cheveux',
+  'Pellicules'
+]
+
+const selectedBodyPart = ref(0)
+
+const selectedProblems = computed(() => {
+  if (selectedBodyPart.value === 'Peau') {
+    return skinProblems
+  } else if (selectedBodyPart.value === 'Cheveux') {
+    return hairProblems
+  } else {
+    return []
+  }
+})
 </script>
 
 <template>
@@ -105,10 +104,10 @@ const skinProblems = [
 
     <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-4 items-center">
       <div class="flex justify-center lg:justify-start">
-        <ListBox :options="bodyParts" placeholder="Partie du corps" />
+        <ListBox :options="bodyParts" v-model="selectedBodyPart" placeholder="Partie du corps" />
       </div>
       <div class="flex justify-center lg:justify-start">
-        <ListBox :options="skinProblems" placeholder="Type de probleme" />
+        <ListBox :options="selectedProblems" placeholder="Type de problème" />
       </div>
 
       <div class="flex justify-center lg:justify-start">

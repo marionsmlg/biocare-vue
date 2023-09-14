@@ -1,45 +1,55 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, markRaw } from 'vue'
 import {
   RadioGroup,
   RadioGroupDescription,
   RadioGroupLabel,
   RadioGroupOption
 } from '@headlessui/vue'
-import IconSmoothHair from '@/components/icons/HairTypes/IconSmoothHair.vue'
-import IconFrizzyHair from '@/components/icons/HairTypes/IconFrizzyHair.vue'
-import IconWavyHair from '@/components/icons/HairTypes/IconWavyHair.vue'
-import IconCurlyHair from '@/components/icons/HairTypes/IconCurlyHair.vue'
 
-const hairTypes = [
-  { name: 'Lisse', icon: IconSmoothHair },
-  { name: 'Ondulée', icon: IconWavyHair },
-  { name: 'Bouclée', icon: IconCurlyHair },
-  { name: 'Frisée / Crépus', icon: IconFrizzyHair }
-]
+import { addIcon } from '../../utils'
 
-const selected = ref(hairTypes[0])
+async function fetchData() {
+  try {
+    const response = await fetch('http://localhost:3000/api/physical-trait')
+    const data = await response.json()
+    const hairData = data.filter(
+      (id) => id.recipe_category_id === '157bb376-f516-4cfe-9ce8-baa56f5dba89'
+    )
+    const filteredData = hairData.filter((obj) => obj.name !== 'Tous types')
+    addIcon(hairData)
+    hairTypes.value = filteredData
+  } catch (error) {
+    console.error(error)
+  }
+}
+fetchData()
+
+const hairTypes = ref([])
+const selectedHairType = ref(hairTypes[0])
 </script>
 
 <template>
-  <RadioGroup v-model="selected">
-    <RadioGroupLabel class="sr-only">Skin Problems</RadioGroupLabel>
-    <div class="w-full flex flex-wrap justify-center">
+  <RadioGroup v-model="selectedHairType">
+    <RadioGroupLabel class="sr-only">Hair Types</RadioGroupLabel>
+    <div class="w-full grid grid-cols-2 gap-3 justify-center">
       <RadioGroupOption
         as="template"
         v-for="hairType in hairTypes"
-        :key="hairType.name"
-        :value="hairType.name"
+        :key="hairType.id"
+        :value="hairType.id"
         v-slot="{ active, checked }"
       >
         <div
           :class="[
-            active ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]' : 'border-gray-300',
-            'relative block cursor-pointer rounded-xl border bg-white px-6 py-4 shadow-sm focus:outline-none w-40 md:w-56 mx-2 my-2'
+            selectedHairType === hairType.id
+              ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]'
+              : 'border-gray-300',
+            'relative block cursor-pointer rounded-xl border bg-white px-6 py-4 shadow-sm focus:outline-none w-40 md:w-56'
           ]"
         >
           <div class="flex flex-col items-center">
-            <component :is="hairType.icon" />
+            <component :is="hairType.icon" class="w-20 h-20" />
 
             <span class="text-sm">
               <RadioGroupLabel as="span" class="font-medium text-gray-900">{{
@@ -50,7 +60,7 @@ const selected = ref(hairTypes[0])
 
           <span
             :class="[
-              active ? 'border' : 'border-1',
+              selectedHairType === hairType.id ? 'border' : 'border-1',
               checked ? 'border-[#8CD4E0]' : 'border-transparent',
               'pointer-events-none absolute -inset-px rounded-lg'
             ]"

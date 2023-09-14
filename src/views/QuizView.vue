@@ -1,10 +1,11 @@
 <script setup>
 import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
-import SkinTypes from '../components/SkinTypes.vue'
-import SkinProblems from '../components/SkinProblems.vue'
-import HairTypes from '../components/HairTypes.vue'
+import SkinTypes from '../components/beauty-profile/SkinTypes.vue'
+import SkinHairProblems from '../components/beauty-profile/SkinHairProblems.vue'
+import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
-import { ref } from 'vue'
+import { ref, markRaw, shallowRef } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const questions = [
   { text: 'Quel est votre type de peau ?', component: SkinTypes },

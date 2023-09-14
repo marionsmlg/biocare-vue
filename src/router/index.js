@@ -7,6 +7,7 @@ import QuizView from '../views/QuizView2.vue'
 import Recipe from '../views/Recipe.vue'
 import Category from '../views/Category.vue'
 import PersonalSpace from '../views/PersonalSpace.vue'
+import Test from '../views/Test.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,7 @@ const router = createRouter({
     { path: '/category/recipe', name: 'recipe', component: Recipe },
     { path: '/category', name: 'category', component: Category },
     { path: '/personal-space', name: 'personal-space', component: PersonalSpace },
+    { path: '/test', name: 'test', component: Test },
     {
       path: '/about',
       name: 'about',

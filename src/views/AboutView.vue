@@ -1,15 +1,29 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div>
+    <div v-for="(item, index) in checkboxItems" :key="index">
+      <input
+        type="checkbox"
+        :id="'checkbox' + index"
+        v-model="selectedCheckboxes[index]"
+        @change="updateParent"
+      />
+      <label :for="'checkbox' + index">{{ item }}</label>
+    </div>
   </div>
 </template>
 
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+<script setup>
+import { ref, defineProps, defineEmits } from 'vue'
+
+const props = defineProps({
+  checkboxItems: Array // Liste des valeurs des cases à cocher
+})
+
+const emits = defineEmits(['updateCheckboxes'])
+
+const selectedCheckboxes = ref([])
+
+const updateParent = () => {
+  emits('updateCheckboxes', selectedCheckboxes.value)
 }
-</style>
+</script>

@@ -90,7 +90,7 @@ const navigation = {
             </a>
           </div>
         </div>
-        <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+        <!-- <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
           <div class="md:grid md:grid-cols-2 md:gap-8">
             <div>
               <h3 class="text-sm font-semibold leading-6 text-gray-900">À propos</h3>
@@ -117,7 +117,7 @@ const navigation = {
               </ul>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
         <p class="text-xs leading-5 text-gray-500">

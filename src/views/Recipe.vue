@@ -6,8 +6,11 @@ import {
   ChevronLeftIcon,
   InformationCircleIcon,
   ChartBarIcon,
-  ClockIcon
+  ClockIcon,
+  ShoppingBagIcon
 } from '@heroicons/vue/24/outline'
+import HairIcon from '@/components/icons/RecipeCategories/IconHair.vue'
+import SkinIcon from '@/components/icons/RecipeCategories/IconSkin.vue'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
 import IconConservation from '../components/icons/Recipe/IconConservation.vue'
 
@@ -23,8 +26,7 @@ const recipes = [
     level: 'Facile',
     time: '5 min',
     quantity: '50 g',
-    imgUrl:
-      'https://images.unsplash.com/photo-1597854710119-dbb43d562f78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1097&q=80',
+    imgUrl: 'https://img.passeportsante.net/1200x675/2021-05-03/i102104-noix-bresil-nu.webp',
     use: 'Appliquez une noisette sur pointes sèches ou mouillées.',
     precautions:
       "Faites toujours un test de votre préparation dans le pli du coude 24h avant utilisation afin de vous assurer que vous ne faites aucune réaction. Dans le cas contraire, n'utilisez pas la préparation. Tenir hors de portée des enfants.",
@@ -43,8 +45,7 @@ const recipes = [
         quantity: '27mL',
         description:
           'Connues pour ses propriétés anti-oxydantes, régénérantes, elle redonne éclat et hydrate les cheveux.',
-        imgUrl:
-          'https://www.jaimefruitsetlegumes.ca/wp-content/uploads/2019/09/grenade-scaled-e1643120930744.jpg'
+        imgUrl: 'https://www.fabellashop.ci/wp-content/uploads/2016/06/honeyquat.jpg'
       },
       {
         name: 'Huile végétale de Jojoba BIO',
@@ -112,7 +113,11 @@ const recipes = [
             <p class="font-semibold mt-2">{{ recipe.time }}</p>
           </div>
           <div class="flex flex-col items-center px-8">
-            <ChartBarIcon class="w-8 h-8" />
+            <HairIcon class="w-10 h-10" />
+            <p class="font-semibold mt-2">{{ recipe.level }}</p>
+          </div>
+          <div class="flex flex-col items-center px-8">
+            <SkinIcon class="w-8 h-8" />
             <p class="font-semibold mt-2">{{ recipe.level }}</p>
           </div>
           <div class="flex flex-col items-center px-8">
@@ -155,7 +160,9 @@ const recipes = [
                     >
                       <span class="sr-only">Open options</span>
                       <InformationCircleIcon class="h-5 w-5" aria-hidden="true" />
+                      <ShoppingBagIcon class="h-5 w-5" />
                     </MenuButton>
+
                     <transition
                       enter-active-class="transition ease-out duration-100"
                       enter-from-class="transform opacity-0 scale-95"

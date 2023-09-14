@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
 
-const categories = ['Soins cheveux', 'Soins corps', 'Soins visage']
+const categories = ['Soins cheveux', 'Soins visage']
 
 const recipes = [
   {
@@ -79,6 +79,19 @@ const recipes = [
       'https://images.unsplash.com/photo-1614173417106-242690007604?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
   }
 ]
+
+// const products = ref([])
+
+// async function fetchData() {
+//   try {
+//     const response = await fetch('http://localhost:3000/api/recipe')
+//     const data = await response.json()
+//     products.value = data
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }
+// fetchData()
 </script>
 
 <template>
