@@ -1,57 +1,32 @@
-<!-- <script setup>
-import { ref } from 'vue'
-
-async function fetchData() {
-  try {
-    const response = await fetch('http://localhost:3000/api/beauty-issue')
-    const data = await response.json()
-    const skin = data.filter(
-      (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
-    )
-    const hair = data.filter(
-      (id) => id.recipe_category_id === '157bb376-f516-4cfe-9ce8-baa56f5dba89'
-    )
-    skinProblems.value = skin
-    hairProblems.value = hair
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-fetchData()
-
-const skinProblems = ref([])
-
-const hairProblems = ref([])
-</script>
-
 <template>
   <div>
-    <h1>{{ skinProblems }}</h1>
-  </div>
-  <div>
-    <h1>{{ hairProblems }}</h1>
-  </div>
-</template> -->
-<template>
-  <div>
-    <h1>LocalStorage Example</h1>
-    <input v-model="message" placeholder="Enter a message" />
-    <button @click="saveMessage">Save Message</button>
-    <p>Saved Message: {{ savedMessage }}</p>
+    <label v-for="(item, index) in items" :key="index">
+      <input
+        type="checkbox"
+        :value="item"
+        :checked="item === selectedItem"
+        @change="updateSelectedItem(items)"
+      />
+      {{ item }}
+    </label>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-// Utilisez ref pour créer des réactifs
-const message = ref('')
-const savedMessage = ref(localStorage.getItem('message') || '')
+const items = ref(['Option 1', 'Option 2', 'Option 3'])
+const selectedItem = ref(null)
 
-// Fonction pour sauvegarder le message dans localStorage
-const saveMessage = () => {
-  localStorage.setItem('message', message.value)
-  savedMessage.value = message.value
+const updateSelectedItem = (value) => {
+  if (value === 'Option 3' && selectedItem.value !== 'Option 3') {
+    // Si Option 3 est sélectionnée et n'était pas déjà sélectionnée,
+    // sélectionnez uniquement Option 3
+    selectedItem.value = 'Option 3'
+  } else if (value !== 'Option 3' && selectedItem.value === 'Option 3') {
+    // Si une autre option est sélectionnée alors que Option 3 était sélectionnée,
+    // décochez Option 3
+    selectedItem.value = null
+  }
 }
 </script>

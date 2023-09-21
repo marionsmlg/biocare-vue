@@ -4,7 +4,7 @@ import SkinTypes from '../components/beauty-profile/SkinTypes.vue'
 import SkinHairProblems from '../components/beauty-profile/SkinHairProblems.vue'
 import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
-import { ref, markRaw, shallowRef } from 'vue'
+import { ref, onMounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 
 const skinProblems = ref([])
@@ -39,7 +39,6 @@ const quizData = [
   {
     text: 'Quelle est votre texture de cheveux naturelle ?',
     component: HairTypes,
-
     instance: 'hairType'
   },
   {
@@ -50,9 +49,16 @@ const quizData = [
 ]
 
 const selectedOption = ref({})
-
 const selectedSkinProblem = ref([])
 const selectedHairProblem = ref([])
+
+const allQuestionsAnswered = ref(false)
+
+function checkAllQuestionsAnswered() {
+  if (selectedHairProblem.value) {
+    allQuestionsAnswered.value = true
+  }
+}
 
 function updateCheckboxes({ instance, values }) {
   if (instance === 'skinProblems') {
@@ -60,53 +66,57 @@ function updateCheckboxes({ instance, values }) {
   } else if (instance === 'hairProblems') {
     selectedHairProblem.value = values
   }
-}
-
-function submitForm() {
-  localStorage.setItem('skinType', selectedOption.value['skinType'])
-  localStorage.setItem('hairType', selectedOption.value['hairType'])
-  localStorage.setItem('skinProblem', JSON.stringify(selectedSkinProblem.value))
-  localStorage.setItem('hairProblem', JSON.stringify(selectedHairProblem.value))
+  checkAllQuestionsAnswered()
 }
 
 const router = useRouter()
 
 function findRecipes() {
-  submitForm()
+  localStorage.setItem('skinType', selectedOption.value['skinType'])
+  localStorage.setItem('hairType', selectedOption.value['hairType'])
+  localStorage.setItem('skinProblem', JSON.stringify(selectedSkinProblem.value))
+  localStorage.setItem('hairProblem', JSON.stringify(selectedHairProblem.value))
   router.push('/personal-space')
 }
 </script>
 
 <template>
-  <form @submit.prevent="submitForm">
-    <div class="py-12">
-      <div v-for="(question, index) in quizData" :key="index" class="xl:px-72 px-6 py-16">
-        <div class="flex flex-col items-center">
-          <h1 class="text-xl font-bold text-center mb-8">{{ question.text }}</h1>
-          <component
-            :problems="
-              question.instance === 'skinProblems'
-                ? skinProblems
-                : question.instance === 'hairProblems'
-                ? hairProblems
-                : ''
-            "
-            :is="question.component"
-            :instance="question.instance"
-            @updateCheckboxes="updateCheckboxes"
-            v-model="selectedOption[question.instance]"
-          />
-        </div>
-      </div>
-      <div class="flex justify-center">
-        <button
-          type="submit"
-          class="rounded-xl bg-[#8CD4E0] px-24 py-3 text-md font-bold shadow-sm hover:bg-[#6ECDDF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          @click="findRecipes"
-        >
-          Trouver mes recettes !
-        </button>
+  <!-- <div>Skintype : {{ selectedOption }}</div>
+  <div>HairProblems :{{ selectedHairProblem }}</div>
+  <div>SkinProblems :{{ selectedSkinProblem }}</div> -->
+  <div class="py-12">
+    <div v-for="(question, index) in quizData" :key="index" class="xl:px-72 px-6 py-16">
+      <div class="flex flex-col items-center">
+        <h1 class="text-xl font-bold text-center mb-8">{{ question.text }}</h1>
+        <component
+          v-if="question.instance === 'skinProblems' || question.instance === 'hairProblems'"
+          :problems="
+            question.instance === 'skinProblems'
+              ? skinProblems
+              : question.instance === 'hairProblems'
+              ? hairProblems
+              : ''
+          "
+          :is="question.component"
+          :instance="question.instance"
+          @updateCheckboxes="updateCheckboxes"
+        />
+        <component
+          v-else
+          :is="question.component"
+          :instance="question.instance"
+          v-model="selectedOption[question.instance]"
+        />
       </div>
     </div>
-  </form>
+    <div class="flex justify-center" v-if="allQuestionsAnswered">
+      <button
+        type="submit"
+        class="rounded-xl bg-[#8CD4E0] px-24 py-3 text-md font-bold shadow-sm hover:bg-[#6ECDDF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        @click="findRecipes"
+      >
+        Trouver mes recettes !
+      </button>
+    </div>
+  </div>
 </template>

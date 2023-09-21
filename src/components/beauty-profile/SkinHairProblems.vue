@@ -9,7 +9,7 @@ const emits = defineEmits(['updateCheckboxes'])
 
 const selectedOption = ref([])
 
-const updateBeautyIssues = () => {
+function updateBeautyIssues() {
   emits('updateCheckboxes', { instance: props.instance, values: selectedOption.value })
 }
 </script>

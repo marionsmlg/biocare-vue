@@ -5,7 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import SignUp from '../views/SignUp.vue'
 import QuizView from '../views/QuizView2.vue'
 import Recipe from '../views/Recipe.vue'
-import Category from '../views/Category.vue'
+import DisplayRecipes from '../views/DisplayRecipes.vue'
 import PersonalSpace from '../views/PersonalSpace.vue'
 import Test from '../views/Test.vue'
 
@@ -21,8 +21,8 @@ const router = createRouter({
     { path: '/login', name: 'login', component: LoginView },
     { path: '/sign-up', name: 'sign-up', component: SignUp },
     { path: '/quiz', name: 'quiz', component: QuizView },
-    { path: '/category/recipe', name: 'recipe', component: Recipe },
-    { path: '/category', name: 'category', component: Category },
+    { path: '/recipe/:category/:id', name: 'recipe', component: Recipe },
+    { path: '/recipe/:category', name: 'category', component: DisplayRecipes },
     { path: '/personal-space', name: 'personal-space', component: PersonalSpace },
     { path: '/test', name: 'test', component: Test },
     {

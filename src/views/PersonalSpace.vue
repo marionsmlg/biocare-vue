@@ -1,12 +1,13 @@
 <script setup>
-import { XMarkIcon } from '@heroicons/vue/20/solid'
 import { ClockIcon } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import HairIcon from '@/components/icons/RecipeCategories/IconHair.vue'
 import SkinCareIcon from '@/components/icons/RecipeCategories/SkinCare.vue'
 import DamagedHairIcon from '@/components/icons/RecipeCategories/DamagedHair.vue'
+import recipeIcon from '@/components/icons/Recipe/IconRecipe.vue'
 import { addIcon } from '@/utils.js'
+import Banner from '@/components/Banner.vue'
 
 const hairTypeId = ref(localStorage.getItem('hairType') || '')
 const skinTypeId = ref(localStorage.getItem('skinType') || '')
@@ -15,8 +16,17 @@ const strOfSkinProblemId = ref(localStorage.getItem('skinProblem') || '')
 const arrOfSkinProblemId = JSON.parse(strOfSkinProblemId.value)
 const arrOfHairProblemId = JSON.parse(strOfHairProblemId.value)
 
-const skinProblemCount = arrOfSkinProblemId.length
-const hairProblemCount = arrOfHairProblemId.length
+function countProblems(arrOfProblemId) {
+  const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
+  const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
+  if (arrOfProblemId[0] !== noHairProblemId && arrOfProblemId[0] !== noSkinProblemId) {
+    return arrOfProblemId.length
+  } else {
+    return 0
+  }
+}
+const skinProblemCount = countProblems(arrOfSkinProblemId)
+const hairProblemCount = countProblems(arrOfHairProblemId)
 
 const skinType = ref('')
 const hairType = ref('')
@@ -39,29 +49,47 @@ async function findSkinHairTypeById() {
 const highlightSkinRecipes = ref([])
 const highlightHairRecipes = ref([])
 
-async function fetchData() {
+const queryParamsSkinType = new URLSearchParams({
+  physical_trait_id: `${skinTypeId.value},b9f90678-ea3f-4fde-952f-a26a88e13259`,
+  beauty_issue_id: arrOfSkinProblemId.join(','),
+  limit: 5
+})
+
+async function fetchSkinRecipeBySkinTypeId() {
   try {
-    const response = await fetch('http://localhost:3000/api/recipe')
-    const data = await response.json()
-    const skinRecipe = data.filter(
-      (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
-    )
-    highlightSkinRecipes.value = skinRecipe.slice(0, 5)
-    const hairRecipe = data.filter(
-      (id) => id.recipe_category_id === '157bb376-f516-4cfe-9ce8-baa56f5dba89'
-    )
-    highlightHairRecipes.value = hairRecipe.slice(0, 5)
+    const apiUrl = `http://localhost:3000/api/recipe?${queryParamsSkinType}`
+    const response = await fetch(apiUrl)
+    const recipes = await response.json()
+    highlightSkinRecipes.value = recipes
+    console.log(recipes)
   } catch (error) {
     console.error(error)
   }
 }
 
-fetchData()
+const queryParamsHairType = new URLSearchParams({
+  physical_trait_id: `${hairTypeId.value},c8898a24-04cb-4b1f-bb8b-38633aa3c670`,
+  beauty_issue_id: arrOfHairProblemId.join(','),
+  limit: 5
+})
 
-// Appeler la fonction une fois que les données sont prêtes (peut-être dans onMounted)
+async function fetchHairRecipeByHairTypeId() {
+  try {
+    const apiUrl = `http://localhost:3000/api/recipe?${queryParamsHairType}`
+    const response = await fetch(apiUrl)
+    const recipes = await response.json()
+    highlightHairRecipes.value = recipes
+    console.log(recipes)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+fetchSkinRecipeBySkinTypeId()
+fetchHairRecipeByHairTypeId()
+
 onMounted(async () => {
   await findSkinHairTypeById()
-  // Vous pouvez également mettre à jour d'autres données ici si nécessaire
 })
 
 const beautyProfile = [
@@ -100,7 +128,7 @@ const beautyProfile = [
             "
             class="w-14 h-14"
           />
-          <p class="text-center text-xs md:text-sm font-bold">
+          <p class="text-center text-xs md:text-sm font-bold lowercase">
             {{
               element.text === 'Peau'
                 ? `Peau ${skinType.name}`
@@ -115,91 +143,17 @@ const beautyProfile = [
           </p>
         </li>
       </ul>
-
-      <div
-        class="relative isolate flex items-center gap-x-6 rounded-xl overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1"
-      >
-        <div
-          class="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-          aria-hidden="true"
-        >
-          <div
-            class="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
-            style="
-              clip-path: polygon(
-                74.8% 41.9%,
-                97.2% 73.2%,
-                100% 34.9%,
-                92.5% 0.4%,
-                87.5% 0%,
-                75% 28.6%,
-                58.5% 54.6%,
-                50.1% 56.8%,
-                46.9% 44%,
-                48.3% 17.4%,
-                24.7% 53.9%,
-                0% 27.9%,
-                11.9% 74.2%,
-                24.9% 54.1%,
-                68.6% 100%,
-                74.8% 41.9%
-              );
-            "
-          />
-        </div>
-        <div
-          class="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-          aria-hidden="true"
-        >
-          <div
-            class="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
-            style="
-              clip-path: polygon(
-                74.8% 41.9%,
-                97.2% 73.2%,
-                100% 34.9%,
-                92.5% 0.4%,
-                87.5% 0%,
-                75% 28.6%,
-                58.5% 54.6%,
-                50.1% 56.8%,
-                46.9% 44%,
-                48.3% 17.4%,
-                24.7% 53.9%,
-                0% 27.9%,
-                11.9% 74.2%,
-                24.9% 54.1%,
-                68.6% 100%,
-                74.8% 41.9%
-              );
-            "
-          />
-        </div>
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <p class="text-sm leading-6 text-gray-900">
-            Vous voulez enregistrer votre <span class="font-bold">profil beauté</span> ?
-            <span class="font-bold">Inscrivez-vous</span> et retrouvez toutes vos recettes dans
-            votre espace personnel !
-          </p>
-          <a
-            href="/sign-up"
-            class="flex-none rounded-full bg-[#27304D] px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-            >S'inscrire <span aria-hidden="true">&rarr;</span></a
-          >
-        </div>
-        <div class="flex flex-1 justify-end">
-          <button type="button">
-            <span class="sr-only">Dismiss</span>
-            <XMarkIcon class="h-5 w-5 text-gray-900" aria-hidden="true" />
-          </button>
-        </div>
-      </div>
+      <Banner />
     </div>
 
     <div class="py-10 sm:py-26 xl:mx-auto xl:max-w-7xl xl:px-8">
-      <h1 class="text-xl font-semibold mb-4 lg:text-2xl text-gray-700 px-4 sm:px-6 lg:px-8 xl:px-0">
-        Voici vos recettes beauté !
-      </h1>
+      <div class="mb-4 px-4 sm:px-6 lg:px-8 xl:px-0 flex items-center">
+        <h1 class="text-xl font-semibold lg:text-2xl text-gray-700 pb-3">
+          Voici vos recettes beauté
+        </h1>
+        <recipeIcon class="ml-2 w-14" />
+      </div>
+
       <div class="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0">
         <div class="flex items-center">
           <h2 class="text-base font-bold tracking-tight text-gray-900">Soins cheveux</h2>
@@ -207,7 +161,7 @@ const beautyProfile = [
         </div>
 
         <a
-          href="/category"
+          :href="`/recipe/cheveux`"
           class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
         >
           Voir tout
@@ -226,7 +180,7 @@ const beautyProfile = [
               <a
                 v-for="recipe in highlightHairRecipes"
                 :key="recipe.name"
-                :href="'/category/recipe'"
+                :href="`/recipe/${recipe.recipe_category_name}/${recipe.id}`"
                 class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
               >
                 <span aria-hidden="true" class="absolute inset-0">
@@ -243,10 +197,12 @@ const beautyProfile = [
                 <div
                   class="absolute right-0 left-0 bottom-4 px-4 mx-auto sm:px-2 lg:px-4 sm:bottom-2 lg:bottom-4"
                 >
-                  <div class="p-4 w-full bg-white bg-opacity-80 rounded rounded-lg">
+                  <div class="p-3 w-full bg-white bg-opacity-80 rounded rounded-lg">
                     <div class="flex flex-row items-center text-gray-800">
-                      <p class="ml-2 text-sm flex items-center">
-                        <ClockIcon class="w-4 h-4 mx-1" />5 min
+                      <p class="text-sm flex items-center">
+                        <ClockIcon class="w-4 h-4 mr-1" />{{ recipe.preparation_time }} |
+                        {{ recipe.ingredient_count }}
+                        ingrédients
                       </p>
                     </div>
                     <p class="mt-4 text-sm text-gray-800 sm:mt-2 lg:mt-3 font-bold">
@@ -262,7 +218,7 @@ const beautyProfile = [
 
       <div class="mt-6 px-4 sm:hidden text-right">
         <RouterLink
-          to="/category"
+          to="/recipe/cheveux"
           class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
         >
           Voir tout
@@ -278,13 +234,13 @@ const beautyProfile = [
         <h2 class="text-base font-bold tracking-tight text-gray-900 flex">
           Soins visage<SkinCareIcon class="w-10 h-10 ml-3" />
         </h2>
-        <a
-          href="/category"
+        <RouterLink
+          to="/recipe/visage"
           class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
         >
           Voir tout
           <span aria-hidden="true"> &rarr;</span>
-        </a>
+        </RouterLink>
       </div>
 
       <div class="mt-4 flow-root">
@@ -298,7 +254,7 @@ const beautyProfile = [
               <a
                 v-for="recipe in highlightSkinRecipes"
                 :key="recipe.id"
-                :href="'/category/recipe'"
+                :href="`/recipe/${recipe.recipe_category_name}/${recipe.id}`"
                 class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
               >
                 <span aria-hidden="true" class="absolute inset-0">
@@ -315,10 +271,12 @@ const beautyProfile = [
                 <div
                   class="absolute right-0 left-0 bottom-4 px-4 mx-auto sm:px-2 lg:px-4 sm:bottom-2 lg:bottom-4"
                 >
-                  <div class="p-4 w-full bg-white bg-opacity-80 rounded rounded-lg">
+                  <div class="p-3 w-full bg-white bg-opacity-80 rounded rounded-lg">
                     <div class="flex flex-row items-center text-gray-800">
-                      <p class="ml-2 text-sm flex items-center">
-                        <ClockIcon class="w-4 h-4 mx-1" />{{ recipe.preparation_time }}
+                      <p class="text-sm flex items-center">
+                        <ClockIcon class="w-4 h-4 mr-1" />{{ recipe.preparation_time }} |
+                        {{ recipe.ingredient_count }}
+                        ingrédients
                       </p>
                     </div>
                     <p class="mt-4 text-sm text-gray-800 sm:mt-2 lg:mt-3 font-bold">
@@ -334,7 +292,7 @@ const beautyProfile = [
 
       <div class="mt-6 px-4 sm:hidden text-right">
         <RouterLink
-          to="/category"
+          to="/recipe/visage"
           class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
         >
           Voir tout

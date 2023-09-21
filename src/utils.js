@@ -27,10 +27,10 @@ export function addIcon(objectWithoutIcon) {
       name: 'Normale',
       icon: markRaw(IconNormalSkin)
     },
-    { name: 'Lisse', icon: markRaw(IconSmoothHair) },
-    { name: 'Ondulée', icon: markRaw(IconWavyHair) },
-    { name: 'Bouclée', icon: markRaw(IconCurlyHair) },
-    { name: 'Frisée / Crépus', icon: markRaw(IconFrizzyHair) }
+    { name: 'Lisses', icon: markRaw(IconSmoothHair) },
+    { name: 'Ondulés', icon: markRaw(IconWavyHair) },
+    { name: 'Bouclés', icon: markRaw(IconCurlyHair) },
+    { name: 'Frisées / Crépus', icon: markRaw(IconFrizzyHair) }
   ]
 
   if (Array.isArray(objectWithoutIcon)) {

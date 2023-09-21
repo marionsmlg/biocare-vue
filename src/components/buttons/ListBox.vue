@@ -18,12 +18,12 @@ const props = defineProps({
   }
 })
 
-const selectedOption = ref(props.options[0])
+const selectedOption = ref()
 </script>
 
 <template>
   <div class="w-full">
-    <Listbox>
+    <Listbox v-model="selectedOption">
       <div class="relative mt-1">
         <ListboxButton
           placeholder="Partie du corps"

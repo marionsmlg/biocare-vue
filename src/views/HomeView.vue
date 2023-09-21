@@ -51,15 +51,13 @@ const hairProblems = [
   'Pellicules'
 ]
 
-const selectedBodyPart = ref(0)
+const selectedOption = ref({})
 
 const selectedProblems = computed(() => {
-  if (selectedBodyPart.value === 'Peau') {
+  if (selectedOption.value === 'Peau') {
     return skinProblems
-  } else if (selectedBodyPart.value === 'Cheveux') {
-    return hairProblems
   } else {
-    return []
+    return hairProblems
   }
 })
 </script>
@@ -101,10 +99,10 @@ const selectedProblems = computed(() => {
       </h2>
       <CursorArrowRaysIcon class="w-5 h-5" />
     </div>
-
+    <!-- <div>{{ selectedOption }}</div> -->
     <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-4 items-center">
       <div class="flex justify-center lg:justify-start">
-        <ListBox :options="bodyParts" v-model="selectedBodyPart" placeholder="Partie du corps" />
+        <ListBox :options="bodyParts" v-model="selectedOption" placeholder="Partie du corps" />
       </div>
       <div class="flex justify-center lg:justify-start">
         <ListBox :options="selectedProblems" placeholder="Type de problème" />
@@ -115,7 +113,7 @@ const selectedProblems = computed(() => {
           type="button"
           class="w-full md:px-14 md:py-3 w-full rounded-xl bg-[#F3B8B4] px-3 py-2 text-md font-bold shadow-sm hover:bg-[#F19B95]"
         >
-          <RouterLink to="/category">Trouver ma recette</RouterLink>
+          <RouterLink to="/">Trouver ma recette</RouterLink>
         </button>
       </div>
     </div>

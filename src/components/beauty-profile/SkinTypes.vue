@@ -16,9 +16,7 @@ async function fetchData() {
       (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
     )
     addIcon(types)
-    const filteredData = types.filter((obj) => obj.name !== 'Tous types')
-
-    skinTypes.value = filteredData
+    skinTypes.value = types
   } catch (error) {
     console.error(error)
   }
