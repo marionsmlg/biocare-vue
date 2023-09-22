@@ -1,8 +1,6 @@
 <script setup>
-import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
 import { ClockIcon } from '@heroicons/vue/24/outline'
-import { RouterLink } from 'vue-router'
 
 const props = defineProps({
   recipes: Array,
@@ -12,15 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="ml-8 mb-4 mt-12 flex">
-    <div class="hidden lg:flex"><Breadcrumbs /></div>
-
-    <div class="text-gray-400 hover:text-gray-500 flex lg:hidden">
-      <button class="flex">
-        <ChevronLeftIcon />
-      </button>
-    </div>
-  </div>
+  <Breadcrumbs />
 
   <div class="p-4 flex flex-col items-center">
     <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">
@@ -34,7 +24,7 @@ const props = defineProps({
     </div>
 
     <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 px-4 lg:w-3/5">
-      <div v-for="recipe in props.recipes" class="mb-4 w-full">
+      <div v-for="recipe in props.recipes" class="mb-4 w-full hover:opacity-75">
         <a :href="`/recipe/${recipe.recipe_category_name}/${recipe.id}`">
           <div class="relative flex w-full h-96 overflow-hidden lg:mb-8 rounded-xl">
             <!-- <span

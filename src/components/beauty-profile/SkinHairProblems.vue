@@ -9,7 +9,19 @@ const emits = defineEmits(['updateCheckboxes'])
 
 const selectedOption = ref([])
 
+const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
+const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
+
+function updateSelectedOption() {
+  if (selectedOption.value.includes(noHairProblemId)) {
+    return (selectedOption.value = [noHairProblemId])
+  } else if (selectedOption.value.includes(noSkinProblemId)) {
+    return (selectedOption.value = [noSkinProblemId])
+  }
+}
+
 function updateBeautyIssues() {
+  updateSelectedOption()
   emits('updateCheckboxes', { instance: props.instance, values: selectedOption.value })
 }
 </script>

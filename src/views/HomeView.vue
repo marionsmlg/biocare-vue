@@ -226,8 +226,12 @@ function findRecipes() {
       >
         <component
           :is="argument.img"
-          alt=""
-          :class="[index === 1 ? 'md:w-72 w-60' : '', index === 2 ? 'md:w-56 w-40' : '']"
+          alt="argument"
+          :class="[
+            index === 0 ? 'w-full' : '',
+            index === 1 ? 'md:w-72 w-60' : '',
+            index === 2 ? 'md:w-56 w-40' : ''
+          ]"
         />
       </div>
       <div class="text-center md:w-2/4 md:ml-8">

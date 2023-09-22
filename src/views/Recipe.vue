@@ -101,23 +101,6 @@ async function fetchRecipeAllergensById() {
   }
 }
 
-// function displayPhysicalTraitAndBeautyIssues(arrOfPhysicalTrait, arrOfBeautyIssues) {
-//   const arrOfBeautyData = []
-//   for (const physicalTrait of arrOfPhysicalTrait) {
-//     if (physicalTrait.name === 'Normale') {
-//       arrOfBeautyData.push('Tous types')
-//     } else {
-//       arrOfBeautyData.push(physicalTrait.name)
-//     }
-//   }
-//   for (const beautyIssue of arrOfBeautyIssues) {
-//     if (beautyIssue.name !== 'Aucun problème') {
-//       arrOfBeautyData.push(beautyIssue.name)
-//     }
-//   }
-//   return arrOfBeautyData.join(' | ')
-// }
-
 function displayPhysicalTraits(arrOfPhysicalTrait) {
   const arrOfPhysicalTraitWithoutObject = []
   for (const physicalTrait of arrOfPhysicalTrait) {
@@ -163,19 +146,23 @@ fetchRecipeAllergensById()
 fetchRecipeBenefitsById()
 fetchRecipeStepsById()
 fetchRecipeIngredientsById()
+
+// const pages = [
+//   {
+//     name: `${recipe.recipe_category_name}`,
+//     href: `/recipe/${recipe.recipe_category_name}`,
+//     current: false
+//   },
+//   {
+//     name: `${recipe.value.title}`,
+//     href: `/recipe/${recipe.value.recipe_category_name}/${recipe.value.id}`,
+//     current: true
+//   }
+// ]
 </script>
 
 <template>
-  <div class="ml-8 mb-4 flex mt-12">
-    <div class="hidden lg:flex"><Breadcrumbs /></div>
-
-    <div class="text-gray-400 hover:text-gray-500 flex lg:hidden">
-      <button class="flex">
-        <ChevronLeftIcon />
-      </button>
-    </div>
-  </div>
-
+  <Breadcrumbs />
   <div class="flex flex-col">
     <div class="px-4 flex flex-col items-center">
       <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">

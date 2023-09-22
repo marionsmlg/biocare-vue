@@ -78,11 +78,14 @@ function findRecipes() {
   localStorage.setItem('hairProblem', JSON.stringify(selectedHairProblem.value))
   router.push('/personal-space')
 }
+
+const pages = [{ name: 'Questionnaire', href: '/quiz', current: true }]
 </script>
 
 <template>
-  <div class="py-12">
-    <div v-for="(question, index) in quizData" :key="index" class="xl:px-72 px-6 py-16">
+  <Breadcrumbs :pages="pages" />
+  <div class="pb-12">
+    <div v-for="(question, index) in quizData" :key="index" class="xl:px-72 px-6 py-10">
       <div class="flex flex-col items-center">
         <h1 class="text-xl font-bold text-center mb-8">{{ question.text }}</h1>
         <component

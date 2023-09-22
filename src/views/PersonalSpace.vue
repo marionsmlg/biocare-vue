@@ -32,6 +32,9 @@ const hairProblemCount = countProblems(arrOfHairProblemId)
 const skinType = ref('')
 const hairType = ref('')
 
+const skinTypeName = ref('')
+const hairTypeName = ref('')
+
 async function findSkinHairTypeById() {
   try {
     const response = await fetch('http://localhost:3000/api/physical-trait')
@@ -42,6 +45,8 @@ async function findSkinHairTypeById() {
     addIcon(hairTypeData)
     skinType.value = skinTypeData
     hairType.value = hairTypeData
+    skinTypeName.value = skinTypeData.name.toLowerCase()
+    hairTypeName.value = hairTypeData.name.toLowerCase()
   } catch (error) {
     console.error(error)
   }
@@ -129,12 +134,12 @@ const beautyProfile = [
             "
             class="w-14 h-14"
           />
-          <p class="text-center text-xs md:text-sm font-bold lowercase">
+          <p class="text-center text-xs md:text-sm font-bold">
             {{
               element.text === 'Peau'
-                ? `Peau ${skinType.name}`
+                ? `Peau ${skinTypeName}`
                 : element.text === 'Cheveux'
-                ? `Cheveux ${hairType.name}`
+                ? `Cheveux ${hairTypeName}`
                 : element.text === 'Problèmes de peau'
                 ? `Problèmes de peau (${skinProblemCount})`
                 : element.text === 'Problèmes capillaires'
