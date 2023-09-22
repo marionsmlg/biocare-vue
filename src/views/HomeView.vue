@@ -7,7 +7,7 @@ import Products from '../components/landing-page/Products.vue'
 import { CursorArrowRaysIcon, ArrowLongRightIcon } from '@heroicons/vue/20/solid'
 import ButtonPrimary from '../components/buttons/ButtonPrimary.vue'
 import ListBox from '../components/buttons/ListBox.vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import IconPeople from '../components/icons/IconPeople.vue'
 import IconMolecule from '../components/icons/IconMolecule.vue'
 
@@ -34,32 +34,72 @@ const argumentsList = [
   }
 ]
 
-const bodyParts = ['Peau', 'Cheveux']
-const skinProblems = [
-  'Acné',
-  'Sensibilité cutanée',
-  'Rougeurs',
-  'Relâchement cutané',
-  'Aucun problème particulier'
-]
+const skinProblems = ref([])
+const hairProblems = ref([])
+const bodyParts = ref([])
 
-const hairProblems = [
-  'Cheveux abîmés/fourchus/cassants',
-  'Cheveux secs',
-  'Cheveux gras',
-  'Chute de cheveux',
-  'Pellicules'
-]
+async function fetchRecipeCategories() {
+  try {
+    const response = await fetch('http://localhost:3000/api/recipe-category')
+    const data = await response.json()
+    bodyParts.value = data
+  } catch (error) {
+    console.error(error)
+  }
+}
+fetchRecipeCategories()
 
-const selectedOption = ref({})
+async function fetchBeautyIssues() {
+  try {
+    const response = await fetch('http://localhost:3000/api/beauty-issue')
+    const data = await response.json()
+    const skinData = data.filter(
+      (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
+    )
+    const hairData = data.filter(
+      (id) => id.recipe_category_id === '157bb376-f516-4cfe-9ce8-baa56f5dba89'
+    )
+    skinProblems.value = skinData
+    hairProblems.value = hairData
+  } catch (error) {
+    console.error(error)
+  }
+}
+fetchBeautyIssues()
+
+const selectedBodyPart = ref({ name: '' })
+const selectedProblem = ref(null)
+const isDisabled = ref(true)
+
+const getBodyPartValue = (value) => {
+  selectedBodyPart.value = value
+  selectedProblem.value = ''
+  isDisabled.value = false
+}
+
+const getProblemValue = (value) => {
+  selectedProblem.value = value
+}
+
+const allOptionsSelected = computed(() => {
+  return selectedBodyPart.name !== '' && selectedProblem.value
+})
 
 const selectedProblems = computed(() => {
-  if (selectedOption.value === 'Peau') {
-    return skinProblems
+  if (selectedBodyPart.value.name === 'Visage') {
+    return skinProblems.value
   } else {
-    return hairProblems
+    return hairProblems.value
   }
 })
+
+const router = useRouter()
+
+function findRecipes() {
+  localStorage.setItem('category', JSON.stringify(selectedBodyPart.value))
+  localStorage.setItem('problem', JSON.stringify(selectedProblem.value))
+  router.push('/recipe-by-problem')
+}
 </script>
 
 <template>
@@ -99,21 +139,38 @@ const selectedProblems = computed(() => {
       </h2>
       <CursorArrowRaysIcon class="w-5 h-5" />
     </div>
-    <!-- <div>{{ selectedOption }}</div> -->
+    <!-- <div>{{ selectedBodyPart }}</div>
+    <div>{{ selectedProblem }}</div> -->
     <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-4 items-center">
       <div class="flex justify-center lg:justify-start">
-        <ListBox :options="bodyParts" v-model="selectedOption" placeholder="Partie du corps" />
+        <ListBox
+          :options="bodyParts"
+          placeholder="Partie du corps"
+          @update:model-value="getBodyPartValue"
+        />
       </div>
       <div class="flex justify-center lg:justify-start">
-        <ListBox :options="selectedProblems" placeholder="Type de problème" />
+        <ListBox
+          :options="selectedProblems"
+          @update:model-value="getProblemValue"
+          placeholder="Type de problème"
+          :isDisabled="isDisabled"
+        />
       </div>
 
       <div class="flex justify-center lg:justify-start">
         <button
+          @click="findRecipes"
           type="button"
-          class="w-full md:px-14 md:py-3 w-full rounded-xl bg-[#F3B8B4] px-3 py-2 text-md font-bold shadow-sm hover:bg-[#F19B95]"
+          :disabled="!allOptionsSelected"
+          :class="[
+            !allOptionsSelected
+              ? 'bg-red-200 cursor-not-allowed text-gray-400'
+              : 'bg-[#F3B8B4] hover:bg-[#F19B95]',
+            'w-full md:px-14 md:py-3 w-full rounded-xl px-3 py-2 text-md font-bold shadow-sm'
+          ]"
         >
-          <RouterLink to="/">Trouver ma recette</RouterLink>
+          Trouver ma recette
         </button>
       </div>
     </div>

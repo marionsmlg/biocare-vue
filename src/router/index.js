@@ -6,6 +6,7 @@ import SignUp from '../views/SignUp.vue'
 import QuizView from '../views/QuizView2.vue'
 import Recipe from '../views/Recipe.vue'
 import DisplayRecipes from '../views/DisplayRecipes.vue'
+import DisplayRecipesByProblem from '../views/DisplayRecipesByProblem.vue'
 import PersonalSpace from '../views/PersonalSpace.vue'
 import Test from '../views/Test.vue'
 
@@ -23,6 +24,7 @@ const router = createRouter({
     { path: '/quiz', name: 'quiz', component: QuizView },
     { path: '/recipe/:category/:id', name: 'recipe', component: Recipe },
     { path: '/recipe/:category', name: 'category', component: DisplayRecipes },
+    { path: '/recipe-by-problem', name: 'recipe-by-problem', component: DisplayRecipesByProblem },
     { path: '/personal-space', name: 'personal-space', component: PersonalSpace },
     { path: '/test', name: 'test', component: Test },
     {

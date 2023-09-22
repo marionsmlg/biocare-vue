@@ -16,9 +16,10 @@ const strOfSkinProblemId = ref(localStorage.getItem('skinProblem') || '')
 const arrOfSkinProblemId = JSON.parse(strOfSkinProblemId.value)
 const arrOfHairProblemId = JSON.parse(strOfHairProblemId.value)
 
+const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
+const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
+
 function countProblems(arrOfProblemId) {
-  const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
-  const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
   if (arrOfProblemId[0] !== noHairProblemId && arrOfProblemId[0] !== noSkinProblemId) {
     return arrOfProblemId.length
   } else {

@@ -14,6 +14,17 @@ const strOfSkinProblemId = ref(localStorage.getItem('skinProblem') || '')
 const arrOfSkinProblemId = JSON.parse(strOfSkinProblemId.value)
 const arrOfHairProblemId = JSON.parse(strOfHairProblemId.value)
 
+const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
+const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
+
+function addnoProblemId(arrOfProblemId, noProblemId) {
+  arrOfProblemId.push(noProblemId)
+  return arrOfProblemId
+}
+
+const hairPb = addnoProblemId(arrOfHairProblemId, noHairProblemId)
+const skinPb = addnoProblemId(arrOfSkinProblemId, noSkinProblemId)
+
 const skinRecipes = ref([])
 const hairRecipes = ref([])
 
@@ -40,17 +51,17 @@ const canDisplayMoreRecipes = computed(() => {
   if (recipeCategoryName === 'cheveux') {
     console.log(hairRecipes.value.length)
     console.log({ limit })
-    console.log(hairRecipes.value.length >= limit)
-    return hairRecipes.value.length > limit
+    console.log(hairRecipes.value.length > limit)
+    return hairRecipes.value.length >= limit
   } else {
-    return skinRecipes.value.length > limit
+    return skinRecipes.value.length >= limit
   }
 })
 
 async function fetchSkinRecipeBySkinTypeId() {
   const queryParamsSkinType = new URLSearchParams({
     physical_trait_id: `${skinTypeId.value},b9f90678-ea3f-4fde-952f-a26a88e13259`,
-    beauty_issue_id: arrOfSkinProblemId.join(','),
+    beauty_issue_id: skinPb.join(','),
     limit: limit
   })
   try {
@@ -67,7 +78,7 @@ async function fetchSkinRecipeBySkinTypeId() {
 async function fetchHairRecipeByHairTypeId() {
   const queryParamsHairType = new URLSearchParams({
     physical_trait_id: `${hairTypeId.value},c8898a24-04cb-4b1f-bb8b-38633aa3c670`,
-    beauty_issue_id: arrOfHairProblemId.join(','),
+    beauty_issue_id: hairPb.join(','),
     limit: limit
   })
   try {

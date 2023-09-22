@@ -6,13 +6,9 @@ import { RouterLink } from 'vue-router'
 
 const props = defineProps({
   recipes: Array,
-  categoryName: String
+  categoryName: String,
+  beautyIssue: String
 })
-
-const categories = [
-  { name: 'Soins cheveux', href: `/recipe/${props.categoryName}` },
-  { name: 'Soins visage', href: `/recipe/${props.categoryName}` }
-]
 </script>
 
 <template>
@@ -30,14 +26,12 @@ const categories = [
     <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">
       Soins {{ props.categoryName }}
     </h1>
-    <!-- <div class="flex space-x-3 mb-8">
-      <RouterLink
-        v-for="category in categories"
-        :to="category.href"
-        class="bg-[#C7E8F1] inline-flex items-center text-center gap-x-1.5 rounded-full px-2 py-1 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
-        >{{ category.name }}
-      </RouterLink>
-    </div> -->
+    <div class="flex space-x-3 mb-8" v-if="props.beautyIssue">
+      <span
+        class="bg-[#C7E8F1] inline-flex items-center text-center gap-x-1.5 rounded-full px-3 py-1 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
+        >{{ props.beautyIssue }}
+      </span>
+    </div>
 
     <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 px-4 lg:w-3/5">
       <div v-for="recipe in props.recipes" class="mb-4 w-full">

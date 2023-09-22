@@ -15,22 +15,37 @@ const props = defineProps({
   placeholder: {
     type: String,
     default: 'Select options'
-  }
+  },
+  instance: String,
+  isDisabled: Boolean
 })
 
-const selectedOption = ref()
+const selectedOption = ref('')
+
+const emits = defineEmits(['update:model-value'])
+
+const updateSelectedOption = () => {
+  emits('update:model-value', selectedOption.value)
+}
 </script>
 
 <template>
   <div class="w-full">
-    <Listbox v-model="selectedOption">
+    <Listbox v-model="selectedOption" @update:model-value="updateSelectedOption">
       <div class="relative mt-1">
         <ListboxButton
+          :disabled="props.isDisabled"
           placeholder="Partie du corps"
-          class="md:px-14 md:py-3 w-full rounded-xl bg-white px-3 py-2 text-md font-semibold shadow-sm border-2 hover:border-[#F3B8B4]"
+          :class="[
+            isDisabled ? 'cursor-not-allowed' : 'hover:border-[#F3B8B4]',
+            selectedOption ? 'border-[#F3B8B4]' : '',
+            'md:px-14 md:py-3 w-full rounded-xl bg-white px-3 py-2 text-md font-semibold shadow-sm border-2'
+          ]"
         >
-          <span class="block truncate" v-if="selectedOption">{{ selectedOption }}</span>
-          <span v-else class="text-gray-600">{{ props.placeholder }}</span>
+          <span class="block truncate" v-if="selectedOption">{{ selectedOption.name }}</span>
+          <span v-else :class="[isDisabled ? 'text-gray-400' : 'text-gray-600']">{{
+            props.placeholder
+          }}</span>
           <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
           </span>
@@ -47,7 +62,7 @@ const selectedOption = ref()
             <ListboxOption
               v-slot="{ active, selected }"
               v-for="option in props.options"
-              :key="option"
+              :key="option.id"
               :value="option"
               as="template"
             >
@@ -58,7 +73,7 @@ const selectedOption = ref()
                 ]"
               >
                 <span :class="[selected ? 'font-medium' : 'font-normal', 'block truncate']">{{
-                  option
+                  option.name
                 }}</span>
                 <span
                   v-if="selected"

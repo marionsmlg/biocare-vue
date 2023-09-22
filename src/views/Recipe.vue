@@ -101,22 +101,48 @@ async function fetchRecipeAllergensById() {
   }
 }
 
-function displayPhysicalTraitAndBeautyIssues(arrOfPhysicalTrait, arrOfBeautyIssues) {
-  const arrOfBeautyData = []
+// function displayPhysicalTraitAndBeautyIssues(arrOfPhysicalTrait, arrOfBeautyIssues) {
+//   const arrOfBeautyData = []
+//   for (const physicalTrait of arrOfPhysicalTrait) {
+//     if (physicalTrait.name === 'Normale') {
+//       arrOfBeautyData.push('Tous types')
+//     } else {
+//       arrOfBeautyData.push(physicalTrait.name)
+//     }
+//   }
+//   for (const beautyIssue of arrOfBeautyIssues) {
+//     if (beautyIssue.name !== 'Aucun problème') {
+//       arrOfBeautyData.push(beautyIssue.name)
+//     }
+//   }
+//   return arrOfBeautyData.join(' | ')
+// }
+
+function displayPhysicalTraits(arrOfPhysicalTrait) {
+  const arrOfPhysicalTraitWithoutObject = []
   for (const physicalTrait of arrOfPhysicalTrait) {
     if (physicalTrait.name === 'Normale') {
-      arrOfBeautyData.push('Tous types')
+      arrOfPhysicalTraitWithoutObject.push('Tous types')
     } else {
-      arrOfBeautyData.push(physicalTrait.name)
+      arrOfPhysicalTraitWithoutObject.push(physicalTrait.name)
     }
   }
-  for (const beautyIssue of arrOfBeautyIssues) {
-    if (beautyIssue.name !== 'Aucun problème') arrOfBeautyData.push(beautyIssue.name)
-  }
-  return arrOfBeautyData.join(' | ')
+  return arrOfPhysicalTraitWithoutObject.join(' | ')
 }
 
-const recipeBeautyIssuesAndPhysicalTrait = ref([])
+function displayBeautyIssues(arrOfBeautyIssues) {
+  const arrOfBeautyIssuesWithoutObject = []
+  for (const beautyIssue of arrOfBeautyIssues) {
+    if (beautyIssue.name !== 'Aucun problème') {
+      arrOfBeautyIssuesWithoutObject.push(beautyIssue.name)
+    }
+  }
+  return arrOfBeautyIssuesWithoutObject
+}
+const recipeBeautyIssues = ref([])
+const recipePhysicalTrait = ref([])
+console.log(recipeBeautyIssues.value)
+
 async function fetchRecipeBeautyIssuesById() {
   try {
     const apiUrlBeautyIssue = `http://localhost:3000/api/recipe-beauty-issue?recipe_id=${recipeId}`
@@ -125,10 +151,8 @@ async function fetchRecipeBeautyIssuesById() {
     const apiUrlPhysicalTrait = `http://localhost:3000/api/recipe-physical-trait?recipe_id=${recipeId}`
     const responsePhysicalTrait = await fetch(apiUrlPhysicalTrait)
     const fetchedDataPhysicalTrait = await responsePhysicalTrait.json()
-    recipeBeautyIssuesAndPhysicalTrait.value = displayPhysicalTraitAndBeautyIssues(
-      fetchedDataPhysicalTrait,
-      fetchedDataBeautyIssue
-    )
+    recipeBeautyIssues.value = displayBeautyIssues(fetchedDataBeautyIssue)
+    recipePhysicalTrait.value = displayPhysicalTraits(fetchedDataPhysicalTrait)
   } catch (error) {
     console.error(error)
   }
@@ -165,32 +189,40 @@ fetchRecipeIngredientsById()
           {{ benefit.name }}
         </span>
       </div>
+      <div class="flex space-x-3 mb-8" v-if="recipeBeautyIssues.length !== 0">
+        <span
+          v-for="beautyIssue in recipeBeautyIssues"
+          class="bg-[#C7E8F1] inline-flex items-center text-center gap-x-1.5 rounded-full px-2 py-1 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
+        >
+          {{ beautyIssue }}
+        </span>
+      </div>
     </div>
 
     <div class="flex flex-col items-center">
       <div class="flex w-full lg:w-4/5 h-96 overflow-hidden lg:mb-8">
         <img :src="recipe.img_url" class="w-full h-auto object-cover lg:rounded-xl" />
       </div>
-      <div class="bg-[#FBDFDB] lg:w-4/5 lg:rounded-xl w-full px-4 py-2">
-        <div class="flex flex-col items-baseline justify-start sm:flex-row md:justify-center">
+      <div class="bg-[#FBDFDB] lg:w-4/5 lg:rounded-xl w-full px-4 py-3">
+        <div class="flex items-baseline justify-center">
           <div class="flex flex-col items-center px-8">
-            <IconTexture class="w-10 h-10" />
+            <IconTexture class="w-8 h-8" />
             <p class="text-sm mt-2">{{ recipe.product_texture_type_name }}</p>
           </div>
           <div class="flex flex-col items-center px-8">
-            <IconClock class="w-10 h-10" />
+            <IconClock class="w-8 h-8" />
             <p class="text-sm mt-2">{{ recipe.preparation_time }}</p>
           </div>
           <div class="flex flex-col items-center px-8">
             <component
-              :is="recipe.recipe_category_name === 'cheveux' ? HairIcon : SkinIcon"
-              class="w-12 h-12"
+              :is="recipe.recipe_category_name === 'Cheveux' ? HairIcon : SkinIcon"
+              class="w-8"
             ></component>
-            <p class="text-sm flex flex-row mt-2">{{ recipeBeautyIssuesAndPhysicalTrait }}</p>
+            <p class="text-sm flex flex-row mt-2">{{ recipePhysicalTrait }}</p>
           </div>
 
           <div class="flex flex-col items-center px-8">
-            <IconConservation class="w-10" />
+            <IconConservation class="w-10 h-10" />
             <p class="text-sm mt-2">{{ recipe.storage_time }}</p>
           </div>
         </div>

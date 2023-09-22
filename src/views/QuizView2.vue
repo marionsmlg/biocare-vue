@@ -4,13 +4,13 @@ import SkinTypes from '../components/beauty-profile/SkinTypes.vue'
 import SkinHairProblems from '../components/beauty-profile/SkinHairProblems.vue'
 import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
-import { ref, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 
 const skinProblems = ref([])
 const hairProblems = ref([])
 
-async function fetchData() {
+async function fetchBeautyIssues() {
   try {
     const response = await fetch('http://localhost:3000/api/beauty-issue')
     const data = await response.json()
@@ -27,7 +27,7 @@ async function fetchData() {
   }
 }
 
-fetchData()
+fetchBeautyIssues()
 
 const quizData = [
   { text: 'Quel est votre type de peau ?', component: SkinTypes, instance: 'skinType' },
@@ -52,13 +52,14 @@ const selectedOption = ref({})
 const selectedSkinProblem = ref([])
 const selectedHairProblem = ref([])
 
-const allQuestionsAnswered = ref(false)
-
-function checkAllQuestionsAnswered() {
-  if (selectedHairProblem.value) {
-    allQuestionsAnswered.value = true
-  }
-}
+const allQuestionsAnswered = computed(() => {
+  return (
+    selectedOption.value['skinType'] &&
+    selectedOption.value['hairType'] &&
+    selectedSkinProblem.value.length !== 0 &&
+    selectedHairProblem.value.length !== 0
+  )
+})
 
 function updateCheckboxes({ instance, values }) {
   if (instance === 'skinProblems') {
@@ -66,7 +67,6 @@ function updateCheckboxes({ instance, values }) {
   } else if (instance === 'hairProblems') {
     selectedHairProblem.value = values
   }
-  checkAllQuestionsAnswered()
 }
 
 const router = useRouter()
@@ -81,9 +81,6 @@ function findRecipes() {
 </script>
 
 <template>
-  <!-- <div>Skintype : {{ selectedOption }}</div>
-  <div>HairProblems :{{ selectedHairProblem }}</div>
-  <div>SkinProblems :{{ selectedSkinProblem }}</div> -->
   <div class="py-12">
     <div v-for="(question, index) in quizData" :key="index" class="xl:px-72 px-6 py-16">
       <div class="flex flex-col items-center">
@@ -109,10 +106,16 @@ function findRecipes() {
         />
       </div>
     </div>
-    <div class="flex justify-center" v-if="allQuestionsAnswered">
+    <div class="flex justify-center">
       <button
+        :disabled="!allQuestionsAnswered"
         type="submit"
-        class="rounded-xl bg-[#8CD4E0] px-24 py-3 text-md font-bold shadow-sm hover:bg-[#6ECDDF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        :class="[
+          !allQuestionsAnswered
+            ? 'bg-sky-200 text-gray-500 cursor-not-allowed'
+            : 'bg-[#8CD4E0] hover:bg-[#6ECDDF]',
+          'rounded-xl px-24 py-3 text-md font-bold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+        ]"
         @click="findRecipes"
       >
         Trouver mes recettes !
