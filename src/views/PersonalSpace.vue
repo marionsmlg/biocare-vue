@@ -8,6 +8,7 @@ import DamagedHairIcon from '@/components/icons/RecipeCategories/DamagedHair.vue
 import recipeIcon from '@/components/icons/Recipe/IconRecipe.vue'
 import { addIcon } from '@/utils.js'
 import Banner from '@/components/Banner.vue'
+import Breadcrumbs from '@/components/Breadcrumbs.vue'
 
 const hairTypeId = ref(localStorage.getItem('hairType') || '')
 const skinTypeId = ref(localStorage.getItem('skinType') || '')
@@ -116,10 +117,24 @@ const beautyProfile = [
     text: 'Problèmes capillaires'
   }
 ]
+
+const pages = [
+  {
+    name: `Questionnaire`,
+    href: `/quiz`,
+    current: false
+  },
+  {
+    name: `Recettes`,
+    href: `/personal-space`,
+    current: true
+  }
+]
 </script>
 
 <template>
-  <div class="bg-white mt-8">
+  <Breadcrumbs :pages="pages" />
+  <div class="bg-white">
     <div class="px-4 py-4 xl:px-44">
       <!-- <h1 class="text-xl font-semibold mb-4 lg:text-xl text-gray-700">Votre profil beauté</h1> -->
       <ul class="flex justify-around border border-2 py-2 px-2 rounded-xl mb-3 border-[#6ECDDF]">

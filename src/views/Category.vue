@@ -1,5 +1,4 @@
 <script setup>
-import Breadcrumbs from '../components/Breadcrumbs.vue'
 import { ClockIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
@@ -10,8 +9,6 @@ const props = defineProps({
 </script>
 
 <template>
-  <Breadcrumbs />
-
   <div class="p-4 flex flex-col items-center">
     <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">
       Soins {{ props.categoryName }}

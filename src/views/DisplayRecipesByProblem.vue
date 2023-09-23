@@ -1,6 +1,7 @@
 <script setup>
 import Category from './Category.vue'
 import { ref, computed } from 'vue'
+import Breadcrumbs from '@/components/Breadcrumbs.vue'
 
 const strOfBodyPart = ref(localStorage.getItem('category') || '')
 const strOfProblem = ref(localStorage.getItem('problem') || '')
@@ -57,6 +58,7 @@ fetchRecipeProblemId()
 </script>
 
 <template>
+  <Breadcrumbs />
   <Category :categoryName="bodyPartName" :recipes="recipesByProblem" :beautyIssue="problem.name" />
   <div class="flex justify-center" v-if="canDisplayMoreRecipes">
     <button

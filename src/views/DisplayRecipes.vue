@@ -2,6 +2,7 @@
 import Category from './Category.vue'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import Breadcrumbs from '../components/Breadcrumbs.vue'
 
 const route = useRoute()
 const recipeCategoryName = route.params.category
@@ -94,9 +95,22 @@ async function fetchHairRecipeByHairTypeId() {
 
 fetchSkinRecipeBySkinTypeId()
 fetchHairRecipeByHairTypeId()
+const pages = [
+  {
+    name: 'Recettes',
+    href: `/personal-space`,
+    current: false
+  },
+  {
+    name: `Cheveux`,
+    href: `/recipe/Visage/10113597-a00c-4761-8d01-0e81ec9b30cd`,
+    current: true
+  }
+]
 </script>
 
 <template>
+  <Breadcrumbs :pages="pages" />
   <Category
     :recipes="recipeCategoryName === 'cheveux' ? hairRecipes : skinRecipes"
     :categoryName="recipeCategoryName"

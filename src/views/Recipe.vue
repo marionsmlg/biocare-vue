@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router'
 import {
   BeakerIcon,
   ChevronUpIcon,
-  ChevronLeftIcon,
   InformationCircleIcon,
   ShoppingBagIcon
 } from '@heroicons/vue/24/outline'
@@ -159,12 +158,26 @@ fetchRecipeIngredientsById()
 //     current: true
 //   }
 // ]
+const pages = [
+  {
+    name: `Cheveux`,
+    href: `/recipe/Cheveux`,
+    current: false,
+    isNecessary: true
+  },
+  {
+    name: `Crème purifiante pour peaux à tendance acnéique`,
+    href: `/recipe/Visage/10113597-a00c-4761-8d01-0e81ec9b30cd`,
+    current: true,
+    isNecessary: true
+  }
+]
 </script>
 
 <template>
-  <Breadcrumbs />
+  <Breadcrumbs :pages="pages" />
   <div class="flex flex-col">
-    <div class="px-4 flex flex-col items-center">
+    <div class="px-4 pt-6 flex flex-col items-center">
       <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">
         {{ recipe.title }}
       </h1>
