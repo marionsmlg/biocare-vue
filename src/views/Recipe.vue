@@ -181,15 +181,20 @@ const pages = [
       <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">
         {{ recipe.title }}
       </h1>
-      <div class="flex space-x-3 mb-8">
+
+      <div class="flex flex-wrap justify-center gap-x-6 gap-y-4 mb-8">
         <span
           v-for="benefit in recipeBenefits"
-          class="bg-[#FBDFDB] inline-flex items-center text-center gap-x-1.5 rounded-full px-2 py-1 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
+          class="bg-[#FBDFDB] inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
         >
           {{ benefit.name }}
         </span>
       </div>
-      <div class="flex space-x-3 mb-8" v-if="recipeBeautyIssues.length !== 0">
+
+      <div
+        class="flex flex-wrap justify-center gap-x-6 gap-y-4 mb-8"
+        v-if="recipeBeautyIssues.length !== 0"
+      >
         <span
           v-for="beautyIssue in recipeBeautyIssues"
           class="bg-[#C7E8F1] inline-flex items-center text-center gap-x-1.5 rounded-full px-2 py-1 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
@@ -251,7 +256,7 @@ const pages = [
               alt=""
             />
             <div class="min-w-0 flex-1">
-              <div class="flex items-center">
+              <div class="flex items-start">
                 <p class="text-sm font-medium text-gray-900">
                   {{ ingredient.name }}
                 </p>
@@ -259,7 +264,7 @@ const pages = [
                 <div class="inline-flex rounded-md shadow-sm">
                   <Menu as="div" class="relative -ml-px block">
                     <MenuButton
-                      class="relative inline-flex items-center bg-white m-2 text-gray-500 hover:text-gray-700 focus:z-10"
+                      class="relative inline-flex items-center mx-2 bg-white text-gray-500 hover:text-gray-700 focus:z-10"
                     >
                       <span class="sr-only">Open options</span>
                       <InformationCircleIcon
@@ -268,13 +273,6 @@ const pages = [
                         aria-hidden="true"
                       />
                     </MenuButton>
-                    <a
-                      v-if="ingredient.product_url"
-                      :href="ingredient.product_url"
-                      class="relative inline-flex items-center rounded-full bg-white px-2 py-2 text-gray-500 hover:text-gray-700 focus:z-10"
-                    >
-                      <ShoppingBagIcon class="h-5 w-5" />
-                    </a>
 
                     <transition
                       enter-active-class="transition ease-out duration-100"
@@ -298,6 +296,13 @@ const pages = [
                     </transition>
                   </Menu>
                 </div>
+                <button
+                  class="relative inline-flex items-center rounded-full bg-white text-gray-500 hover:text-gray-700 focus:z-10"
+                >
+                  <a v-if="ingredient.product_url" :href="ingredient.product_url">
+                    <ShoppingBagIcon class="h-5 w-5" />
+                  </a>
+                </button>
               </div>
 
               <p class="truncate text-sm text-gray-500">{{ ingredient.ingredient_quantity }}</p>
