@@ -40,7 +40,9 @@ const bodyParts = ref([])
 
 async function fetchRecipeCategories() {
   try {
-    const response = await fetch('http://localhost:3000/api/recipe-category')
+    const response = await fetch(
+      'https://biocare-api-production.up.railway.app/api/recipe-category'
+    )
     const data = await response.json()
     bodyParts.value = data
   } catch (error) {
@@ -51,7 +53,7 @@ fetchRecipeCategories()
 
 async function fetchBeautyIssues() {
   try {
-    const response = await fetch('http://localhost:3000/api/beauty-issue')
+    const response = await fetch('https://biocare-api-production.up.railway.app/api/beauty-issue')
     const data = await response.json()
     const skinData = data.filter(
       (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
@@ -139,8 +141,6 @@ function findRecipes() {
       </h2>
       <CursorArrowRaysIcon class="w-5 h-5" />
     </div>
-    <!-- <div>{{ selectedBodyPart }}</div>
-    <div>{{ selectedProblem }}</div> -->
     <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-12 gap-4 items-center">
       <div class="flex justify-center lg:justify-start">
         <ListBox

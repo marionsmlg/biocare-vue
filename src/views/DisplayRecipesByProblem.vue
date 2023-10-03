@@ -45,7 +45,7 @@ async function fetchRecipeProblemId() {
     limit: limit
   })
   try {
-    const apiUrl = `http://localhost:3000/api/recipe?${queryParamsSkinType}`
+    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?${queryParamsSkinType}`
     const response = await fetch(apiUrl)
     const recipes = await response.json()
     recipesByProblem.value = recipes

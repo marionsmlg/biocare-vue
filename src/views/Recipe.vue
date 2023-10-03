@@ -29,7 +29,7 @@ console.log(catgeoryName)
 
 async function fetchRecipeById() {
   try {
-    const apiUrl = `http://localhost:3000/api/recipe?id=${recipeId}`
+    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?id=${recipeId}`
     const response = await fetch(apiUrl)
     const fetchedRecipe = await response.json()
     recipe.value = fetchedRecipe[0]
@@ -56,7 +56,7 @@ const recipeIngredients = ref([])
 
 async function fetchRecipeIngredientsById() {
   try {
-    const apiUrl = `http://localhost:3000/api/recipe-ingredient?recipe_id=${recipeId}`
+    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe-ingredient?recipe_id=${recipeId}`
     const response = await fetch(apiUrl)
     const fetchedIngredients = await response.json()
     recipeIngredients.value = fetchedIngredients
@@ -68,7 +68,7 @@ const recipeSteps = ref([])
 
 async function fetchRecipeStepsById() {
   try {
-    const apiUrl = `http://localhost:3000/api/recipe-step?recipe_id=${recipeId}`
+    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe-step?recipe_id=${recipeId}`
     const response = await fetch(apiUrl)
     const fetchedSteps = await response.json()
     recipeSteps.value = fetchedSteps
@@ -80,7 +80,7 @@ async function fetchRecipeStepsById() {
 const recipeBenefits = ref([])
 async function fetchRecipeBenefitsById() {
   try {
-    const apiUrl = `http://localhost:3000/api/recipe-product-benefit?recipe_id=${recipeId}`
+    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe-product-benefit?recipe_id=${recipeId}`
     const response = await fetch(apiUrl)
     const fetchedBenefits = await response.json()
     recipeBenefits.value = fetchedBenefits
@@ -105,7 +105,7 @@ function displayAllergens(fetchedAllergens) {
 
 async function fetchRecipeAllergensById() {
   try {
-    const apiUrl = `http://localhost:3000/api/recipe-product-allergen?recipe_id=${recipeId}`
+    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe-product-allergen?recipe_id=${recipeId}`
     const response = await fetch(apiUrl)
     const fetchedAllergens = await response.json()
     recipeAllergens.value = displayAllergens(fetchedAllergens)
@@ -140,10 +140,10 @@ const recipePhysicalTrait = ref([])
 
 async function fetchRecipeBeautyIssuesById() {
   try {
-    const apiUrlBeautyIssue = `http://localhost:3000/api/recipe-beauty-issue?recipe_id=${recipeId}`
+    const apiUrlBeautyIssue = `https://biocare-api-production.up.railway.app/api/recipe-beauty-issue?recipe_id=${recipeId}`
     const responseBeautyIssue = await fetch(apiUrlBeautyIssue)
     const fetchedDataBeautyIssue = await responseBeautyIssue.json()
-    const apiUrlPhysicalTrait = `http://localhost:3000/api/recipe-physical-trait?recipe_id=${recipeId}`
+    const apiUrlPhysicalTrait = `https://biocare-api-production.up.railway.app/api/recipe-physical-trait?recipe_id=${recipeId}`
     const responsePhysicalTrait = await fetch(apiUrlPhysicalTrait)
     const fetchedDataPhysicalTrait = await responsePhysicalTrait.json()
     recipeBeautyIssues.value = displayBeautyIssues(fetchedDataBeautyIssue)

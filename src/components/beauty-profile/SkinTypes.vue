@@ -10,7 +10,7 @@ import { addIcon } from '../../utils'
 
 async function fetchData() {
   try {
-    const response = await fetch('http://localhost:3000/api/physical-trait')
+    const response = await fetch('https://biocare-api-production.up.railway.app/api/physical-trait')
     const data = await response.json()
     const types = data.filter(
       (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'

@@ -38,7 +38,7 @@ const hairTypeName = ref('')
 
 async function findSkinHairTypeById() {
   try {
-    const response = await fetch('http://localhost:3000/api/physical-trait')
+    const response = await fetch('https://biocare-api-production.up.railway.app/api/physical-trait')
     const data = await response.json()
     const skinTypeData = data.find((skinType) => skinType.id === skinTypeId.value)
     const hairTypeData = data.find((hairType) => hairType.id === hairTypeId.value)
@@ -66,7 +66,7 @@ const skinCategoryName = ref()
 
 async function fetchSkinRecipeBySkinTypeId() {
   try {
-    const apiUrl = `http://localhost:3000/api/recipe?${queryParamsSkinType}`
+    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?${queryParamsSkinType}`
     const response = await fetch(apiUrl)
     const recipes = await response.json()
     highlightSkinRecipes.value = recipes
@@ -88,7 +88,7 @@ const hairCategoryName = ref()
 
 async function fetchHairRecipeByHairTypeId() {
   try {
-    const apiUrl = `http://localhost:3000/api/recipe?${queryParamsHairType}`
+    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?${queryParamsHairType}`
     const response = await fetch(apiUrl)
     const recipes = await response.json()
     highlightHairRecipes.value = recipes

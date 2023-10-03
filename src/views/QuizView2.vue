@@ -12,7 +12,7 @@ const hairProblems = ref([])
 
 async function fetchBeautyIssues() {
   try {
-    const response = await fetch('http://localhost:3000/api/beauty-issue')
+    const response = await fetch('https://biocare-api-production.up.railway.app/api/beauty-issue')
     const data = await response.json()
     const skinData = data.filter(
       (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
