@@ -13,16 +13,19 @@ import Breadcrumbs from '../components/Breadcrumbs.vue'
 import IconConservation from '../components/icons/Recipe/IconConservation.vue'
 import IconTexture from '../components/icons/Recipe/IconTexture.vue'
 import IconClock from '../components/icons/Recipe/IconClock.vue'
+import { capitalizeFirstLetter } from '@/utils.js'
 
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 const recipe = ref({})
+const pages = ref()
 
 const route = useRoute()
 const recipeId = route.params.id
-console.log(recipeId)
+const catgeoryName = route.params.category
+console.log(catgeoryName)
 
 async function fetchRecipeById() {
   try {
@@ -30,7 +33,19 @@ async function fetchRecipeById() {
     const response = await fetch(apiUrl)
     const fetchedRecipe = await response.json()
     recipe.value = fetchedRecipe[0]
-    console.log(fetchedRecipe)
+
+    pages.value = [
+      {
+        name: `${capitalizeFirstLetter(catgeoryName)}`,
+        href: `/recipe/${catgeoryName}`,
+        current: false
+      },
+      {
+        name: `${capitalizeFirstLetter(fetchedRecipe[0].title)}`,
+        href: `/recipe/${catgeoryName}/${fetchedRecipe[0].id}`,
+        current: true
+      }
+    ]
   } catch (error) {
     console.error(error)
   }
@@ -45,7 +60,6 @@ async function fetchRecipeIngredientsById() {
     const response = await fetch(apiUrl)
     const fetchedIngredients = await response.json()
     recipeIngredients.value = fetchedIngredients
-    console.log(fetchedIngredients)
   } catch (error) {
     console.error(error)
   }
@@ -123,7 +137,6 @@ function displayBeautyIssues(arrOfBeautyIssues) {
 }
 const recipeBeautyIssues = ref([])
 const recipePhysicalTrait = ref([])
-console.log(recipeBeautyIssues.value)
 
 async function fetchRecipeBeautyIssuesById() {
   try {
@@ -145,33 +158,6 @@ fetchRecipeAllergensById()
 fetchRecipeBenefitsById()
 fetchRecipeStepsById()
 fetchRecipeIngredientsById()
-
-// const pages = [
-//   {
-//     name: `${recipe.recipe_category_name}`,
-//     href: `/recipe/${recipe.recipe_category_name}`,
-//     current: false
-//   },
-//   {
-//     name: `${recipe.value.title}`,
-//     href: `/recipe/${recipe.value.recipe_category_name}/${recipe.value.id}`,
-//     current: true
-//   }
-// ]
-const pages = [
-  {
-    name: `Cheveux`,
-    href: `/recipe/Cheveux`,
-    current: false,
-    isNecessary: true
-  },
-  {
-    name: `Crème purifiante pour peaux à tendance acnéique`,
-    href: `/recipe/Visage/10113597-a00c-4761-8d01-0e81ec9b30cd`,
-    current: true,
-    isNecessary: true
-  }
-]
 </script>
 
 <template>

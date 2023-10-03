@@ -1,5 +1,6 @@
 <script setup>
 import { ClockIcon } from '@heroicons/vue/24/outline'
+import { RouterLink } from 'vue-router'
 
 const props = defineProps({
   recipes: Array,
@@ -22,7 +23,7 @@ const props = defineProps({
 
     <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 px-4 lg:w-3/5">
       <div v-for="recipe in props.recipes" class="mb-4 w-full hover:opacity-75">
-        <a :href="`/recipe/${recipe.recipe_category_name}/${recipe.id}`">
+        <RouterLink :to="`/recipe/${props.categoryName}/${recipe.id}`">
           <div class="relative flex w-full h-96 overflow-hidden lg:mb-8 rounded-xl">
             <!-- <span
               class="bg-white bg-opacity-80 absolute top-4 left-4 px-2 py-1 text-sm text-gray-600 rounded-tl-lg rounded-br-lg sm:top-2 xl:top-4 sm:left-2 xl:left-4"
@@ -39,7 +40,7 @@ const props = defineProps({
                 <div class="flex flex-row items-center">
                   <p class="text-sm flex items-center">
                     <ClockIcon class="w-4 h-4 mr-1" />{{ recipe.preparation_time }} |
-                    {{ recipe.ingredient_count }} ingredients
+                    {{ recipe.ingredient_count }} ingrédients
                   </p>
                 </div>
                 <p class="mt-4 text-base text-gray-800 sm:mt-2 lg:mt-3 font-bold">
@@ -48,7 +49,7 @@ const props = defineProps({
               </div>
             </div>
           </div>
-        </a>
+        </RouterLink>
       </div>
     </ul>
   </div>

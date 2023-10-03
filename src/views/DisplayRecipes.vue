@@ -102,15 +102,17 @@ const pages = [
     current: false
   },
   {
-    name: `Cheveux`,
-    href: `/recipe/Visage/10113597-a00c-4761-8d01-0e81ec9b30cd`,
+    name: recipeCategoryName,
+    href: `/recipe/${recipeCategoryName.toLocaleLowerCase()}`,
     current: true
   }
 ]
+
+console.log(pages)
 </script>
 
 <template>
-  <Breadcrumbs :pages="pages" />
+  <Breadcrumbs :pages="pages" class="capitalize" />
   <Category
     :recipes="recipeCategoryName === 'cheveux' ? hairRecipes : skinRecipes"
     :categoryName="recipeCategoryName"

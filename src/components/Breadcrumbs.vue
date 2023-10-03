@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router'
 const props = defineProps({
   pages: Array
 })
-console.log(props.pages)
+
 const getPathPrecedentPage = computed(() => {
   if (props.pages) {
     if (props.pages.length !== 1) {

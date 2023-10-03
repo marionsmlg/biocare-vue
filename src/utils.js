@@ -7,7 +7,7 @@ import IconFrizzyHair from '@/components/icons/HairTypes/IconFrizzyHair.vue'
 import IconWavyHair from '@/components/icons/HairTypes/IconWavyHair.vue'
 import IconCurlyHair from '@/components/icons/HairTypes/IconCurlyHair.vue'
 
-import { ref, markRaw } from 'vue'
+import { markRaw } from 'vue'
 
 export function addIcon(objectWithoutIcon) {
   const arrOfIcons = [
@@ -47,4 +47,11 @@ export function addIcon(objectWithoutIcon) {
       objectWithoutIcon.icon = correspondingIcon.icon
     }
   }
+}
+
+export function capitalizeFirstLetter(str) {
+  if (str.length === 0) {
+    return str
+  }
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }

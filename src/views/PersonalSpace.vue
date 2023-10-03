@@ -6,7 +6,7 @@ import HairIcon from '@/components/icons/RecipeCategories/IconHair.vue'
 import SkinCareIcon from '@/components/icons/RecipeCategories/SkinCare.vue'
 import DamagedHairIcon from '@/components/icons/RecipeCategories/DamagedHair.vue'
 import recipeIcon from '@/components/icons/Recipe/IconRecipe.vue'
-import { addIcon } from '@/utils.js'
+import { addIcon, capitalizeFirstLetter } from '@/utils.js'
 import Banner from '@/components/Banner.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 
@@ -62,12 +62,16 @@ const queryParamsSkinType = new URLSearchParams({
   limit: 5
 })
 
+const skinCategoryName = ref()
+
 async function fetchSkinRecipeBySkinTypeId() {
   try {
     const apiUrl = `http://localhost:3000/api/recipe?${queryParamsSkinType}`
     const response = await fetch(apiUrl)
     const recipes = await response.json()
     highlightSkinRecipes.value = recipes
+    skinCategoryName.value = recipes[0].recipe_category_name.toLowerCase()
+    console.log(skinCategoryName.value)
     console.log(recipes)
   } catch (error) {
     console.error(error)
@@ -80,12 +84,16 @@ const queryParamsHairType = new URLSearchParams({
   limit: 5
 })
 
+const hairCategoryName = ref()
+
 async function fetchHairRecipeByHairTypeId() {
   try {
     const apiUrl = `http://localhost:3000/api/recipe?${queryParamsHairType}`
     const response = await fetch(apiUrl)
     const recipes = await response.json()
     highlightHairRecipes.value = recipes
+    hairCategoryName.value = recipes[0].recipe_category_name.toLowerCase()
+    console.log(hairCategoryName.value)
     console.log(recipes)
   } catch (error) {
     console.error(error)
@@ -181,13 +189,13 @@ const pages = [
           <HairIcon class="w-8 ml-3" />
         </div>
 
-        <a
-          :href="`/recipe/cheveux`"
+        <RouterLink
+          :to="`/recipe/${hairCategoryName}`"
           class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
         >
           Voir tout
           <span aria-hidden="true"> &rarr;</span>
-        </a>
+        </RouterLink>
       </div>
 
       <div class="mt-4 flow-root">
@@ -198,10 +206,10 @@ const pages = [
             <div
               class="absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0"
             >
-              <a
+              <RouterLink
                 v-for="recipe in highlightHairRecipes"
-                :key="recipe.name"
-                :href="`/recipe/${recipe.recipe_category_name}/${recipe.id}`"
+                :key="recipe.id"
+                :to="`/recipe/${hairCategoryName}/${recipe.id}`"
                 class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
               >
                 <span aria-hidden="true" class="absolute inset-0">
@@ -231,7 +239,7 @@ const pages = [
                     </p>
                   </div>
                 </div>
-              </a>
+              </RouterLink>
             </div>
           </div>
         </div>
@@ -239,7 +247,7 @@ const pages = [
 
       <div class="mt-6 px-4 sm:hidden text-right">
         <RouterLink
-          to="/recipe/cheveux"
+          :to="`/recipe/${hairCategoryName}`"
           class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
         >
           Voir tout
@@ -256,7 +264,7 @@ const pages = [
           Soins visage<SkinCareIcon class="w-10 h-10 ml-3" />
         </h2>
         <RouterLink
-          to="/recipe/visage"
+          :to="`/recipe/${skinCategoryName}`"
           class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
         >
           Voir tout
@@ -272,10 +280,10 @@ const pages = [
             <div
               class="absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0"
             >
-              <a
+              <RouterLink
                 v-for="recipe in highlightSkinRecipes"
                 :key="recipe.id"
-                :href="`/recipe/${recipe.recipe_category_name}/${recipe.id}`"
+                :to="`/recipe/${skinCategoryName}/${recipe.id}`"
                 class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
               >
                 <span aria-hidden="true" class="absolute inset-0">
@@ -305,7 +313,7 @@ const pages = [
                     </p>
                   </div>
                 </div>
-              </a>
+              </RouterLink>
             </div>
           </div>
         </div>
@@ -313,7 +321,7 @@ const pages = [
 
       <div class="mt-6 px-4 sm:hidden text-right">
         <RouterLink
-          to="/recipe/visage"
+          :to="`/recipe/${skinCategoryName}`"
           class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
         >
           Voir tout
