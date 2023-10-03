@@ -1,7 +1,8 @@
 <script setup>
-import Category from './Category.vue'
+import Category from '@/components/Category.vue'
 import { ref, computed } from 'vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
+import { apiUrl } from '@/utils.js'
 
 const strOfBodyPart = ref(localStorage.getItem('category') || '')
 const strOfProblem = ref(localStorage.getItem('problem') || '')
@@ -45,8 +46,9 @@ async function fetchRecipeProblemId() {
     limit: limit
   })
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?${queryParamsSkinType}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe?${queryParamsSkinType}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const recipes = await response.json()
     recipesByProblem.value = recipes
     console.log(recipes)

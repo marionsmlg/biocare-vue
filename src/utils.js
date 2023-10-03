@@ -55,3 +55,8 @@ export function capitalizeFirstLetter(str) {
   }
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
+
+export const apiUrl =
+  process.env.NODE_ENV === 'production'
+    ? 'https://biocare-api-production.up.railway.app'
+    : 'http://localhost:5174'

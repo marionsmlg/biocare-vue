@@ -6,13 +6,16 @@ import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
 import { ref, computed } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
+import { apiUrl } from '@/utils.js'
 
 const skinProblems = ref([])
 const hairProblems = ref([])
 
 async function fetchBeautyIssues() {
   try {
-    const response = await fetch('https://biocare-api-production.up.railway.app/api/beauty-issue')
+    const queryString = `/api/beauty-issue`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const data = await response.json()
     const skinData = data.filter(
       (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'

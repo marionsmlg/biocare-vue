@@ -29,4 +29,5 @@ coverage
 
 
 bdd.sql
+.env
 

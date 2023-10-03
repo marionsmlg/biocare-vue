@@ -13,10 +13,8 @@ import Breadcrumbs from '../components/Breadcrumbs.vue'
 import IconConservation from '../components/icons/Recipe/IconConservation.vue'
 import IconTexture from '../components/icons/Recipe/IconTexture.vue'
 import IconClock from '../components/icons/Recipe/IconClock.vue'
-import { capitalizeFirstLetter } from '@/utils.js'
-
+import { capitalizeFirstLetter, apiUrl } from '@/utils.js'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
-
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 const recipe = ref({})
@@ -25,12 +23,12 @@ const pages = ref()
 const route = useRoute()
 const recipeId = route.params.id
 const catgeoryName = route.params.category
-console.log(catgeoryName)
 
 async function fetchRecipeById() {
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?id=${recipeId}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe?id=${recipeId}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const fetchedRecipe = await response.json()
     recipe.value = fetchedRecipe[0]
 
@@ -52,12 +50,13 @@ async function fetchRecipeById() {
 }
 fetchRecipeById()
 
-const recipeIngredients = ref([])
+const recipeIngredients = ref()
 
 async function fetchRecipeIngredientsById() {
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe-ingredient?recipe_id=${recipeId}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe-ingredient?recipe_id=${recipeId}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const fetchedIngredients = await response.json()
     recipeIngredients.value = fetchedIngredients
   } catch (error) {
@@ -68,8 +67,9 @@ const recipeSteps = ref([])
 
 async function fetchRecipeStepsById() {
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe-step?recipe_id=${recipeId}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe-step?recipe_id=${recipeId}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const fetchedSteps = await response.json()
     recipeSteps.value = fetchedSteps
   } catch (error) {
@@ -80,8 +80,9 @@ async function fetchRecipeStepsById() {
 const recipeBenefits = ref([])
 async function fetchRecipeBenefitsById() {
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe-product-benefit?recipe_id=${recipeId}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe-product-benefit?recipe_id=${recipeId}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const fetchedBenefits = await response.json()
     recipeBenefits.value = fetchedBenefits
   } catch (error) {
@@ -105,8 +106,9 @@ function displayAllergens(fetchedAllergens) {
 
 async function fetchRecipeAllergensById() {
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe-product-allergen?recipe_id=${recipeId}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe-product-allergen?recipe_id=${recipeId}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const fetchedAllergens = await response.json()
     recipeAllergens.value = displayAllergens(fetchedAllergens)
   } catch (error) {
@@ -140,10 +142,12 @@ const recipePhysicalTrait = ref([])
 
 async function fetchRecipeBeautyIssuesById() {
   try {
-    const apiUrlBeautyIssue = `https://biocare-api-production.up.railway.app/api/recipe-beauty-issue?recipe_id=${recipeId}`
+    const queryStringBeautyIssue = `/api/recipe-beauty-issue?recipe_id=${recipeId}`
+    const apiUrlBeautyIssue = apiUrl + queryStringBeautyIssue
     const responseBeautyIssue = await fetch(apiUrlBeautyIssue)
     const fetchedDataBeautyIssue = await responseBeautyIssue.json()
-    const apiUrlPhysicalTrait = `https://biocare-api-production.up.railway.app/api/recipe-physical-trait?recipe_id=${recipeId}`
+    const queryStringPhysicalTrait = `/api/recipe-physical-trait?recipe_id=${recipeId}`
+    const apiUrlPhysicalTrait = apiUrl + queryStringPhysicalTrait
     const responsePhysicalTrait = await fetch(apiUrlPhysicalTrait)
     const fetchedDataPhysicalTrait = await responsePhysicalTrait.json()
     recipeBeautyIssues.value = displayBeautyIssues(fetchedDataBeautyIssue)

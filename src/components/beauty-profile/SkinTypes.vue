@@ -6,11 +6,13 @@ import {
   RadioGroupLabel,
   RadioGroupOption
 } from '@headlessui/vue'
-import { addIcon } from '../../utils'
+import { addIcon, apiUrl } from '@/utils.js'
 
-async function fetchData() {
+async function fetchPhysicalTraits() {
   try {
-    const response = await fetch('https://biocare-api-production.up.railway.app/api/physical-trait')
+    const queryString = `/api/physical-trait`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const data = await response.json()
     const types = data.filter(
       (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
@@ -21,7 +23,7 @@ async function fetchData() {
     console.error(error)
   }
 }
-fetchData()
+fetchPhysicalTraits()
 
 const skinTypes = ref([])
 const selectedSkinType = ref(skinTypes[0])

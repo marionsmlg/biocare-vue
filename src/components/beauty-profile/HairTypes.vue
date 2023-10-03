@@ -7,11 +7,13 @@ import {
   RadioGroupOption
 } from '@headlessui/vue'
 
-import { addIcon } from '../../utils'
+import { addIcon, apiUrl } from '@/utils.js'
 
 async function fetchData() {
   try {
-    const response = await fetch('https://biocare-api-production.up.railway.app/api/physical-trait')
+    const queryString = `/api/physical-trait`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const data = await response.json()
     const hairData = data.filter(
       (id) => id.recipe_category_id === '157bb376-f516-4cfe-9ce8-baa56f5dba89'

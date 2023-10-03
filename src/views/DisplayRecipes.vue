@@ -1,8 +1,9 @@
 <script setup>
-import Category from './Category.vue'
+import Category from '@/components/Category.vue'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
+import { apiUrl } from '@/utils.js'
 
 const route = useRoute()
 const recipeCategoryName = route.params.category
@@ -66,8 +67,9 @@ async function fetchSkinRecipeBySkinTypeId() {
     limit: limit
   })
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?${queryParamsSkinType}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe?${queryParamsSkinType}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const recipes = await response.json()
     skinRecipes.value = recipes
     console.log(recipes)
@@ -83,8 +85,9 @@ async function fetchHairRecipeByHairTypeId() {
     limit: limit
   })
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?${queryParamsHairType}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe?${queryParamsHairType}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const recipes = await response.json()
     hairRecipes.value = recipes
     console.log(recipes)

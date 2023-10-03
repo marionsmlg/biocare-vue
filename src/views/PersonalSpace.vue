@@ -6,7 +6,7 @@ import HairIcon from '@/components/icons/RecipeCategories/IconHair.vue'
 import SkinCareIcon from '@/components/icons/RecipeCategories/SkinCare.vue'
 import DamagedHairIcon from '@/components/icons/RecipeCategories/DamagedHair.vue'
 import recipeIcon from '@/components/icons/Recipe/IconRecipe.vue'
-import { addIcon, capitalizeFirstLetter } from '@/utils.js'
+import { addIcon, capitalizeFirstLetter, apiUrl } from '@/utils.js'
 import Banner from '@/components/Banner.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 
@@ -38,7 +38,9 @@ const hairTypeName = ref('')
 
 async function findSkinHairTypeById() {
   try {
-    const response = await fetch('https://biocare-api-production.up.railway.app/api/physical-trait')
+    const queryString = `/api/physical-trait`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const data = await response.json()
     const skinTypeData = data.find((skinType) => skinType.id === skinTypeId.value)
     const hairTypeData = data.find((hairType) => hairType.id === hairTypeId.value)
@@ -66,13 +68,12 @@ const skinCategoryName = ref()
 
 async function fetchSkinRecipeBySkinTypeId() {
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?${queryParamsSkinType}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe?${queryParamsSkinType}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const recipes = await response.json()
     highlightSkinRecipes.value = recipes
     skinCategoryName.value = recipes[0].recipe_category_name.toLowerCase()
-    console.log(skinCategoryName.value)
-    console.log(recipes)
   } catch (error) {
     console.error(error)
   }
@@ -88,13 +89,12 @@ const hairCategoryName = ref()
 
 async function fetchHairRecipeByHairTypeId() {
   try {
-    const apiUrl = `https://biocare-api-production.up.railway.app/api/recipe?${queryParamsHairType}`
-    const response = await fetch(apiUrl)
+    const queryString = `/api/recipe?${queryParamsHairType}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
     const recipes = await response.json()
     highlightHairRecipes.value = recipes
     hairCategoryName.value = recipes[0].recipe_category_name.toLowerCase()
-    console.log(hairCategoryName.value)
-    console.log(recipes)
   } catch (error) {
     console.error(error)
   }
@@ -155,7 +155,7 @@ const pages = [
                 ? hairType.icon
                 : element.icon
             "
-            class="w-14 h-14"
+            class="w-12 h-12"
           />
           <p class="text-center text-xs md:text-sm font-bold">
             {{
