@@ -198,23 +198,23 @@ fetchRecipeIngredientsById()
         <div class="flex items-baseline justify-center">
           <div class="flex flex-col items-center px-8">
             <IconTexture class="w-8 h-8" />
-            <p class="text-sm mt-2">{{ recipe.product_texture_type_name }}</p>
+            <p class="text-xs md:text-sm mt-2">{{ recipe.product_texture_type_name }}</p>
           </div>
           <div class="flex flex-col items-center px-8">
             <IconClock class="w-8 h-8" />
-            <p class="text-sm mt-2">{{ recipe.preparation_time }}</p>
+            <p class="text-xs md:text-sm mt-2">{{ recipe.preparation_time }}</p>
           </div>
           <div class="flex flex-col items-center px-8">
             <component
               :is="recipe.recipe_category_name === 'Cheveux' ? HairIcon : SkinIcon"
               class="w-8"
             ></component>
-            <p class="text-sm flex flex-row mt-2">{{ recipePhysicalTrait }}</p>
+            <p class="text-xs md:text-smflex flex-row mt-2">{{ recipePhysicalTrait }}</p>
           </div>
 
           <div class="flex flex-col items-center px-8">
             <IconConservation class="w-10 h-10" />
-            <p class="text-sm mt-2">{{ recipe.storage_time }}</p>
+            <p class="text-xs md:text-sm mt-2">{{ recipe.storage_time }}</p>
           </div>
         </div>
       </div>
