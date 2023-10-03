@@ -16,13 +16,29 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-    { path: '/login', name: 'login', component: LoginView },
-    { path: '/sign-up', name: 'sign-up', component: SignUp },
-    { path: '/quiz', name: 'quiz', component: QuizView },
-    { path: '/recipe/:category/:id', name: 'recipe', component: Recipe },
-    { path: '/recipe/:category', name: 'category', component: DisplayRecipes },
-    { path: '/recipe-by-problem', name: 'recipe-by-problem', component: DisplayRecipesByProblem },
-    { path: '/personal-space', name: 'personal-space', component: PersonalSpace }
+    { path: '/login', name: 'login', component: () => import('../views/LoginView.vue') },
+    { path: '/sign-up', name: 'sign-up', component: () => import('../views/SignUp.vue') },
+    { path: '/quiz', name: 'quiz', component: () => import('../views/QuizView2.vue') },
+    {
+      path: '/recipe/:category/:id',
+      name: 'recipe',
+      component: () => import('../views/Recipe.vue')
+    },
+    {
+      path: '/recipe/:category',
+      name: 'category',
+      component: () => import('../views/DisplayRecipes.vue')
+    },
+    {
+      path: '/recipe-by-problem',
+      name: 'recipe-by-problem',
+      component: () => import('../views/DisplayRecipesByProblem.vue')
+    },
+    {
+      path: '/personal-space',
+      name: 'personal-space',
+      component: () => import('../views/PersonalSpace.vue')
+    }
   ]
 })
 
