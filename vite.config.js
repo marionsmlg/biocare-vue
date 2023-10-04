@@ -10,8 +10,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  },
-  server: {
-    port: process.env.PORT || 3000 // Utilisez le port défini par Railway ou le port 3000 par défaut
   }
+  // server: {
+  //   port: process.env.PORT || 3000
+  // }
 })
