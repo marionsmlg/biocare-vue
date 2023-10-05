@@ -1,6 +1,32 @@
 <script setup>
 import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { ref, computed } from 'vue'
+import { firebaseApp } from '@/firebaseconfig.js'
+
+const auth = getAuth(firebaseApp)
+
+const userEmail = ref()
+const userPassword = ref()
+const areIdentifiersValid = ref(true)
+
+const router = useRouter()
+
+const loginUser = computed(() => {
+  signInWithEmailAndPassword(auth, userEmail.value, userPassword.value)
+    .then((userCredential) => {
+      const user = userCredential.user
+      console.log('login!!')
+      router.push('/personal-space')
+    })
+    .catch((error) => {
+      const errorCode = error.code
+      const errorMessage = error.message
+      areIdentifiersValid.value = false
+      console.log(errorCode)
+    })
+})
 </script>
 
 <template>
@@ -16,17 +42,18 @@ import { RouterLink } from 'vue-router'
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
     <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-      <form class="space-y-6" action="#" method="POST">
+      <form @submit.prevent="loginUser" class="space-y-6">
         <div>
           <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
           <div class="mt-2">
             <input
+              v-model="userEmail"
               id="email"
               name="email"
               type="email"
               autocomplete="email"
               required=""
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -37,12 +64,13 @@ import { RouterLink } from 'vue-router'
           >
           <div class="mt-2">
             <input
+              v-model="userPassword"
               id="password"
               name="password"
               type="password"
               autocomplete="current-password"
               required=""
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -66,7 +94,9 @@ import { RouterLink } from 'vue-router'
             >
           </div>
         </div>
-
+        <p v-if="!areIdentifiersValid" class="text-red-500 text-sm">
+          Les idendifiants sont incorrects
+        </p>
         <div>
           <button
             type="submit"

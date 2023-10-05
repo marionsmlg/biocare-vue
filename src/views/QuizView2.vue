@@ -82,11 +82,11 @@ function findRecipes() {
   router.push('/personal-space')
 }
 
-const pages = [{ name: 'Questionnaire', href: '/quiz', current: true }]
+// const pages = [{ name: 'Questionnaire', href: '/quiz', current: true }]
 </script>
 
 <template>
-  <Breadcrumbs :pages="pages" />
+  <Breadcrumbs />
   <div class="pb-12">
     <div v-for="(question, index) in quizData" :key="index" class="xl:px-72 px-6 py-10">
       <div class="flex flex-col items-center">

@@ -1,6 +1,49 @@
 <script setup>
 import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { getAuth, connectAuthEmulator, createUserWithEmailAndPassword } from 'firebase/auth'
+import { ref, computed } from 'vue'
+import { firebaseApp } from '@/firebaseconfig.js'
+
+const auth = getAuth(firebaseApp)
+
+const userEmail = ref()
+const userPassword = ref()
+const userConfirmPassword = ref()
+const arePasswordscorrespond = ref(true)
+const userAlreadyExist = ref(false)
+const isPasswordWeak = ref(false)
+
+const router = useRouter()
+
+const createUser = computed(() => {
+  if (userPassword.value === userConfirmPassword.value) {
+    arePasswordscorrespond.value = true
+    createUserWithEmailAndPassword(auth, userEmail.value, userPassword.value)
+      .then((userCredential) => {
+        const user = userCredential.user
+        console.log(user)
+        router.push('/quiz')
+      })
+      .catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log(errorCode)
+        if (errorCode === 'auth/weak-password') {
+          isPasswordWeak.value = true
+        } else if (errorCode === 'auth/email-already-in-use') {
+          userAlreadyExist.value = true
+        } else {
+          userAlreadyExist.value = false
+          isPasswordWeak.value = false
+        }
+      })
+  } else {
+    arePasswordscorrespond.value = false
+    console.log(arePasswordscorrespond.value)
+  }
+})
+console.log(createUser)
 </script>
 
 <template>
@@ -15,19 +58,20 @@ import { RouterLink } from 'vue-router'
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
       <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-        <form class="space-y-6" action="#" method="POST">
+        <form class="space-y-6" @submit.prevent="createUser">
           <div>
             <label for="email" class="block text-sm font-medium leading-6 text-gray-900"
               >Email</label
             >
             <div class="mt-2">
               <input
+                v-model="userEmail"
                 id="email"
                 name="email"
                 type="email"
                 autocomplete="email"
                 required=""
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+                class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -38,35 +82,43 @@ import { RouterLink } from 'vue-router'
             >
             <div class="mt-2">
               <input
+                v-model="userPassword"
                 id="password"
                 name="password"
                 type="password"
                 autocomplete="current-password"
                 required=""
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+                class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
               />
             </div>
           </div>
 
           <div>
-            <label for="password" class="block text-sm font-medium leading-6 text-gray-900"
+            <label for="confirmPassword" class="block text-sm font-medium leading-6 text-gray-900"
               >Confirmer le mot de passe</label
             >
             <div class="mt-2">
               <input
-                id="password"
-                name="password"
+                v-model="userConfirmPassword"
+                id="confirmPassword"
+                name="confirmPassword"
                 type="password"
-                autocomplete="current-password"
+                autocomplete="confirm-password"
                 required=""
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+                class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
               />
             </div>
+            <p v-if="!arePasswordscorrespond" class="text-red-500 text-sm">
+              Les mots de passe ne correspondent pas
+            </p>
+            <p v-if="userAlreadyExist" class="text-red-500 text-sm">L'utilisateur existe deja</p>
+            <p v-if="isPasswordWeak" class="text-red-500 text-sm">
+              Le mot de passe dois contenir 6 caracteres minimum
+            </p>
           </div>
 
           <div>
             <button
-              type="submit"
               class="flex w-full justify-center rounded-md bg-[#F3B8B4] px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm hover:bg-[#F19B95]"
             >
               Je m'inscris

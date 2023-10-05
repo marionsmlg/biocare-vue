@@ -30,4 +30,4 @@ coverage
 
 bdd.sql
 .env
-
+firebaseconfig.js
