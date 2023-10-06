@@ -9,6 +9,20 @@ import recipeIcon from '@/components/icons/Recipe/IconRecipe.vue'
 import { addIcon, capitalizeFirstLetter, apiUrl } from '@/utils.js'
 import Banner from '@/components/Banner.vue'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
+import { firebaseApp } from '@/firebaseconfig.js'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
+const auth = getAuth(firebaseApp)
+
+const isUserLoggedIn = ref(false)
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    isUserLoggedIn.value = true
+  } else {
+    isUserLoggedIn.value = false
+  }
+})
 
 const hairTypeId = ref(localStorage.getItem('hairType') || '')
 const skinTypeId = ref(localStorage.getItem('skinType') || '')
@@ -172,7 +186,7 @@ const pages = [
           </p>
         </li>
       </ul>
-      <Banner />
+      <Banner v-if="!isUserLoggedIn" />
     </div>
 
     <div class="py-10 sm:py-26 xl:mx-auto xl:max-w-7xl xl:px-8">

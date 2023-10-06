@@ -38,6 +38,10 @@ const router = createRouter({
       path: '/personal-space',
       name: 'personal-space',
       component: () => import('../views/PersonalSpace.vue')
+    },
+    {
+      path: '/logout',
+      redirect: '/'
     }
   ]
 })

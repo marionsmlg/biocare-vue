@@ -3,9 +3,9 @@ import { ref } from 'vue'
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 let showBanner = ref(true)
 
-function hideBanner() {
-  showBanner.value = false
-}
+// function hideBanner() {
+//   showBanner.value = false
+// }
 </script>
 
 <template>
@@ -81,11 +81,11 @@ function hideBanner() {
         >S'inscrire <span aria-hidden="true">&rarr;</span></a
       >
     </div>
-    <div class="flex flex-1 justify-end">
+    <!-- <div class="flex flex-1 justify-end">
       <button type="button" @click="hideBanner">
         <span class="sr-only">Dismiss</span>
         <XMarkIcon class="h-5 w-5 text-gray-900" aria-hidden="true" />
       </button>
-    </div>
+    </div> -->
   </div>
 </template>

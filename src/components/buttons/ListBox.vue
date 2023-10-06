@@ -43,7 +43,7 @@ const updateSelectedOption = () => {
           ]"
         >
           <span class="block truncate" v-if="selectedOption">{{ selectedOption.name }}</span>
-          <span v-else :class="[isDisabled ? 'text-gray-400' : 'text-gray-600']">{{
+          <span v-else :class="[isDisabled ? 'text-gray-400' : 'text-gray-500']">{{
             props.placeholder
           }}</span>
           <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">

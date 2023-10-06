@@ -31,7 +31,7 @@ function signOutUser() {
   signOut(auth)
     .then(() => {
       console.log('je suis deconnecte !')
-      router.push('/')
+      router.push('/logout')
     })
     .catch((error) => {
       console.log(error)
