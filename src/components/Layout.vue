@@ -6,9 +6,37 @@ import {
   ArrowLeftOnRectangleIcon,
   PencilSquareIcon
 } from '@heroicons/vue/24/outline'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import LogoBiocare from '@/components/BiocareLogo.vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
+import { firebaseApp } from '@/firebaseconfig.js'
+import { ref, computed } from 'vue'
+
+const auth = getAuth(firebaseApp)
+
+const isUserLoggedIn = ref(false)
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    isUserLoggedIn.value = true
+  } else {
+    isUserLoggedIn.value = false
+  }
+})
+
+const router = useRouter()
+
+function signOutUser() {
+  signOut(auth)
+    .then(() => {
+      console.log('je suis deconnecte !')
+      router.push('/')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
 </script>
 
 <template>
@@ -18,12 +46,14 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
         <RouterLink to="/"><LogoBiocare /></RouterLink>
       </div>
 
-      <div class="hidden lg:flex md:text-left text-gray-700">
+      <!-- <div class="hidden lg:flex md:text-left text-gray-700">
         <RouterLink to="/login" class="px-10">Se connecter</RouterLink>
         <RouterLink to="/sign-up" class="font-bold">S'inscrire</RouterLink>
-      </div>
+      </div> -->
 
-      <!-- <div class="w-56 text-right lg:hidden">
+      <!-- //////////////////////////// -->
+
+      <div v-if="isUserLoggedIn" class="w-56 text-right">
         <Menu as="div" class="relative inline-block text-left">
           <div>
             <MenuButton
@@ -58,7 +88,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
                       class="mr-2 h-5 w-5 text-[#0C8294]"
                       aria-hidden="true"
                     />
-                    Espace personnel
+                    Mes recettes
                   </RouterLink>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
@@ -80,8 +110,8 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
               </div>
               <div class="px-1 py-1">
                 <MenuItem v-slot="{ active }">
-                  <RouterLink
-                    to="/personal-space"
+                  <button
+                    @click="signOutUser"
                     :class="[
                       active ? 'bg-[#C7E8F1]' : 'text-gray-900',
                       'group flex w-full items-center rounded-md px-2 py-2 text-sm'
@@ -93,17 +123,17 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
                       aria-hidden="true"
                     />
                     Se déconnecter
-                  </RouterLink>
+                  </button>
                 </MenuItem>
               </div>
             </MenuItems>
           </transition>
         </Menu>
-      </div> -->
+      </div>
 
       <!-- /////////////////////////////// -->
 
-      <div class="w-56 text-right lg:hidden">
+      <div v-else class="w-56 text-right">
         <Menu as="div" class="relative inline-block text-left">
           <div>
             <MenuButton

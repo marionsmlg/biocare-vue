@@ -177,9 +177,7 @@ const pages = [
 
     <div class="py-10 sm:py-26 xl:mx-auto xl:max-w-7xl xl:px-8">
       <div class="mb-4 px-4 sm:px-6 lg:px-8 xl:px-0 flex items-center">
-        <h1 class="text-xl font-semibold lg:text-2xl text-gray-700 pb-3">
-          Voici vos recettes beauté
-        </h1>
+        <h1 class="text-xl font-semibold lg:text-2xl text-gray-700 pb-3">Vos recettes beauté</h1>
         <recipeIcon class="ml-2 w-14" />
       </div>
 
