@@ -177,9 +177,9 @@ function findRecipes() {
   </section>
   <div class="py-8 bg-gradient-to-b from-[#FBDFDB] to-[#C7E8F1] md:hidden"></div>
 
-  <section class="md:my-8 md:mx-20">
+  <section class="md:my-8 md:mx-20 flex flex-col lg:flex-row">
     <div
-      class="text-center bg-[#C7E8F1] md:mb-6 py-12 px-10 md:rounded-xl flex flex-col md:flex-row items-center"
+      class="text-center bg-[#C7E8F1] lg:mr-6 py-12 px-10 md:rounded-xl flex flex-col md:flex-row items-center lg:w-1/2"
     >
       <div class="flex w-2/5 justify-center"><IconMolecule /></div>
       <div class="md:w-4/5">
@@ -193,7 +193,7 @@ function findRecipes() {
     </div>
     <div class="py-8 bg-gradient-to-b from-[#C7E8F1] to-white md:hidden"></div>
     <div
-      class="text-center py-12 px-10 md:rounded-xl md:border flex flex-col md:flex-row items-center"
+      class="text-center py-12 px-10 md:rounded-xl md:border flex flex-col md:flex-row items-center lg:w-1/2"
     >
       <div class="flex w-2/5 justify-center"><IconPeople /></div>
       <div class="md:w-4/5">

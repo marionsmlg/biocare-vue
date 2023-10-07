@@ -7,7 +7,7 @@ import {
   PencilSquareIcon
 } from '@heroicons/vue/24/outline'
 import { RouterLink, useRouter } from 'vue-router'
-import LogoBiocare from '@/components/BiocareLogo.vue'
+import PurecareLogo from '@/components/PurecareLogo.vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 import { firebaseApp } from '@/firebaseconfig.js'
@@ -42,8 +42,8 @@ function signOutUser() {
 <template>
   <nav>
     <div class="flex justify-between items-center px-7 py-4 shadow-md">
-      <div class="w-20 md:w-28">
-        <RouterLink to="/"><LogoBiocare /></RouterLink>
+      <div class="w-26 md:w-56">
+        <RouterLink to="/"><PurecareLogo /></RouterLink>
       </div>
 
       <!-- <div class="hidden lg:flex md:text-left text-gray-700">

@@ -16,13 +16,13 @@ const isPasswordWeak = ref(false)
 
 const router = useRouter()
 
-const createUser = computed(() => {
+function createUser() {
   if (userPassword.value === userConfirmPassword.value) {
     arePasswordscorrespond.value = true
     createUserWithEmailAndPassword(auth, userEmail.value, userPassword.value)
       .then((userCredential) => {
         const user = userCredential.user
-        console.log(user)
+
         router.push('/quiz')
       })
       .catch((error) => {
@@ -40,10 +40,8 @@ const createUser = computed(() => {
       })
   } else {
     arePasswordscorrespond.value = false
-    console.log(arePasswordscorrespond.value)
   }
-})
-console.log(createUser)
+}
 </script>
 
 <template>

@@ -223,7 +223,7 @@ fetchRecipeIngredientsById()
         </div>
       </div>
 
-      <div class="flex justify-end px-4 py-4 lg:w-4/5 text-gray-600">
+      <div class="flex justify-end px-4 py-4 text-gray-600">
         <p class="truncate text-sm mr-2">
           Pour {{ recipe.product_quantity }} {{ recipe.product_quantity_unit }}
         </p>
@@ -251,7 +251,7 @@ fetchRecipeIngredientsById()
                   {{ ingredient.name }}
                 </p>
                 <div class="flex items-start">
-                  <div class="inline-flex rounded-md shadow-sm">
+                  <div class="inline-flex">
                     <Menu as="div" class="relative -ml-px block">
                       <MenuButton
                         class="relative inline-flex items-center mx-2 bg-white text-gray-500 hover:text-gray-700 focus:z-10"
@@ -290,7 +290,7 @@ fetchRecipeIngredientsById()
                   <button
                     class="relative inline-flex items-center rounded-full bg-white text-gray-500 hover:text-gray-700 focus:z-10"
                   >
-                    <a v-if="ingredient.product_url" :href="ingredient.product_url">
+                    <a v-if="ingredient.product_url" :href="ingredient.product_url" target="_blank">
                       <ShoppingBagIcon class="h-5 w-5" />
                     </a>
                   </button>
