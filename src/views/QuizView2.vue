@@ -7,6 +7,10 @@ import Breadcrumbs from '../components/Breadcrumbs.vue'
 import { ref, computed } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { apiUrl } from '@/utils.js'
+import { firebaseApp } from '@/firebaseconfig.js'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
+const auth = getAuth(firebaseApp)
 
 const skinProblems = ref([])
 const hairProblems = ref([])
@@ -74,11 +78,37 @@ function updateCheckboxes({ instance, values }) {
 
 const router = useRouter()
 
+async function insertUserData(userId) {
+  const queryParams = new URLSearchParams({
+    user_id: userId,
+    skin_type_id: selectedOption.value['skinType'],
+    hair_type_id: selectedOption.value['hairType'],
+    skin_issue_id: selectedSkinProblem.value.join(','),
+    hair_issue_id: selectedHairProblem.value.join(',')
+  })
+  try {
+    const queryString = `/api/user-physical-trait?${queryParams}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
+    const data = await response
+    console.log('data inserees!!')
+  } catch (error) {
+    console.error(error)
+  }
+}
 function findRecipes() {
-  localStorage.setItem('skinType', selectedOption.value['skinType'])
-  localStorage.setItem('hairType', selectedOption.value['hairType'])
-  localStorage.setItem('skinProblem', JSON.stringify(selectedSkinProblem.value))
-  localStorage.setItem('hairProblem', JSON.stringify(selectedHairProblem.value))
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      insertUserData(user.uid)
+    } else {
+      localStorage.setItem('skinType', selectedOption.value['skinType'])
+      localStorage.setItem('hairType', selectedOption.value['hairType'])
+      localStorage.setItem('skinProblem', JSON.stringify(selectedSkinProblem.value))
+      localStorage.setItem('hairProblem', JSON.stringify(selectedHairProblem.value))
+      console.log('pas connecte !!')
+    }
+  })
+
   router.push('/personal-space')
 }
 

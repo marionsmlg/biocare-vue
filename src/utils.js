@@ -60,3 +60,15 @@ export const apiUrl =
   process.env.NODE_ENV === 'production'
     ? 'https://biocare-api-production.up.railway.app'
     : 'http://localhost:5174'
+
+// export const apiUrl = 'http://localhost:5174'
+
+export function pushObjectValueInNewArr(arrOfobject) {
+  const newArr = []
+  for (const object of arrOfobject) {
+    const arrOfkey = Object.keys(object)
+    const key = arrOfkey[0]
+    newArr.push(object[key])
+  }
+  return newArr
+}

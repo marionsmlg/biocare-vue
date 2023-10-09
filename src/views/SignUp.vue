@@ -4,8 +4,11 @@ import { RouterLink, useRouter } from 'vue-router'
 import { getAuth, connectAuthEmulator, createUserWithEmailAndPassword } from 'firebase/auth'
 import { ref, computed } from 'vue'
 import { firebaseApp } from '@/firebaseconfig.js'
+import { apiUrl } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
+
+localStorage.clear()
 
 const userEmail = ref()
 const userPassword = ref()
@@ -14,7 +17,31 @@ const arePasswordscorrespond = ref(true)
 const userAlreadyExist = ref(false)
 const isPasswordWeak = ref(false)
 
+const hairTypeId = localStorage.getItem('hairType') || ''
+const skinTypeId = localStorage.getItem('skinType') || ''
+const strOfHairProblemId = localStorage.getItem('hairProblem') || ''
+const strOfSkinProblemId = localStorage.getItem('skinProblem') || ''
+
 const router = useRouter()
+
+async function insertUserData(userId) {
+  const queryParams = new URLSearchParams({
+    user_id: userId,
+    skin_type_id: skinTypeId,
+    hair_type_id: hairTypeId,
+    skin_issue_id: JSON.parse(strOfSkinProblemId).join(','),
+    hair_issue_id: JSON.parse(strOfHairProblemId).join(',')
+  })
+
+  try {
+    const queryString = `/api/user-physical-trait?${queryParams}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
+    const data = await response
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 function createUser() {
   if (userPassword.value === userConfirmPassword.value) {
@@ -22,13 +49,17 @@ function createUser() {
     createUserWithEmailAndPassword(auth, userEmail.value, userPassword.value)
       .then((userCredential) => {
         const user = userCredential.user
-
-        router.push('/quiz')
+        console.log(user.uid)
+        if (hairTypeId && skinTypeId) {
+          insertUserData(user.uid)
+          router.push('/personal-space')
+        } else {
+          router.push('/quiz')
+        }
       })
       .catch((error) => {
         const errorCode = error.code
         const errorMessage = error.message
-        console.log(errorCode)
         if (errorCode === 'auth/weak-password') {
           isPasswordWeak.value = true
         } else if (errorCode === 'auth/email-already-in-use') {
