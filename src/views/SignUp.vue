@@ -1,12 +1,61 @@
 <script setup>
 import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import { RouterLink, useRouter } from 'vue-router'
-import { getAuth, connectAuthEmulator, createUserWithEmailAndPassword } from 'firebase/auth'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  FacebookAuthProvider
+} from 'firebase/auth'
 import { ref, computed } from 'vue'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { apiUrl } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
+const router = useRouter()
+
+async function userHasBeautyProfile(userId) {
+  const queryString = `/api/user?user_id=${userId}`
+  const url = apiUrl + queryString
+  const response = await fetch(url)
+  const data = await response.json()
+  return data
+}
+
+async function loginWithFacebook() {
+  const provider = new FacebookAuthProvider()
+  try {
+    const result = await signInWithPopup(auth, provider)
+    const user = result.user
+    console.log(user.uid)
+    const hasBeautyProfile = await userHasBeautyProfile(user.uid)
+    if (hasBeautyProfile) {
+      router.push('/personal-space')
+    } else {
+      router.push('/quiz')
+    }
+  } catch (error) {
+    // Gérez les erreurs ici
+  }
+}
+
+async function loginWithGoogle() {
+  const provider = new GoogleAuthProvider()
+  try {
+    const result = await signInWithPopup(auth, provider)
+    const user = result.user
+    console.log(user.uid)
+    const hasBeautyProfile = await userHasBeautyProfile(user.uid)
+    if (hasBeautyProfile) {
+      router.push('/personal-space')
+    } else {
+      router.push('/quiz')
+    }
+  } catch (error) {
+    // Gérez les erreurs ici
+  }
+}
 
 const userEmail = ref()
 const userPassword = ref()
@@ -19,8 +68,6 @@ const hairTypeId = localStorage.getItem('hairType') || ''
 const skinTypeId = localStorage.getItem('skinType') || ''
 const strOfHairProblemId = localStorage.getItem('hairProblem') || ''
 const strOfSkinProblemId = localStorage.getItem('skinProblem') || ''
-
-const router = useRouter()
 
 async function insertUserData(userId) {
   const queryParams = new URLSearchParams({
@@ -164,9 +211,9 @@ function createUser() {
           </div>
 
           <div class="mt-6 grid grid-cols-2 gap-4">
-            <a
-              href="#"
-              class="flex w-full items-center justify-center gap-3 rounded-md border px-3 py-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
+            <button
+              @click="loginWithGoogle"
+              class="flex w-full hover:border-[#db4a39] hover:border-2 items-center justify-center gap-3 rounded-md border px-3 py-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1D9BF0]"
             >
               <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="24">
                 <path
@@ -188,11 +235,11 @@ function createUser() {
                 <path d="M1 1h22v22H1z" fill="none" />
               </svg>
               <span class="text-sm font-semibold leading-6">Google</span>
-            </a>
+            </button>
 
-            <a
-              href="#"
-              class="flex w-full items-center justify-center gap-3 rounded-md border px-3 py-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
+            <button
+              @click="loginWithFacebook"
+              class="flex w-full hover:border-[#0a80ec] hover:border-2 items-center justify-center gap-3 rounded-md border px-3 py-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -222,7 +269,7 @@ function createUser() {
                 />
               </svg>
               <span class="text-sm font-semibold leading-6">Facebook</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
