@@ -8,8 +8,6 @@ import { apiUrl } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
 
-localStorage.clear()
-
 const userEmail = ref()
 const userPassword = ref()
 const userConfirmPassword = ref()
