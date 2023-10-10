@@ -125,7 +125,7 @@ function findRecipes() {
           Vous cherchez une recette cosmétique adaptée à <span class="text-[#62D0E3]">vous</span> ?
         </h1>
         <h2 class="text-[#605E5E] md:text-xl lg:text-2xl lg:mb-12">
-          BioCare sélectionne des recettes de cosmétiques DIY qui vous ressemblent !
+          PureCare sélectionne des recettes de cosmétiques DIY qui vous ressemblent !
         </h2>
         <div class="hidden lg:flex justify-center">
           <RouterLink :to="mainButtonPath"
@@ -221,7 +221,7 @@ function findRecipes() {
 
   <div class="bg-[#FBDFDB] py-6 px-6 text-center">
     <h1 class="text-xl font-semibold md:text-2xl lg:text-3xl">
-      BioCare vous recommande des recettes de cosmétiques qui vous ressemble !
+      PureCare vous recommande des recettes de cosmétiques qui vous ressemble !
     </h1>
   </div>
 
