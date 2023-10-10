@@ -10,8 +10,21 @@ import ListBox from '../components/buttons/ListBox.vue'
 import { RouterLink, useRouter } from 'vue-router'
 import IconPeople from '../components/icons/IconPeople.vue'
 import IconMolecule from '../components/icons/IconMolecule.vue'
-
+import { firebaseApp } from '@/firebaseconfig.js'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { ref, computed } from 'vue'
+
+const auth = getAuth(firebaseApp)
+
+const mainButtonPath = ref('')
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    mainButtonPath.value = '/personal-space'
+  } else {
+    mainButtonPath.value = '/quiz'
+  }
+})
 
 const argumentsList = [
   {
@@ -112,12 +125,12 @@ function findRecipes() {
           Vous cherchez une recette cosmétique adaptée à <span class="text-[#62D0E3]">vous</span> ?
         </h1>
         <h2 class="text-[#605E5E] md:text-xl lg:text-2xl lg:mb-12">
-          BioCare sélectionne des recettes de cosmétiques DIY qui vous ressemble !
+          BioCare sélectionne des recettes de cosmétiques DIY qui vous ressemblent !
         </h2>
         <div class="hidden lg:flex justify-center">
-          <RouterLink to="/quiz"
+          <RouterLink :to="mainButtonPath"
             ><ButtonPrimary
-              >Je cherche les recettes qui me ressemble
+              >Je cherche les recettes qui me ressemblent
               <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
           ></RouterLink>
         </div>
@@ -125,9 +138,9 @@ function findRecipes() {
       <MainSvg class="mb-4" />
 
       <div class="lg:hidden flex justify-center">
-        <RouterLink to="/quiz"
+        <RouterLink :to="mainButtonPath"
           ><ButtonPrimary
-            >Je cherche les recettes qui me ressemble
+            >Je cherche les recettes qui me ressemblent
             <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
         ></RouterLink>
       </div>
@@ -254,9 +267,9 @@ function findRecipes() {
         recettes adaptées à vous !
       </h1>
       <div class="z-10">
-        <RouterLink to="/quiz"
+        <RouterLink :to="mainButtonPath"
           ><ButtonPrimary
-            >Je cherche les recettes qui me ressemble
+            >Je cherche les recettes qui me ressemblent
             <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
         ></RouterLink>
       </div>

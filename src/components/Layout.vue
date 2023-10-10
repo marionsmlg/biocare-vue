@@ -93,7 +93,7 @@ function signOutUser() {
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <RouterLink
-                    to="/personal-space"
+                    to="/user-settings"
                     :class="[
                       active ? 'bg-[#C7E8F1]' : 'text-gray-900',
                       'group flex w-full items-center rounded-md px-2 py-2 text-sm'

@@ -7,7 +7,7 @@
 
 <script setup>
 import { defineComponent, h } from 'vue'
-import LogoBiocare from '@/components/BiocareLogo.vue'
+import LogoPurecare from '@/components/PurecareLogo.vue'
 
 const navigation = {
   about: [
@@ -76,7 +76,7 @@ const navigation = {
     >
       <div class="xl:grid xl:grid-cols-3 xl:gap-8">
         <div class="space-y-8">
-          <LogoBiocare class="w-24" />
+          <LogoPurecare class="w-40" />
           <p class="text-sm leading-6 text-gray-600">Des soins sains pour une beauté durable.</p>
           <div class="flex space-x-6">
             <a

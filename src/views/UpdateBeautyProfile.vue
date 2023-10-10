@@ -6,10 +6,9 @@ import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import Breadcrumbs from '../components/Breadcrumbs.vue'
 import { ref, computed } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { apiUrl, uuidIsValid } from '@/utils.js'
+import { apiUrl } from '@/utils.js'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { z } from 'zod'
 
 const auth = getAuth(firebaseApp)
 
@@ -55,7 +54,6 @@ const quizData = [
     instance: 'hairProblems'
   }
 ]
-//////////////////////////////////
 
 const selectedOption = ref({})
 const selectedSkinProblem = ref([])
@@ -80,27 +78,6 @@ function updateCheckboxes({ instance, values }) {
 
 const router = useRouter()
 
-function quizDataAreUuids() {
-  const arePhysicalTraitsIdsValid =
-    uuidIsValid(selectedOption.value['skinType']) && uuidIsValid(selectedOption.value['hairType'])
-
-  for (const hairTypeId of selectedHairProblem.value) {
-    const isHairTypeIdValid = uuidIsValid(hairTypeId)
-
-    if (!isHairTypeIdValid) {
-      return false
-    }
-  }
-  for (const skinTypeId of selectedSkinProblem.value) {
-    const isSkinTypeIdValid = uuidIsValid(skinTypeId)
-
-    if (!isSkinTypeIdValid) {
-      return false
-    }
-  }
-  return arePhysicalTraitsIdsValid
-}
-
 async function quizDataExists() {
   const queryParams = new URLSearchParams({
     skin_type_id: selectedOption.value['skinType'],
@@ -120,7 +97,7 @@ async function quizDataExists() {
   }
 }
 
-async function insertUserData(userId) {
+async function updateUserData(userId) {
   const queryParams = new URLSearchParams({
     user_id: userId,
     skin_type_id: selectedOption.value['skinType'],
@@ -129,7 +106,7 @@ async function insertUserData(userId) {
     hair_issue_id: selectedHairProblem.value.join(',')
   })
   try {
-    const queryString = `/api/user-physical-trait?${queryParams}`
+    const queryString = `/api/user-update-beauty-profile?${queryParams}`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const data = await response
@@ -141,11 +118,11 @@ async function insertUserData(userId) {
 async function findRecipes() {
   const quizDataAreValid = await quizDataExists()
   onAuthStateChanged(auth, (user) => {
-    if (user && quizDataAreValid && quizDataAreUuids()) {
+    if (user && quizDataAreValid) {
       insertUserData(user.uid)
       router.push('/personal-space')
     } else {
-      if (quizDataAreValid && quizDataAreUuids()) {
+      if (quizDataAreValid) {
         localStorage.setItem('skinType', selectedOption.value['skinType'])
         localStorage.setItem('hairType', selectedOption.value['hairType'])
         localStorage.setItem('skinProblem', JSON.stringify(selectedSkinProblem.value))

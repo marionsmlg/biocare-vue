@@ -54,7 +54,6 @@ async function fetchUserHairIssueId(userId) {
     const fetchedHairIssueId = await response.json()
     arrOfHairProblemId.value = pushObjectValueInNewArr(fetchedHairIssueId)
     const hairProblemCount = countProblems(arrOfHairProblemId.value)
-    console.log(arrOfHairProblemId.value)
   } catch (error) {
     console.error(error)
   }
@@ -66,7 +65,6 @@ async function fetchUserSkinIssueId(userId) {
     const url = apiUrl + queryString
     const response = await fetch(url)
     const fetchedSkinIssueId = await response.json()
-    console.log({ fetchedSkinIssueId })
     arrOfSkinProblemId.value = pushObjectValueInNewArr(fetchedSkinIssueId)
   } catch (error) {
     console.error(error)
@@ -120,7 +118,6 @@ async function findSkinHairTypeById() {
     const data = await response.json()
     const skinTypeData = data.find((skinType) => skinType.id === skinTypeId.value)
     const hairTypeData = data.find((hairType) => hairType.id === hairTypeId.value)
-    console.log({ skinTypeId: skinTypeId.value, hairTypeId: hairTypeId.value })
     addIcon(skinTypeData)
     addIcon(hairTypeData)
     skinType.value = skinTypeData

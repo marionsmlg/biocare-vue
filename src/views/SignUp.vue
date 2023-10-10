@@ -14,6 +14,7 @@ import { apiUrl } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
 const router = useRouter()
+localStorage.clear()
 
 async function userHasBeautyProfile(userId) {
   const queryString = `/api/user?user_id=${userId}`

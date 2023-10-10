@@ -27,6 +27,7 @@ async function userHasBeautyProfile(userId) {
   const data = await response.json()
   return data
 }
+
 async function loginWithFacebook() {
   const provider = new FacebookAuthProvider()
   try {

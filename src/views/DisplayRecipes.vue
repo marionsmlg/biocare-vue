@@ -9,7 +9,6 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const route = useRoute()
 const recipeCategoryName = route.params.category
-
 const auth = getAuth(firebaseApp)
 
 const isUserLoggedIn = ref(false)

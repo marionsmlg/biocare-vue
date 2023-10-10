@@ -6,8 +6,8 @@ import IconSmoothHair from '@/components/icons/HairTypes/IconSmoothHair.vue'
 import IconFrizzyHair from '@/components/icons/HairTypes/IconFrizzyHair.vue'
 import IconWavyHair from '@/components/icons/HairTypes/IconWavyHair.vue'
 import IconCurlyHair from '@/components/icons/HairTypes/IconCurlyHair.vue'
-
 import { markRaw } from 'vue'
+import { z } from 'zod'
 
 export function addIcon(objectWithoutIcon) {
   const arrOfIcons = [
@@ -71,4 +71,26 @@ export function pushObjectValueInNewArr(arrOfobject) {
     newArr.push(object[key])
   }
   return newArr
+}
+
+export function dataUserAreValid(user) {
+  const UserSchema = z.object({
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(6)
+      .max(100)
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/),
+    confirmPassword: z
+      .string()
+      .min(6)
+      .max(100)
+      .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/)
+  })
+  return UserSchema.safeParse(user).success
+}
+
+export function uuidIsValid(uuid) {
+  const uuidSchema = z.string().uuid({ message: 'Invalid UUID' })
+  return uuidSchema.safeParse(uuid).success
 }

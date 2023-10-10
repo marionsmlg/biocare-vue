@@ -7,6 +7,7 @@ import Recipe from '../views/Recipe.vue'
 import DisplayRecipes from '../views/DisplayRecipes.vue'
 import DisplayRecipesByProblem from '../views/DisplayRecipesByProblem.vue'
 import PersonalSpace from '../views/PersonalSpace.vue'
+import UserSettings from '@/views/UserSettings.vue'
 
 const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
@@ -45,6 +46,11 @@ const router = createRouter({
     {
       path: '/logout',
       redirect: '/'
+    },
+    {
+      path: '/user-settings',
+      name: 'user-settings',
+      component: () => import('../views/UserSettings.vue')
     }
   ]
 })
