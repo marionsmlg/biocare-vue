@@ -86,7 +86,6 @@ async function fetchUserPhysicalTraitsById(userId) {
     const fetchedPhysicalTraits = await response.json()
     skinTypeId.value = fetchedPhysicalTraits[0].skin_type_id
     hairTypeId.value = fetchedPhysicalTraits[0].hair_type_id
-    console.log(fetchedPhysicalTraits)
   } catch (error) {
     console.error(error)
   }
@@ -122,7 +121,6 @@ const skinRecipes = ref([])
 const hairRecipes = ref([])
 
 async function fetchSkinRecipeBySkinTypeId() {
-  console.log(arrOfSkinProblemId.value)
   const skinPb = addnoProblemId(arrOfSkinProblemId.value, noSkinProblemId)
   const queryParamsSkinType = new URLSearchParams({
     physical_trait_id: `${skinTypeId.value},b9f90678-ea3f-4fde-952f-a26a88e13259`,
@@ -135,7 +133,6 @@ async function fetchSkinRecipeBySkinTypeId() {
     const response = await fetch(url)
     const recipes = await response.json()
     skinRecipes.value = recipes
-    console.log(recipes)
   } catch (error) {
     console.error(error)
   }
@@ -154,7 +151,6 @@ async function fetchHairRecipeByHairTypeId() {
     const response = await fetch(url)
     const recipes = await response.json()
     hairRecipes.value = recipes
-    console.log(recipes)
   } catch (error) {
     console.error(error)
   }

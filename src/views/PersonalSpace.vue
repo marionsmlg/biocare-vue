@@ -93,7 +93,6 @@ onAuthStateChanged(auth, (user) => {
     fetchSkinRecipeBySkinTypeId()
     fetchHairRecipeByHairTypeId()
   }
-  // console.log({ skinTypeId: skinTypeId.value, hairTypeId: hairTypeId.value })
 })
 
 const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'

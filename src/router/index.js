@@ -8,6 +8,9 @@ import DisplayRecipes from '../views/DisplayRecipes.vue'
 import DisplayRecipesByProblem from '../views/DisplayRecipesByProblem.vue'
 import PersonalSpace from '../views/PersonalSpace.vue'
 import UserSettings from '@/views/UserSettings.vue'
+import NotFound from '@/views/NotFound.vue'
+import { getAuth } from 'firebase/auth'
+import { firebaseApp } from '@/firebaseconfig.js'
 
 const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
@@ -50,14 +53,28 @@ const router = createRouter({
     {
       path: '/user-settings',
       name: 'user-settings',
-      component: () => import('../views/UserSettings.vue')
+      component: () => import('../views/UserSettings.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/beauty-profile-update',
       name: 'beauty-profile-update',
-      component: () => import('../views/UpdateBeautyProfile.vue')
-    }
+      component: () => import('../views/UpdateBeautyProfile.vue'),
+      meta: { requiresAuth: true }
+    },
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
   ]
+})
+
+const auth = getAuth(firebaseApp)
+router.beforeEach((to, from, next) => {
+  const authenticatedUser = auth.currentUser
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+  if (requiresAuth && !authenticatedUser) {
+    next('login')
+  } else {
+    next()
+  }
 })
 
 export default router

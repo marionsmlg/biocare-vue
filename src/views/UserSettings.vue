@@ -76,7 +76,7 @@ async function deleteCurrentUser() {
             <div class="mt-8 flex">
               <button
                 type="submit"
-                class="rounded-xl bg-[#0b8396] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#6ECDDF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                class="rounded-xl bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
                 Sauvegarder
               </button>
@@ -145,7 +145,7 @@ async function deleteCurrentUser() {
             <div class="mt-8 flex">
               <button
                 type="submit"
-                class="rounded-xl bg-[#0b8396] px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#6ECDDF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                class="rounded-xl bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
                 Sauvegarder
               </button>

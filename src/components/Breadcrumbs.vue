@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { ChevronRightIcon, HomeIcon, ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import { RouterLink, useRouter } from 'vue-router'
+
 const props = defineProps({
   pages: Array
 })

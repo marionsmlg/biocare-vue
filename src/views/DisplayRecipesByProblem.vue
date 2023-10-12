@@ -51,7 +51,6 @@ async function fetchRecipeProblemId() {
     const response = await fetch(url)
     const recipes = await response.json()
     recipesByProblem.value = recipes
-    console.log(recipes)
   } catch (error) {
     console.error(error)
   }
