@@ -12,6 +12,7 @@ import IconPeople from '../components/icons/IconPeople.vue'
 import IconMolecule from '../components/icons/IconMolecule.vue'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { apiUrl } from '@/utils.js'
 import { ref, computed } from 'vue'
 
 const auth = getAuth(firebaseApp)
@@ -53,9 +54,8 @@ const bodyParts = ref([])
 
 async function fetchRecipeCategories() {
   try {
-    const response = await fetch(
-      'https://biocare-api-production.up.railway.app/api/recipe-category'
-    )
+    const queryString = '/api/recipe-category'
+    const response = await fetch(apiUrl + queryString)
     const data = await response.json()
     bodyParts.value = data
   } catch (error) {
@@ -66,7 +66,8 @@ fetchRecipeCategories()
 
 async function fetchBeautyIssues() {
   try {
-    const response = await fetch('https://biocare-api-production.up.railway.app/api/beauty-issue')
+    const queryString = '/api/beauty-issue'
+    const response = await fetch(apiUrl + queryString)
     const data = await response.json()
     const skinData = data.filter(
       (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
@@ -221,7 +222,7 @@ function findRecipes() {
 
   <div class="bg-[#FBDFDB] py-6 px-6 text-center">
     <h1 class="text-xl font-semibold md:text-2xl lg:text-3xl">
-      PureCare vous recommande des recettes de cosmétiques qui vous ressemble !
+      PureCare vous recommande des recettes de cosmétiques qui vous ressemblent !
     </h1>
   </div>
 

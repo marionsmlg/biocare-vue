@@ -2,12 +2,13 @@
 import { ref } from 'vue'
 const props = defineProps({
   problems: Array,
-  instance: String
+  instance: String,
+  initialSelectedOptions: Object
 })
 
 const emits = defineEmits(['updateCheckboxes'])
 
-const selectedOption = ref([])
+const selectedOption = ref(props.initialSelectedOptions)
 
 const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
 const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
@@ -45,9 +46,10 @@ function updateBeautyIssues() {
           :value="problem.id"
           type="checkbox"
           class="h-4 w-4 rounded border-gray-300"
-          v-model="selectedOption"
           @change="updateBeautyIssues"
+          v-model="selectedOption"
         />
+        <!-- {{ selectedOption.includes(problem.id) }} -->
       </div>
     </div>
   </fieldset>

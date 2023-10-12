@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { XMarkIcon } from '@heroicons/vue/20/solid'
+import { RouterLink, useRouter } from 'vue-router'
 let showBanner = ref(true)
 
 // function hideBanner() {
@@ -75,10 +76,10 @@ let showBanner = ref(true)
         <span class="font-bold">Inscrivez-vous</span> et retrouvez toutes vos recettes dans votre
         espace personnel !
       </p>
-      <a
-        href="/sign-up"
+      <RouterLink
+        to="/sign-up"
         class="flex-none rounded-full bg-[#27304D] px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-        >S'inscrire <span aria-hidden="true">&rarr;</span></a
+        >S'inscrire <span aria-hidden="true">&rarr;</span></RouterLink
       >
     </div>
     <!-- <div class="flex flex-1 justify-end">

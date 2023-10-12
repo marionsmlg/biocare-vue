@@ -51,6 +51,11 @@ const router = createRouter({
       path: '/user-settings',
       name: 'user-settings',
       component: () => import('../views/UserSettings.vue')
+    },
+    {
+      path: '/beauty-profile-update',
+      name: 'beauty-profile-update',
+      component: () => import('../views/UpdateBeautyProfile.vue')
     }
   ]
 })

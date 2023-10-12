@@ -9,7 +9,7 @@ import {
 
 import { addIcon, apiUrl } from '@/utils.js'
 
-async function fetchData() {
+async function fetchHairTypes() {
   try {
     const queryString = `/api/physical-trait`
     const url = apiUrl + queryString
@@ -25,10 +25,10 @@ async function fetchData() {
     console.error(error)
   }
 }
-fetchData()
-
+fetchHairTypes()
 const hairTypes = ref([])
-const selectedHairType = ref(hairTypes[0])
+
+const selectedHairType = ref('')
 </script>
 
 <template>
@@ -44,9 +44,7 @@ const selectedHairType = ref(hairTypes[0])
       >
         <div
           :class="[
-            selectedHairType === hairType.id
-              ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]'
-              : 'border-gray-300',
+            checked ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]' : 'border-gray-300',
             'relative block cursor-pointer rounded-xl border bg-white px-6 py-4 shadow-sm focus:outline-none w-40 md:w-56'
           ]"
         >
@@ -62,7 +60,7 @@ const selectedHairType = ref(hairTypes[0])
 
           <span
             :class="[
-              selectedHairType === hairType.id ? 'border' : 'border-1',
+              active ? 'border' : 'border-1',
               checked ? 'border-[#8CD4E0]' : 'border-transparent',
               'pointer-events-none absolute -inset-px rounded-lg'
             ]"

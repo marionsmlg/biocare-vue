@@ -113,7 +113,6 @@ async function quizDataExists() {
     const url = apiUrl + queryString
     const response = await fetch(url)
     const data = await response.json()
-    console.log(data)
     return data
   } catch (error) {
     console.error('les donnees n existent pas')
@@ -179,6 +178,7 @@ async function findRecipes() {
           :is="question.component"
           :instance="question.instance"
           @updateCheckboxes="updateCheckboxes"
+          :initialSelectedOptions="[]"
         />
         <component
           v-else

@@ -26,7 +26,7 @@ async function fetchPhysicalTraits() {
 fetchPhysicalTraits()
 
 const skinTypes = ref([])
-const selectedSkinType = ref(skinTypes[0])
+const selectedSkinType = ref('')
 </script>
 
 <template>
@@ -38,12 +38,11 @@ const selectedSkinType = ref(skinTypes[0])
         v-for="skinType in skinTypes"
         :key="skinType.id"
         :value="skinType.id"
+        v-slot="{ active, checked }"
       >
         <div
           :class="[
-            selectedSkinType === skinType.id
-              ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]'
-              : 'border-gray-300',
+            checked ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]' : 'border-gray-300',
             'relative block cursor-pointer rounded-xl border bg-white px-4 py-2 shadow-sm focus:outline-none sm:flex sm:justify-between'
           ]"
         >
@@ -63,8 +62,8 @@ const selectedSkinType = ref(skinTypes[0])
 
           <span
             :class="[
-              selectedSkinType === skinType.id ? 'border' : 'border-1',
-              selectedSkinType === skinType.id ? 'border-[#8CD4E0]' : 'border-transparent',
+              active ? 'border' : 'border-transparent',
+              checked ? 'border-[#8CD4E0]' : 'border-transparent',
               'pointer-events-none absolute -inset-px rounded-lg'
             ]"
             aria-hidden="true"

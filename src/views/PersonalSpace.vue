@@ -40,7 +40,6 @@ async function fetchUserPhysicalTraitsById(userId) {
     const fetchedPhysicalTraits = await response.json()
     skinTypeId.value = fetchedPhysicalTraits[0].skin_type_id
     hairTypeId.value = fetchedPhysicalTraits[0].hair_type_id
-    console.log(fetchedPhysicalTraits)
   } catch (error) {
     console.error(error)
   }
@@ -237,7 +236,14 @@ const beautyProfile = [
           </p>
         </li>
       </ul>
+
       <Banner v-if="!isUserLoggedIn" />
+      <RouterLink
+        v-else
+        to="/beauty-profile-update"
+        class="flex-none rounded-full bg-[#27304D] px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+        >Modifier mon profil beauté <span aria-hidden="true">&rarr;</span></RouterLink
+      >
     </div>
 
     <div class="py-10 sm:py-26 xl:mx-auto xl:max-w-7xl xl:px-8">

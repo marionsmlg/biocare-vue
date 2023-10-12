@@ -1,5 +1,42 @@
 <script setup>
 import { ref } from 'vue'
+import { getAuth, onAuthStateChanged, updateEmail, deleteUser } from 'firebase/auth'
+import { firebaseApp } from '@/firebaseconfig.js'
+import { RouterLink, useRouter } from 'vue-router'
+
+const router = useRouter()
+const auth = getAuth(firebaseApp)
+const user = auth.currentUser
+const newUserEmail = ref('')
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    newUserEmail.value = user.email
+  } else {
+  }
+})
+
+async function updateUserEmail() {
+  updateEmail(auth.currentUser, newUserEmail.value)
+    .then(() => {
+      console.log("l'email a bien ete modifie !")
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
+
+async function deleteCurrentUser() {
+  console.log(user)
+  deleteUser(user)
+    .then(() => {
+      console.log('user supprime!!')
+      router.push('/')
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+}
 </script>
 
 <template>
@@ -17,7 +54,7 @@ import { ref } from 'vue'
             </p>
           </div>
 
-          <form class="md:col-span-2">
+          <form class="md:col-span-2" @submit.prevent="updateUserEmail">
             <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
               <div class="col-span-full">
                 <label for="email" class="block text-sm font-medium leading-6"
@@ -25,6 +62,7 @@ import { ref } from 'vue'
                 >
                 <div class="mt-2">
                   <input
+                    v-model="newUserEmail"
                     id="email"
                     name="email"
                     type="email"
