@@ -162,6 +162,15 @@ async function findRecipes() {
 
 <template>
   <Breadcrumbs />
+  <div class="bg-blue-800 p-4">
+    <span v-for="(matched, idx) in this.$route.matched" :key="idx">
+      <a :href="matched.path">
+        {{ matched.name }}
+      </a>
+      <span v-if="idx != Object.keys(this.$route.matched).length - 1"> / </span>
+    </span>
+  </div>
+
   <div class="pb-12">
     <div v-for="(question, index) in quizData" :key="index" class="xl:px-72 px-6 py-10">
       <div class="flex flex-col items-center">

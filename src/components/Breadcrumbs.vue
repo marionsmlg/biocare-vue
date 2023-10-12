@@ -1,23 +1,16 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { ChevronRightIcon, HomeIcon, ChevronLeftIcon } from '@heroicons/vue/20/solid'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 const props = defineProps({
   pages: Array
 })
 
-const getPathPrecedentPage = computed(() => {
-  if (props.pages) {
-    if (props.pages.length !== 1) {
-      const beforeLastPageIndex = props.pages.length - 2
-      return props.pages[beforeLastPageIndex].href
-    } else {
-      return '/'
-    }
-  } else {
-    return '/'
-  }
-})
+const router = useRouter()
+
+function goBack() {
+  router.go(-1)
+}
 </script>
 
 <template>
@@ -46,10 +39,10 @@ const getPathPrecedentPage = computed(() => {
       </ol>
     </nav>
     <div class="lg:hidden flex">
-      <RouterLink :to="getPathPrecedentPage" class="text-gray-400 hover:text-gray-500">
+      <button @click="goBack" class="text-gray-400 hover:text-gray-500">
         <ChevronLeftIcon class="h-6 w-6 flex-shrink-0" aria-hidden="true" />
         <span class="sr-only">Back</span>
-      </RouterLink>
+      </button>
     </div>
   </div>
 </template>
