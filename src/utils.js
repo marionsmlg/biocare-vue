@@ -58,8 +58,8 @@ export function capitalizeFirstLetter(str) {
 
 export const apiUrl =
   process.env.NODE_ENV === 'production'
-    ? 'https://biocare-api-production.up.railway.app'
-    : 'http://localhost:5174'
+    ? 'https://purecare-api-production.up.railway.app'
+    : 'http://localhost:3000'
 
 // export const apiUrl = 'http://localhost:5174'
 

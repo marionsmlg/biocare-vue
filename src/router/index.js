@@ -89,6 +89,8 @@ function beautyProfileCompleted() {
   return quizCompleted || authenticatedUser
 }
 
+/////personal-space si user exists
+
 function dataSelected() {
   return categoryAndProblemSelected() || beautyProfileCompleted()
 }

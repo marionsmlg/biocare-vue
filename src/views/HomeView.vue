@@ -119,7 +119,7 @@ function findRecipes() {
 </script>
 
 <template>
-  <div class="max-w-7xl xl:m-auto">
+  <div class="max-w-7xl xl:m-auto m-0 lg:m-2">
     <section class="my-4 mt-12">
       <div class="text-center flex flex-col">
         <div class="px-6 lg:absolute lg:w-1/2">
@@ -224,7 +224,7 @@ function findRecipes() {
       </div>
     </section>
 
-    <div class="bg-[#FBDFDB] py-6 px-6 text-center xl:rounded-lg">
+    <div class="bg-[#FBDFDB] py-6 px-6 text-center md:rounded-lg">
       <h1 class="text-xl font-semibold md:text-2xl lg:text-3xl">
         PureCare vous recommande des recettes de cosmétiques qui vous ressemblent !
       </h1>

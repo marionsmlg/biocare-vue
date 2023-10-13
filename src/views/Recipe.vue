@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import {
   BeakerIcon,
   ChevronUpIcon,
@@ -20,6 +20,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 const recipe = ref({})
 const pages = ref()
 
+const router = useRouter()
 const route = useRoute()
 const recipeId = route.params.id
 const catgeoryName = route.params.category
@@ -35,7 +36,7 @@ async function fetchRecipeById() {
     pages.value = [
       {
         name: `${capitalizeFirstLetter(catgeoryName)}`,
-        href: `/recipe/${catgeoryName}`,
+        href: '',
         current: false
       },
       {
