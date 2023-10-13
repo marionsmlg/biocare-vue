@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { getAuth, onAuthStateChanged, updateEmail, deleteUser } from 'firebase/auth'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { RouterLink, useRouter } from 'vue-router'
+import { apiUrl, uidFirebaseValid } from '@/utils.js'
 
 const router = useRouter()
 const auth = getAuth(firebaseApp)
@@ -26,16 +27,27 @@ async function updateUserEmail() {
     })
 }
 
+async function deleteUserBeautyProfile(userId) {
+  try {
+    const queryString = `/api/user-delete?user_id=${userId}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
+    const data = await response
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 async function deleteCurrentUser() {
-  console.log(user)
-  deleteUser(user)
-    .then(() => {
-      console.log('user supprime!!')
-      router.push('/')
-    })
-    .catch((error) => {
-      console.error(error)
-    })
+  const user = auth.currentUser
+  try {
+    await deleteUser(user)
+    await deleteUserBeautyProfile(user.uid)
+    console.log('bien supprime!!')
+    router.push('/')
+  } catch (error) {
+    console.error(error)
+  }
 }
 </script>
 
@@ -165,7 +177,7 @@ async function deleteCurrentUser() {
             </p>
           </div>
 
-          <form class="flex items-start md:col-span-2">
+          <form class="flex items-start md:col-span-2" @submit.prevent="deleteCurrentUser">
             <button
               type="submit"
               class="rounded-xl bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400"

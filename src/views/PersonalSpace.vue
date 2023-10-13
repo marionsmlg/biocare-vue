@@ -193,7 +193,7 @@ const beautyProfile = [
 <template>
   <div class="sm:pb-12 xl:mx-auto xl:max-w-7xl xl:px-8 px-4 py-12">
     <BackButton />
-    <div class="">
+    <div class="px-4 sm:px-6 lg:px-8">
       <ul
         class="flex justify-around border border-2 py-2 px-2 rounded-xl mt-6 mb-3 border-[#6ECDDF]"
       >

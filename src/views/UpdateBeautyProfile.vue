@@ -169,13 +169,11 @@ async function findRecipes() {
     }
   })
 }
-
-// const pages = [{ name: 'Questionnaire', href: '/quiz', current: true }]
 </script>
 
 <template>
-  <BackButton />
   <div class="py-12 max-w-6xl m-auto px-4">
+    <BackButton />
     <div class="py-10">
       <div class="flex flex-col items-center">
         <h1 class="text-xl font-bold text-center mb-8">Quel est votre type de peau ?</h1>

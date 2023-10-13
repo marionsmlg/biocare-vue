@@ -10,11 +10,10 @@ import {
 } from 'firebase/auth'
 import { ref, computed } from 'vue'
 import { firebaseApp } from '@/firebaseconfig.js'
-import { apiUrl } from '@/utils.js'
+import { apiUrl, uidFirebaseValid } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
 const router = useRouter()
-localStorage.clear()
 
 async function userHasBeautyProfile(userId) {
   const queryString = `/api/user?user_id=${userId}`
@@ -96,7 +95,7 @@ function createUser() {
       .then((userCredential) => {
         const user = userCredential.user
         console.log(user.uid)
-        if (hairTypeId && skinTypeId) {
+        if (hairTypeId && skinTypeId && uidFirebaseValid(user.id)) {
           insertUserData(user.uid)
           router.push('/personal-space')
         } else {

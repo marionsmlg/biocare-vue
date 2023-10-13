@@ -110,7 +110,6 @@ const selectedProblems = computed(() => {
 })
 
 const router = useRouter()
-localStorage.clear()
 
 function findRecipes() {
   localStorage.setItem('category', JSON.stringify(selectedBodyPart.value))

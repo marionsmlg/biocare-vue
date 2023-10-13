@@ -59,7 +59,7 @@ const router = createRouter({
       path: '/user-settings',
       name: 'user-settings',
       component: () => import('../views/UserSettings.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: false }
     },
     {
       path: '/beauty-profile-update',

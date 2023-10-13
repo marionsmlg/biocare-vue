@@ -6,10 +6,9 @@ import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import BackButton from '../components/buttons/BackButton.vue'
 import { ref, computed } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { apiUrl, uuidIsValid } from '@/utils.js'
+import { apiUrl, uuidIsValid, uidFirebaseValid } from '@/utils.js'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { z } from 'zod'
 
 const auth = getAuth(firebaseApp)
 
@@ -140,7 +139,7 @@ async function insertUserData(userId) {
 async function findRecipes() {
   const quizDataAreValid = await quizDataExists()
   onAuthStateChanged(auth, (user) => {
-    if (user && quizDataAreValid && quizDataAreUuids()) {
+    if (user && quizDataAreValid && quizDataAreUuids() && uidFirebaseValid(user.uid)) {
       insertUserData(user.uid)
       router.push('/personal-space')
     } else {
