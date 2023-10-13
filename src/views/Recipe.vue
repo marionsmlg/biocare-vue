@@ -152,7 +152,7 @@ fetchRecipeIngredientsById()
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col xl:px-8 px-4 py-12">
     <BackButton />
     <div class="px-4 pt-6 flex flex-col items-center">
       <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">

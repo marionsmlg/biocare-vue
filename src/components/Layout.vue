@@ -4,7 +4,8 @@ import {
   IdentificationIcon,
   ArrowRightOnRectangleIcon,
   ArrowLeftOnRectangleIcon,
-  PencilSquareIcon
+  PencilSquareIcon,
+  CogIcon
 } from '@heroicons/vue/24/outline'
 import { RouterLink, useRouter } from 'vue-router'
 import PurecareLogo from '@/components/PurecareLogo.vue'
@@ -94,7 +95,7 @@ function signOutUser() {
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <RouterLink
-                    to="/user-settings"
+                    to="/beauty-profile-update"
                     :class="[
                       active ? 'bg-[#C7E8F1]' : 'text-gray-900',
                       'group flex w-full items-center rounded-md px-2 py-2 text-sm'
@@ -105,7 +106,23 @@ function signOutUser() {
                       class="mr-2 h-5 w-5 text-[#0C8294]"
                       aria-hidden="true"
                     />
-                    Mes informations
+                    Mon profil
+                  </RouterLink>
+                </MenuItem>
+                <MenuItem v-slot="{ active }">
+                  <RouterLink
+                    to="/user-settings"
+                    :class="[
+                      active ? 'bg-[#C7E8F1]' : 'text-gray-900',
+                      'group flex w-full items-center rounded-md px-2 py-2 text-sm'
+                    ]"
+                  >
+                    <CogIcon
+                      :active="active"
+                      class="mr-2 h-5 w-5 text-[#0C8294]"
+                      aria-hidden="true"
+                    />
+                    Paramètres
                   </RouterLink>
                 </MenuItem>
               </div>
