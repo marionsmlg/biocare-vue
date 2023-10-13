@@ -119,7 +119,7 @@ function findRecipes() {
 </script>
 
 <template>
-  <div class="max-w-7xl xl:m-auto m-0 lg:m-2">
+  <div class="xl:max-w-7xl 2xl:m-auto md:m-6">
     <section class="my-4 mt-12">
       <div class="text-center flex flex-col">
         <div class="px-6 lg:absolute lg:w-1/2">
@@ -138,7 +138,7 @@ function findRecipes() {
             ></RouterLink>
           </div>
         </div>
-        <div class="mb-4 lg:rounded-lg overflow-hidden">
+        <div class="mb-4 md:rounded-lg overflow-hidden">
           <MainSvg />
         </div>
 
@@ -271,7 +271,7 @@ function findRecipes() {
           Pour plus de personnalisation, créez votre profil beauté et obtenez une sélection de
           recettes adaptées à vous !
         </h1>
-        <div class="z-10">
+        <div class="z-10 p-2">
           <RouterLink :to="mainButtonPath"
             ><ButtonPrimary
               >Découvrez vos recettes sur mesure

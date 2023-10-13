@@ -193,45 +193,41 @@ const beautyProfile = [
 <template>
   <div class="sm:pb-12 xl:mx-auto xl:max-w-7xl xl:px-8 px-4 py-12">
     <BackButton />
-    <div class="px-4 sm:px-6 lg:px-8">
-      <ul
-        class="flex justify-around border border-2 py-2 px-2 rounded-xl mt-6 mb-3 border-[#6ECDDF]"
-      >
-        <li v-for="element in beautyProfile" class="flex flex-col items-center p-2">
-          <component
-            :is="
-              element.text === 'Peau'
-                ? skinType.icon
-                : element.text === 'Cheveux'
-                ? hairType.icon
-                : element.icon
-            "
-            class="w-12 h-12"
-          />
-          <p class="text-center text-xs md:text-sm font-bold">
-            {{
-              element.text === 'Peau'
-                ? `Peau ${skinTypeName}`
-                : element.text === 'Cheveux'
-                ? `Cheveux ${hairTypeName}`
-                : element.text === 'Problèmes de peau'
-                ? `Problèmes de peau (${skinProblemCount})`
-                : element.text === 'Problèmes capillaires'
-                ? `Problèmes capillaires (${hairProblemCount})`
-                : element.text
-            }}
-          </p>
-        </li>
-      </ul>
+    <ul class="flex justify-around border border-2 py-2 px-2 rounded-xl mt-6 mb-3 border-[#6ECDDF]">
+      <li v-for="element in beautyProfile" class="flex flex-col items-center p-2">
+        <component
+          :is="
+            element.text === 'Peau'
+              ? skinType.icon
+              : element.text === 'Cheveux'
+              ? hairType.icon
+              : element.icon
+          "
+          class="w-12 h-12"
+        />
+        <p class="text-center text-xs md:text-sm font-bold">
+          {{
+            element.text === 'Peau'
+              ? `Peau ${skinTypeName}`
+              : element.text === 'Cheveux'
+              ? `Cheveux ${hairTypeName}`
+              : element.text === 'Problèmes de peau'
+              ? `Problèmes de peau (${skinProblemCount})`
+              : element.text === 'Problèmes capillaires'
+              ? `Problèmes capillaires (${hairProblemCount})`
+              : element.text
+          }}
+        </p>
+      </li>
+    </ul>
 
-      <Banner v-if="!isUserLoggedIn" />
-      <RouterLink
-        v-else
-        to="/beauty-profile-update"
-        class="flex-none rounded-full bg-[#27304D] px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-        >Modifier mon profil beauté <span aria-hidden="true">&rarr;</span></RouterLink
-      >
-    </div>
+    <Banner v-if="!isUserLoggedIn" />
+    <RouterLink
+      v-else
+      to="/beauty-profile-update"
+      class="flex-none rounded-full bg-[#27304D] px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+      >Modifier mon profil beauté <span aria-hidden="true">&rarr;</span></RouterLink
+    >
 
     <div class="py-10">
       <div class="mb-4 px-4 sm:px-6 lg:px-8 xl:px-0 flex items-center">

@@ -9,7 +9,7 @@ import {
 } from '@heroicons/vue/24/outline'
 import HairIcon from '@/components/icons/RecipeCategories/IconHair.vue'
 import SkinIcon from '@/components/icons/RecipeCategories/IconSkin.vue'
-import Breadcrumbs from '../components/Breadcrumbs.vue'
+import BackButton from '../components/buttons/BackButton.vue'
 import IconConservation from '../components/icons/Recipe/IconConservation.vue'
 import IconTexture from '../components/icons/Recipe/IconTexture.vue'
 import IconClock from '../components/icons/Recipe/IconClock.vue'
@@ -18,7 +18,6 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 const recipe = ref({})
-const pages = ref()
 
 const router = useRouter()
 const route = useRoute()
@@ -32,19 +31,6 @@ async function fetchRecipeById() {
     const response = await fetch(url)
     const fetchedRecipe = await response.json()
     recipe.value = fetchedRecipe[0]
-
-    pages.value = [
-      {
-        name: `${capitalizeFirstLetter(catgeoryName)}`,
-        href: '',
-        current: false
-      },
-      {
-        name: `${capitalizeFirstLetter(fetchedRecipe[0].title)}`,
-        href: `/recipe/${catgeoryName}/${fetchedRecipe[0].id}`,
-        current: true
-      }
-    ]
   } catch (error) {
     console.error(error)
   }
@@ -166,8 +152,8 @@ fetchRecipeIngredientsById()
 </script>
 
 <template>
-  <Breadcrumbs :pages="pages" />
   <div class="flex flex-col">
+    <BackButton />
     <div class="px-4 pt-6 flex flex-col items-center">
       <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">
         {{ recipe.title }}
