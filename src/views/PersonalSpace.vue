@@ -8,7 +8,7 @@ import DamagedHairIcon from '@/components/icons/RecipeCategories/DamagedHair.vue
 import recipeIcon from '@/components/icons/Recipe/IconRecipe.vue'
 import { addIcon, capitalizeFirstLetter, apiUrl, pushObjectValueInNewArr } from '@/utils.js'
 import Banner from '@/components/Banner.vue'
-import Breadcrumbs from '@/components/Breadcrumbs.vue'
+import BackButton from '@/components/buttons/BackButton.vue'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
@@ -18,8 +18,8 @@ const isUserLoggedIn = ref(false)
 
 const hairTypeId = ref()
 const skinTypeId = ref()
-const strOfHairProblemId = localStorage.getItem('hairProblem') || ''
-const strOfSkinProblemId = localStorage.getItem('skinProblem') || ''
+const strOfHairProblemId = localStorage.getItem('hairProblem')
+const strOfSkinProblemId = localStorage.getItem('skinProblem')
 const arrOfSkinProblemId = ref()
 const arrOfHairProblemId = ref()
 
@@ -85,8 +85,8 @@ onAuthStateChanged(auth, (user) => {
     fetchUserRecipes(user.uid)
   } else {
     isUserLoggedIn.value = false
-    hairTypeId.value = localStorage.getItem('hairType') || ''
-    skinTypeId.value = localStorage.getItem('skinType') || ''
+    hairTypeId.value = localStorage.getItem('hairType')
+    skinTypeId.value = localStorage.getItem('skinType')
     arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
     arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)
     findSkinHairTypeById()
@@ -188,27 +188,15 @@ const beautyProfile = [
     text: 'Problèmes capillaires'
   }
 ]
-
-// const pages = [
-//   {
-//     name: `Questionnaire`,
-//     href: `/quiz`,
-//     current: false
-//   },
-//   {
-//     name: `Recettes`,
-//     href: `/personal-space`,
-//     current: true
-//   }
-// ]
 </script>
 
 <template>
-  <Breadcrumbs />
-  <div class="bg-white">
-    <div class="px-4 py-4 xl:px-44">
-      <!-- <h1 class="text-xl font-semibold mb-4 lg:text-xl text-gray-700">Votre profil beauté</h1> -->
-      <ul class="flex justify-around border border-2 py-2 px-2 rounded-xl mb-3 border-[#6ECDDF]">
+  <div class="sm:pb-12 xl:mx-auto xl:max-w-7xl xl:px-8 px-4 py-12">
+    <BackButton />
+    <div class="">
+      <ul
+        class="flex justify-around border border-2 py-2 px-2 rounded-xl mt-6 mb-3 border-[#6ECDDF]"
+      >
         <li v-for="element in beautyProfile" class="flex flex-col items-center p-2">
           <component
             :is="
@@ -245,7 +233,7 @@ const beautyProfile = [
       >
     </div>
 
-    <div class="py-10 sm:py-26 xl:mx-auto xl:max-w-7xl xl:px-8">
+    <div class="py-10">
       <div class="mb-4 px-4 sm:px-6 lg:px-8 xl:px-0 flex items-center">
         <h1 class="text-xl font-semibold lg:text-2xl text-gray-700 pb-3">Vos recettes beauté</h1>
         <recipeIcon class="ml-2 w-14" />
@@ -326,76 +314,74 @@ const beautyProfile = [
 
     <!-- ////////////////////////////////// -->
 
-    <div class="pb-12 sm:pb-24 xl:mx-auto xl:max-w-7xl xl:px-8">
-      <div class="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0">
-        <h2 class="text-base font-bold tracking-tight text-gray-900 flex">
-          Soins visage<SkinCareIcon class="w-10 h-10 ml-3" />
-        </h2>
-        <RouterLink
-          :to="`/recipe/${skinCategoryName}`"
-          class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
-        >
-          Voir tout
-          <span aria-hidden="true"> &rarr;</span>
-        </RouterLink>
-      </div>
+    <div class="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0">
+      <h2 class="text-base font-bold tracking-tight text-gray-900 flex">
+        Soins visage<SkinCareIcon class="w-10 h-10 ml-3" />
+      </h2>
+      <RouterLink
+        :to="`/recipe/${skinCategoryName}`"
+        class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
+      >
+        Voir tout
+        <span aria-hidden="true"> &rarr;</span>
+      </RouterLink>
+    </div>
 
-      <div class="mt-4 flow-root">
-        <div class="-my-2">
+    <div class="mt-4 flow-root">
+      <div class="-my-2">
+        <div
+          class="relative box-content h-80 overflow-y-hidden overflow-x-auto pb-5 pt-2 xl:overflow-visible"
+        >
           <div
-            class="relative box-content h-80 overflow-y-hidden overflow-x-auto pb-5 pt-2 xl:overflow-visible"
+            class="absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0"
           >
-            <div
-              class="absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0"
+            <RouterLink
+              v-for="recipe in highlightSkinRecipes"
+              :key="recipe.id"
+              :to="`/recipe/${skinCategoryName}/${recipe.id}`"
+              class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
             >
-              <RouterLink
-                v-for="recipe in highlightSkinRecipes"
-                :key="recipe.id"
-                :to="`/recipe/${skinCategoryName}/${recipe.id}`"
-                class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
-              >
-                <span aria-hidden="true" class="absolute inset-0">
-                  <img
-                    :src="recipe.img_url"
-                    alt=""
-                    class="h-full w-full object-cover object-center"
-                  />
-                </span>
-                <span
-                  aria-hidden="true"
-                  class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-800 opacity-50"
+              <span aria-hidden="true" class="absolute inset-0">
+                <img
+                  :src="recipe.img_url"
+                  alt=""
+                  class="h-full w-full object-cover object-center"
                 />
-                <div
-                  class="absolute right-0 left-0 bottom-4 px-4 mx-auto sm:px-2 lg:px-4 sm:bottom-2 lg:bottom-4"
-                >
-                  <div class="p-3 w-full bg-white bg-opacity-80 rounded rounded-lg">
-                    <div class="flex flex-row items-center text-gray-800">
-                      <p class="text-sm flex items-center">
-                        <ClockIcon class="w-4 h-4 mr-1" />{{ recipe.preparation_time }} |
-                        {{ recipe.ingredient_count }}
-                        ingrédients
-                      </p>
-                    </div>
-                    <p class="mt-4 text-sm text-gray-800 sm:mt-2 lg:mt-3 font-bold">
-                      {{ recipe.title }}
+              </span>
+              <span
+                aria-hidden="true"
+                class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-800 opacity-50"
+              />
+              <div
+                class="absolute right-0 left-0 bottom-4 px-4 mx-auto sm:px-2 lg:px-4 sm:bottom-2 lg:bottom-4"
+              >
+                <div class="p-3 w-full bg-white bg-opacity-80 rounded rounded-lg">
+                  <div class="flex flex-row items-center text-gray-800">
+                    <p class="text-sm flex items-center">
+                      <ClockIcon class="w-4 h-4 mr-1" />{{ recipe.preparation_time }} |
+                      {{ recipe.ingredient_count }}
+                      ingrédients
                     </p>
                   </div>
+                  <p class="mt-4 text-sm text-gray-800 sm:mt-2 lg:mt-3 font-bold">
+                    {{ recipe.title }}
+                  </p>
                 </div>
-              </RouterLink>
-            </div>
+              </div>
+            </RouterLink>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="mt-6 px-4 sm:hidden text-right">
-        <RouterLink
-          :to="`/recipe/${skinCategoryName}`"
-          class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
-        >
-          Voir tout
-          <span aria-hidden="true"> &rarr;</span>
-        </RouterLink>
-      </div>
+    <div class="mt-6 px-4 sm:hidden text-right">
+      <RouterLink
+        :to="`/recipe/${skinCategoryName}`"
+        class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
+      >
+        Voir tout
+        <span aria-hidden="true"> &rarr;</span>
+      </RouterLink>
     </div>
 
     <!-- ////////////////////////////////// -->

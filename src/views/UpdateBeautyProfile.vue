@@ -3,7 +3,7 @@ import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import SkinTypes from '../components/beauty-profile/SkinTypes.vue'
 import SkinHairProblems from '../components/beauty-profile/SkinHairProblems.vue'
 import HairTypes from '../components/beauty-profile/HairTypes.vue'
-import Breadcrumbs from '../components/Breadcrumbs.vue'
+import BackButton from '../components/buttons/BackButton.vue'
 import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { apiUrl, pushObjectValueInNewArr } from '@/utils.js'
@@ -174,9 +174,9 @@ async function findRecipes() {
 </script>
 
 <template>
-  <Breadcrumbs />
-  <div class="pb-12">
-    <div class="xl:px-72 px-6 py-10">
+  <BackButton />
+  <div class="py-12 max-w-6xl m-auto px-4">
+    <div class="py-10">
       <div class="flex flex-col items-center">
         <h1 class="text-xl font-bold text-center mb-8">Quel est votre type de peau ?</h1>
         <SkinTypes v-model="selectedSkinType" />

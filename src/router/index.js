@@ -29,26 +29,31 @@ const router = createRouter({
     {
       path: '/recipe/:category/:id',
       name: 'recipe',
-      component: () => import('../views/Recipe.vue')
+      component: () => import('../views/Recipe.vue'),
+      meta: { requiresQuizOrAuthOrQuickResearch: true }
     },
     {
       path: '/recipe/:category',
       name: 'category',
-      component: () => import('../views/DisplayRecipes.vue')
+      component: () => import('../views/DisplayRecipes.vue'),
+      meta: { requiresQuizOrAuth: true }
     },
     {
       path: '/recipe-by-problem',
       name: 'recipe-by-problem',
-      component: () => import('../views/DisplayRecipesByProblem.vue')
+      component: () => import('../views/DisplayRecipesByProblem.vue'),
+      meta: { requiresQuickResearchData: true }
     },
     {
       path: '/personal-space',
       name: 'personal-space',
-      component: () => import('../views/PersonalSpace.vue')
+      component: () => import('../views/PersonalSpace.vue'),
+      meta: { requiresQuizOrAuth: true }
     },
     {
       path: '/logout',
-      redirect: '/'
+      redirect: '/',
+      meta: { requiresAuth: true }
     },
     {
       path: '/user-settings',
@@ -67,23 +72,48 @@ const router = createRouter({
 })
 
 const auth = getAuth(firebaseApp)
+
+function categoryAndProblemSelected() {
+  const category = localStorage.getItem('category')
+  const problem = localStorage.getItem('problem')
+  return category && problem
+}
+
+function beautyProfileCompleted() {
+  const strOfHairProblemId = localStorage.getItem('hairProblem')
+  const strOfSkinProblemId = localStorage.getItem('skinProblem')
+  const skinTypeId = localStorage.getItem('skinType')
+  const hairTypeId = localStorage.getItem('hairType')
+  const quizCompleted = strOfHairProblemId && strOfSkinProblemId && skinTypeId && hairTypeId
+  const authenticatedUser = auth.currentUser
+  return quizCompleted || authenticatedUser
+}
+
+function dataSelected() {
+  return categoryAndProblemSelected() || beautyProfileCompleted()
+}
+
 router.beforeEach((to, from, next) => {
   const authenticatedUser = auth.currentUser
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+  const requiresQuizOrAuth = to.matched.some((record) => record.meta.requiresQuizOrAuth)
+  const requiresQuickResearchData = to.matched.some(
+    (record) => record.meta.requiresQuickResearchData
+  )
+  const requiresQuizOrAuthOrQuickResearch = to.matched.some(
+    (record) => record.meta.requiresQuizOrAuthOrQuickResearch
+  )
   if (requiresAuth && !authenticatedUser) {
     next('login')
+  } else if (requiresQuizOrAuth && !beautyProfileCompleted()) {
+    next('/')
+  } else if (requiresQuickResearchData && !categoryAndProblemSelected()) {
+    next('/')
+  } else if (requiresQuizOrAuthOrQuickResearch && !dataSelected()) {
+    next('/')
   } else {
     next()
   }
 })
 
 export default router
-
-// {
-//   path: '/about',
-//   name: 'about',
-//   // route level code-splitting
-//   // this generates a separate chunk (About.[hash].js) for this route
-//   // which is lazy-loaded when the route is visited.
-//   component: () => import('../views/AboutView.vue')
-// }
