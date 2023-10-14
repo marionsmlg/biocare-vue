@@ -59,7 +59,7 @@ const router = createRouter({
       path: '/user-settings',
       name: 'user-settings',
       component: () => import('../views/UserSettings.vue'),
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: true }
     },
     {
       path: '/beauty-profile-update',
@@ -79,24 +79,36 @@ function categoryAndProblemSelected() {
   return category && problem
 }
 
-function beautyProfileCompleted() {
+function beautyProfileCompleted(user) {
   const strOfHairProblemId = localStorage.getItem('hairProblem')
   const strOfSkinProblemId = localStorage.getItem('skinProblem')
   const skinTypeId = localStorage.getItem('skinType')
   const hairTypeId = localStorage.getItem('hairType')
   const quizCompleted = strOfHairProblemId && strOfSkinProblemId && skinTypeId && hairTypeId
-  const authenticatedUser = auth.currentUser
-  return quizCompleted || authenticatedUser
+  return quizCompleted || user
 }
 
 /////personal-space si user exists
 
-function dataSelected() {
-  return categoryAndProblemSelected() || beautyProfileCompleted()
+function dataSelected(user) {
+  return categoryAndProblemSelected() || beautyProfileCompleted(user)
 }
 
-router.beforeEach((to, from, next) => {
-  const authenticatedUser = auth.currentUser
+async function checkUserAuthentication() {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      unsubscribe() // Arrête d'écouter après la première notification
+      if (user) {
+        resolve(user)
+      } else {
+        resolve(null)
+      }
+    })
+  })
+}
+
+router.beforeEach(async (to, from, next) => {
+  const user = await checkUserAuthentication()
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const requiresQuizOrAuth = to.matched.some((record) => record.meta.requiresQuizOrAuth)
   const requiresQuickResearchData = to.matched.some(
@@ -105,14 +117,15 @@ router.beforeEach((to, from, next) => {
   const requiresQuizOrAuthOrQuickResearch = to.matched.some(
     (record) => record.meta.requiresQuizOrAuthOrQuickResearch
   )
-  if (requiresAuth && !authenticatedUser) {
+  const currentPath = from.path
+  if (requiresAuth && !user) {
     next('login')
-  } else if (requiresQuizOrAuth && !beautyProfileCompleted()) {
-    next('/')
+  } else if (requiresQuizOrAuth && !beautyProfileCompleted(user)) {
+    next(currentPath)
   } else if (requiresQuickResearchData && !categoryAndProblemSelected()) {
-    next('/')
-  } else if (requiresQuizOrAuthOrQuickResearch && !dataSelected()) {
-    next('/')
+    next(currentPath)
+  } else if (requiresQuizOrAuthOrQuickResearch && !dataSelected(user)) {
+    next(currentPath)
   } else {
     next()
   }

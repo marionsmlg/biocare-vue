@@ -109,6 +109,7 @@ const selectedProblems = computed(() => {
   }
 })
 
+localStorage.clear()
 const router = useRouter()
 
 function findRecipes() {
