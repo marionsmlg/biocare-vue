@@ -99,5 +99,10 @@ export function uidFirebaseValid(uidFirebase) {
   const uidSchema = z.string().refine((value) => /^[a-zA-Z0-9]{28}$/.test(value), {
     message: "L'UID Firebase n'est pas valide."
   })
-  return uidSchema.safeParse(uidFirebase).success
+  const result = uidSchema.safeParse(uidFirebase)
+  if (result.success) {
+    return result.data
+  } else {
+    return null
+  }
 }

@@ -83,6 +83,7 @@ async function insertUserData(userId) {
     const url = apiUrl + queryString
     const response = await fetch(url)
     const data = await response
+    console.log('data insereee !!!')
   } catch (error) {
     console.error(error)
   }
@@ -94,9 +95,9 @@ function createUser() {
     createUserWithEmailAndPassword(auth, userEmail.value, userPassword.value)
       .then((userCredential) => {
         const user = userCredential.user
-        console.log(user.uid)
-        if (hairTypeId && skinTypeId && uidFirebaseValid(user.id)) {
-          insertUserData(user.uid)
+        const userId = uidFirebaseValid(user.uid)
+        if (hairTypeId && skinTypeId) {
+          insertUserData(userId)
           router.push('/personal-space')
         } else {
           router.push('/quiz')

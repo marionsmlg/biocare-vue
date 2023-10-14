@@ -59,7 +59,7 @@ fetchRecipeProblemId()
 </script>
 
 <template>
-  <div class="xl:px-8 px-4 py-12">
+  <div class="xl:px-8 px-4 py-8">
     <BackButton />
   </div>
   <Category :categoryName="bodyPartName" :recipes="recipesByProblem" :beautyIssue="problem.name" />
