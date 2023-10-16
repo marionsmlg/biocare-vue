@@ -13,12 +13,13 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { ref, computed } from 'vue'
+import { userHasBeautyProfile } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
 
 const isUserLoggedIn = ref(false)
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (user) {
     isUserLoggedIn.value = true
   } else {
@@ -31,7 +32,6 @@ const router = useRouter()
 function signOutUser() {
   signOut(auth)
     .then(() => {
-      console.log('je suis deconnecte !')
       router.push('/logout')
     })
     .catch((error) => {

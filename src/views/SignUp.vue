@@ -10,18 +10,10 @@ import {
 } from 'firebase/auth'
 import { ref, computed } from 'vue'
 import { firebaseApp } from '@/firebaseconfig.js'
-import { apiUrl, uidFirebaseValid } from '@/utils.js'
+import { apiUrl, uidFirebaseValid, userHasBeautyProfile } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
 const router = useRouter()
-
-async function userHasBeautyProfile(userId) {
-  const queryString = `/api/user?user_id=${userId}`
-  const url = apiUrl + queryString
-  const response = await fetch(url)
-  const data = await response.json()
-  return data
-}
 
 async function loginWithFacebook() {
   const provider = new FacebookAuthProvider()
@@ -60,9 +52,6 @@ async function loginWithGoogle() {
 const userEmail = ref()
 const userPassword = ref()
 const userConfirmPassword = ref()
-const arePasswordscorrespond = ref(true)
-const userAlreadyExist = ref(false)
-const isPasswordWeak = ref(false)
 
 const hairTypeId = localStorage.getItem('hairType') || ''
 const skinTypeId = localStorage.getItem('skinType') || ''
@@ -89,15 +78,17 @@ async function insertUserData(userId) {
   }
 }
 
-function createUser() {
+const showErrorMessage = ref(false)
+const errorMessage = ref('')
+
+async function createUser() {
   if (userPassword.value === userConfirmPassword.value) {
-    arePasswordscorrespond.value = true
     createUserWithEmailAndPassword(auth, userEmail.value, userPassword.value)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user
         const userId = uidFirebaseValid(user.uid)
-        if (hairTypeId && skinTypeId) {
-          insertUserData(userId)
+        if (Boolean(hairTypeId && skinTypeId)) {
+          await insertUserData(userId)
           router.push('/personal-space')
         } else {
           router.push('/quiz')
@@ -105,18 +96,20 @@ function createUser() {
       })
       .catch((error) => {
         const errorCode = error.code
-        const errorMessage = error.message
+        showErrorMessage.value = true
         if (errorCode === 'auth/weak-password') {
-          isPasswordWeak.value = true
+          errorMessage.value = 'Le mot de passe doit contenir au moins 6 caractères.'
         } else if (errorCode === 'auth/email-already-in-use') {
-          userAlreadyExist.value = true
+          errorMessage.value =
+            'Désolé, cet e-mail est déjà associé à un compte. Veuillez utiliser un autre e-mail.'
         } else {
-          userAlreadyExist.value = false
-          isPasswordWeak.value = false
+          errorMessage.value =
+            'Une erreur est survenue lors de votre inscription. Veuillez réessayer ultérieurement.'
         }
       })
   } else {
-    arePasswordscorrespond.value = false
+    showErrorMessage.value = true
+    errorMessage.value = 'Les mots de passe ne correspondent pas.'
   }
 }
 </script>
@@ -183,12 +176,8 @@ function createUser() {
                 class="block w-full rounded-md border border-1 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
               />
             </div>
-            <p v-if="!arePasswordscorrespond" class="text-red-500 text-sm">
-              Les mots de passe ne correspondent pas
-            </p>
-            <p v-if="userAlreadyExist" class="text-red-500 text-sm">L'utilisateur existe deja</p>
-            <p v-if="isPasswordWeak" class="text-red-500 text-sm">
-              Le mot de passe dois contenir 6 caracteres minimum
+            <p v-if="showErrorMessage" class="text-red-500 text-sm mt-2">
+              {{ errorMessage }}
             </p>
           </div>
 

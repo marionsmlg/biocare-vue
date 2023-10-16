@@ -10,7 +10,7 @@ import {
 } from 'firebase/auth'
 import { ref, computed } from 'vue'
 import { firebaseApp } from '@/firebaseconfig.js'
-import { apiUrl } from '@/utils.js'
+import { apiUrl, userHasBeautyProfile } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
 
@@ -19,14 +19,6 @@ const userPassword = ref()
 const areIdentifiersValid = ref(true)
 
 const router = useRouter()
-
-async function userHasBeautyProfile(userId) {
-  const queryString = `/api/user?user_id=${userId}`
-  const url = apiUrl + queryString
-  const response = await fetch(url)
-  const data = await response.json()
-  return data
-}
 
 async function loginWithFacebook() {
   const provider = new FacebookAuthProvider()
@@ -62,18 +54,21 @@ async function loginWithGoogle() {
   }
 }
 
+const showErrorMessage = ref(false)
+const errorMessage = ref('')
+
 const loginUser = computed(() => {
   signInWithEmailAndPassword(auth, userEmail.value, userPassword.value)
     .then((userCredential) => {
       const user = userCredential.user
-      console.log('login!!')
       router.push('/personal-space')
     })
     .catch((error) => {
       const errorCode = error.code
-      const errorMessage = error.message
-      areIdentifiersValid.value = false
-      console.log(errorCode)
+      showErrorMessage.value = true
+      if (errorCode === 'auth/invalid-login-credentials') {
+        errorMessage.value = 'Les idendifiants sont incorrects.'
+      }
     })
 })
 </script>
@@ -144,8 +139,8 @@ const loginUser = computed(() => {
               >
             </div>
           </div>
-          <p v-if="!areIdentifiersValid" class="text-red-500 text-sm">
-            Les idendifiants sont incorrects
+          <p v-if="showErrorMessage" class="text-red-500 text-sm">
+            {{ errorMessage }}
           </p>
           <div>
             <button

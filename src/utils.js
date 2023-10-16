@@ -106,3 +106,11 @@ export function uidFirebaseValid(uidFirebase) {
     return null
   }
 }
+
+export async function userHasBeautyProfile(userId) {
+  const queryString = `/api/user?user_id=${userId}`
+  const url = apiUrl + queryString
+  const response = await fetch(url)
+  const data = await response.json()
+  return data
+}

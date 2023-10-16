@@ -138,9 +138,9 @@ async function insertUserData(userId) {
 
 async function findRecipes() {
   const quizDataAreValid = await quizDataExists()
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user && quizDataAreValid && quizDataAreUuids() && uidFirebaseValid(user.uid)) {
-      insertUserData(user.uid)
+      await insertUserData(user.uid)
       router.push('/personal-space')
     } else {
       if (quizDataAreValid && quizDataAreUuids()) {

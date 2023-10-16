@@ -11,6 +11,7 @@ import UserSettings from '@/views/UserSettings.vue'
 import NotFound from '@/views/NotFound.vue'
 import { getAuth } from 'firebase/auth'
 import { firebaseApp } from '@/firebaseconfig.js'
+import { userHasBeautyProfile } from '@/utils.js'
 
 const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
@@ -23,9 +24,24 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-    { path: '/login', name: 'login', component: () => import('../views/LoginView.vue') },
-    { path: '/sign-up', name: 'sign-up', component: () => import('../views/SignUp.vue') },
-    { path: '/quiz', name: 'quiz', component: () => import('../views/QuizView2.vue') },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+      meta: { requiresNotAuth: true }
+    },
+    {
+      path: '/sign-up',
+      name: 'sign-up',
+      component: () => import('../views/SignUp.vue'),
+      meta: { requiresNotAuth: true }
+    },
+    {
+      path: '/quiz',
+      name: 'quiz',
+      component: () => import('../views/QuizView2.vue'),
+      meta: { requiresQuizNotCompleted: true }
+    },
     {
       path: '/recipe/:category/:id',
       name: 'recipe',
@@ -65,7 +81,7 @@ const router = createRouter({
       path: '/beauty-profile-update',
       name: 'beauty-profile-update',
       component: () => import('../views/UpdateBeautyProfile.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresBeautyProfile: true }
     },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
   ]
@@ -79,19 +95,17 @@ function categoryAndProblemSelected() {
   return category && problem
 }
 
-function beautyProfileCompleted(user) {
+function beautyProfileCompleted(user, hasBeautyProfile) {
   const strOfHairProblemId = localStorage.getItem('hairProblem')
   const strOfSkinProblemId = localStorage.getItem('skinProblem')
   const skinTypeId = localStorage.getItem('skinType')
   const hairTypeId = localStorage.getItem('hairType')
   const quizCompleted = strOfHairProblemId && strOfSkinProblemId && skinTypeId && hairTypeId
-  return quizCompleted || user
+  return quizCompleted || (user && hasBeautyProfile)
 }
 
-/////personal-space si user exists
-
-function dataSelected(user) {
-  return categoryAndProblemSelected() || beautyProfileCompleted(user)
+function dataSelected(user, hasBeautyProfile) {
+  return categoryAndProblemSelected() || beautyProfileCompleted(user, hasBeautyProfile)
 }
 
 async function checkUserAuthentication() {
@@ -99,7 +113,7 @@ async function checkUserAuthentication() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       unsubscribe() // Arrête d'écouter après la première notification
       if (user) {
-        resolve(user)
+        resolve(user.uid)
       } else {
         resolve(null)
       }
@@ -109,6 +123,7 @@ async function checkUserAuthentication() {
 
 router.beforeEach(async (to, from, next) => {
   const user = await checkUserAuthentication()
+  const hasBeautyProfile = await userHasBeautyProfile(user)
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const requiresQuizOrAuth = to.matched.some((record) => record.meta.requiresQuizOrAuth)
   const requiresQuickResearchData = to.matched.some(
@@ -117,15 +132,25 @@ router.beforeEach(async (to, from, next) => {
   const requiresQuizOrAuthOrQuickResearch = to.matched.some(
     (record) => record.meta.requiresQuizOrAuthOrQuickResearch
   )
+  const requiresBeautyProfile = to.matched.some((record) => record.meta.requiresBeautyProfile)
+  const requiresNotAuth = to.matched.some((record) => record.meta.requiresNotAuth)
+  const requiresQuizNotCompleted = to.matched.some((record) => record.meta.requiresQuizNotCompleted)
+
   const currentPath = from.path
   if (requiresAuth && !user) {
     next('login')
-  } else if (requiresQuizOrAuth && !beautyProfileCompleted(user)) {
-    next(currentPath)
+  } else if (requiresQuizOrAuth && !beautyProfileCompleted(user, hasBeautyProfile)) {
+    next('/quiz')
   } else if (requiresQuickResearchData && !categoryAndProblemSelected()) {
     next(currentPath)
-  } else if (requiresQuizOrAuthOrQuickResearch && !dataSelected(user)) {
+  } else if (requiresQuizOrAuthOrQuickResearch && !dataSelected(user, hasBeautyProfile)) {
     next(currentPath)
+  } else if (requiresBeautyProfile && !hasBeautyProfile) {
+    next('/quiz')
+  } else if (requiresNotAuth && user) {
+    next('/personal-space')
+  } else if (requiresQuizNotCompleted && beautyProfileCompleted(user, hasBeautyProfile)) {
+    next('/personal-space')
   } else {
     next()
   }
