@@ -36,7 +36,6 @@ function displayNextRecipes() {
   if (recipeCategoryName === 'cheveux') {
     if (hairRecipes.value.length === limit) {
       limit = 9 * page
-
       fetchHairRecipeByHairTypeId()
     }
   } else {

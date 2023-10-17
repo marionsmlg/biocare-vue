@@ -17,16 +17,6 @@ import { ref, computed } from 'vue'
 
 const auth = getAuth(firebaseApp)
 
-const mainButtonPath = ref('')
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    mainButtonPath.value = '/personal-space'
-  } else {
-    mainButtonPath.value = '/quiz'
-  }
-})
-
 const argumentsList = [
   {
     title: 'Evitez les ingrédients nocifs, priviligiez le fait maison',
@@ -109,8 +99,6 @@ const selectedProblems = computed(() => {
   }
 })
 
-localStorage.clear()
-
 const router = useRouter()
 
 function findRecipes() {
@@ -133,7 +121,7 @@ function findRecipes() {
             PureCare sélectionne des recettes de cosmétiques DIY qui vous ressemblent !
           </h2>
           <div class="hidden lg:flex justify-center">
-            <RouterLink :to="mainButtonPath"
+            <RouterLink to="/quiz"
               ><ButtonPrimary
                 >Découvrez vos recettes sur mesure
                 <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
@@ -145,7 +133,7 @@ function findRecipes() {
         </div>
 
         <div class="lg:hidden flex justify-center p-2">
-          <RouterLink :to="mainButtonPath"
+          <RouterLink to="/quiz"
             ><ButtonPrimary
               >Découvrez vos recettes sur mesure
               <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
@@ -274,7 +262,7 @@ function findRecipes() {
           recettes adaptées à vous !
         </h1>
         <div class="z-10 p-2">
-          <RouterLink :to="mainButtonPath"
+          <RouterLink to="/quiz"
             ><ButtonPrimary
               >Découvrez vos recettes sur mesure
               <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary

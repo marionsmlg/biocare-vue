@@ -2,13 +2,13 @@ import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyAhPjzK9O-DH3FLUGp3SYuzwWfgZ10wyTA',
-  authDomain: `biocare-ac1f1.firebaseapp.com`,
-  projectId: 'biocare-ac1f1',
-  storageBucket: `biocare-ac1f1.appspot.com`,
-  messagingSenderId: '899493293584',
-  appId: '1:899493293584:web:2e7c97ad970719c7196495',
-  measurementId: `G-LEHHMR2EE9`
+  apiKey: import.meta.env.VITE_APP_API_KEY,
+  authDomain: `${import.meta.env.VITE_APP_PROJECT_ID}.firebaseapp.com`,
+  projectId: import.meta.env.VITE_APP_PROJECT_ID,
+  storageBucket: `${import.meta.env.VITE_APP_PROJECT_ID}.appspot.com`,
+  messagingSenderId: import.meta.env.VITE_APP_SENDER_ID,
+  appId: import.meta.env.VITE_APP_APP_ID,
+  measurementId: `G-${import.meta.env.VITE_APP_MEASUREMENT_ID}`
 }
 
 export const firebaseApp = initializeApp(firebaseConfig)

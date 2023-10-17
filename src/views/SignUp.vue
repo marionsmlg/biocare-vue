@@ -48,6 +48,7 @@ async function loginWithGoogle() {
     // Gérez les erreurs ici
   }
 }
+console.log(apiUrl)
 
 const userEmail = ref()
 const userPassword = ref()
@@ -72,7 +73,6 @@ async function insertUserData(userId) {
     const url = apiUrl + queryString
     const response = await fetch(url)
     const data = await response
-    console.log('data insereee !!!')
   } catch (error) {
     console.error(error)
   }
