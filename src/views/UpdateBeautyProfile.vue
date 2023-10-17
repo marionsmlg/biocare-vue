@@ -6,7 +6,7 @@ import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import BackButton from '../components/buttons/BackButton.vue'
 import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { apiUrl, pushObjectValueInNewArr } from '@/utils.js'
+import { apiUrl, pushObjectValueInNewArr, updateData } from '@/utils.js'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
@@ -35,6 +35,7 @@ async function fetchBeautyIssues() {
 }
 
 fetchBeautyIssues()
+
 ///////////////////////////////
 
 const selectedSkinType = ref('')
@@ -140,29 +141,35 @@ async function quizDataExists() {
   }
 }
 
-async function updateUserData(userId) {
-  const queryParams = new URLSearchParams({
-    user_id: userId,
-    skin_type_id: selectedSkinType.value,
-    hair_type_id: selectedHairType.value,
-    skin_issue_id: selectedSkinProblem.value.join(','),
-    hair_issue_id: selectedHairProblem.value.join(',')
-  })
-  try {
-    const queryString = `/api/user-update-beauty-profile?${queryParams}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const data = await response
-  } catch (error) {
-    console.error(error)
-  }
-}
+// async function updateUserData(userId) {
+//   const queryParams = new URLSearchParams({
+//     user_id: userId,
+//     skin_type_id: selectedSkinType.value,
+//     hair_type_id: selectedHairType.value,
+//     skin_issue_id: selectedSkinProblem.value.join(','),
+//     hair_issue_id: selectedHairProblem.value.join(',')
+//   })
+//   try {
+//     const queryString = `/api/user-update-beauty-profile?${queryParams}`
+//     const url = apiUrl + queryString
+//     const response = await fetch(url)
+//     const data = await response
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }
 
 async function findRecipes() {
   const quizDataAreValid = await quizDataExists()
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (user && quizDataAreValid) {
-      updateUserData(user.uid)
+      await updateData(`${apiUrl}/api/v1/users`, {
+        user_id: user.uid,
+        skin_type_id: selectedSkinType.value,
+        hair_type_id: selectedHairType.value,
+        skin_issue_id: selectedSkinProblem.value.join(','),
+        hair_issue_id: selectedHairProblem.value.join(',')
+      })
       router.push('/personal-space')
     } else {
       console.log('Pas connecte!!')

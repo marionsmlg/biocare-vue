@@ -6,7 +6,7 @@ import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import BackButton from '../components/buttons/BackButton.vue'
 import { ref, computed } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { apiUrl, uuidIsValid, uidFirebaseValid } from '@/utils.js'
+import { apiUrl, uuidIsValid, uidFirebaseValid, postData } from '@/utils.js'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
@@ -54,6 +54,7 @@ const quizData = [
     instance: 'hairProblems'
   }
 ]
+
 //////////////////////////////////
 
 const selectedOption = ref({})
@@ -118,29 +119,17 @@ async function quizDataExists() {
   }
 }
 
-async function insertUserData(userId) {
-  const queryParams = new URLSearchParams({
-    user_id: userId,
-    skin_type_id: selectedOption.value['skinType'],
-    hair_type_id: selectedOption.value['hairType'],
-    skin_issue_id: selectedSkinProblem.value.join(','),
-    hair_issue_id: selectedHairProblem.value.join(',')
-  })
-  try {
-    const queryString = `/api/user-physical-trait?${queryParams}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const data = await response
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 async function findRecipes() {
   const quizDataAreValid = await quizDataExists()
   onAuthStateChanged(auth, async (user) => {
     if (user && quizDataAreValid && quizDataAreUuids() && uidFirebaseValid(user.uid)) {
-      await insertUserData(user.uid)
+      await postData(`${apiUrl}/api/v1/users`, {
+        user_id: user.uid,
+        skin_type_id: selectedOption.value['skinType'],
+        hair_type_id: selectedOption.value['hairType'],
+        skin_issue_id: selectedSkinProblem.value.join(','),
+        hair_issue_id: selectedHairProblem.value.join(',')
+      })
       router.push('/personal-space')
     } else {
       if (quizDataAreValid && quizDataAreUuids()) {

@@ -15,6 +15,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { apiUrl } from '@/utils.js'
 import { ref, computed } from 'vue'
 
+localStorage.clear()
 const auth = getAuth(firebaseApp)
 
 const argumentsList = [

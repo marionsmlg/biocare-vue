@@ -10,7 +10,7 @@ import {
 } from 'firebase/auth'
 import { ref, computed } from 'vue'
 import { firebaseApp } from '@/firebaseconfig.js'
-import { apiUrl, uidFirebaseValid, userHasBeautyProfile } from '@/utils.js'
+import { apiUrl, uidFirebaseValid, userHasBeautyProfile, postData } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
 const router = useRouter()
@@ -59,25 +59,6 @@ const skinTypeId = localStorage.getItem('skinType') || ''
 const strOfHairProblemId = localStorage.getItem('hairProblem') || ''
 const strOfSkinProblemId = localStorage.getItem('skinProblem') || ''
 
-async function insertUserData(userId) {
-  const queryParams = new URLSearchParams({
-    user_id: userId,
-    skin_type_id: skinTypeId,
-    hair_type_id: hairTypeId,
-    skin_issue_id: JSON.parse(strOfSkinProblemId).join(','),
-    hair_issue_id: JSON.parse(strOfHairProblemId).join(',')
-  })
-
-  try {
-    const queryString = `/api/user-physical-trait?${queryParams}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const data = await response
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 const showErrorMessage = ref(false)
 const errorMessage = ref('')
 
@@ -88,7 +69,13 @@ async function createUser() {
         const user = userCredential.user
         const userId = uidFirebaseValid(user.uid)
         if (Boolean(hairTypeId && skinTypeId)) {
-          await insertUserData(userId)
+          await postData(`${apiUrl}/api/v1/users`, {
+            user_id: user.uid,
+            skin_type_id: selectedOption.value['skinType'],
+            hair_type_id: selectedOption.value['hairType'],
+            skin_issue_id: selectedSkinProblem.value.join(','),
+            hair_issue_id: selectedHairProblem.value.join(',')
+          })
           router.push('/personal-space')
         } else {
           router.push('/quiz')

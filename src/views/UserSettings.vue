@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { getAuth, onAuthStateChanged, updateEmail, deleteUser } from 'firebase/auth'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { RouterLink, useRouter } from 'vue-router'
-import { apiUrl, uidFirebaseValid } from '@/utils.js'
+import { apiUrl, uidFirebaseValid, deleteData } from '@/utils.js'
 
 const router = useRouter()
 const auth = getAuth(firebaseApp)
@@ -27,23 +27,11 @@ async function updateUserEmail() {
     })
 }
 
-async function deleteUserBeautyProfile(userId) {
-  try {
-    const queryString = `/api/user-delete?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const data = await response
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 async function deleteCurrentUser() {
   const user = auth.currentUser
   try {
     await deleteUser(user)
-    await deleteUserBeautyProfile(user.uid)
-    console.log('bien supprime!!')
+    await deleteData(`${apiUrl}/api/v1/users`, { user_id: user.uid })
     router.push('/')
   } catch (error) {
     console.error(error)
@@ -54,7 +42,6 @@ async function deleteCurrentUser() {
 <template>
   <div class="xl:pl-72">
     <main>
-      <!-- Settings forms -->
       <div class="divide-y divide-white/5">
         <div
           class="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8"

@@ -108,9 +108,56 @@ export function uidFirebaseValid(uidFirebase) {
 }
 
 export async function userHasBeautyProfile(userId) {
-  const queryString = `/api/user?user_id=${userId}`
-  const url = apiUrl + queryString
-  const response = await fetch(url)
-  const data = await response.json()
-  return data
+  if (userId) {
+    const queryString = `/api/user?user_id=${userId}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
+  } else {
+    return
+  }
+}
+
+export async function postData(url, data) {
+  try {
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function updateData(url, data) {
+  try {
+    await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function deleteData(url, data) {
+  try {
+    await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+  } catch (error) {
+    console.error(error)
+  }
 }
