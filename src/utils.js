@@ -75,23 +75,6 @@ export function pushObjectValueInNewArr(arrOfobject) {
   return newArr
 }
 
-export function dataUserAreValid(user) {
-  const UserSchema = z.object({
-    email: z.string().email({ message: 'Invalid email' }),
-    password: z
-      .string()
-      .min(6)
-      .max(100)
-      .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/),
-    confirmPassword: z
-      .string()
-      .min(6)
-      .max(100)
-      .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/)
-  })
-  return UserSchema.safeParse(user).success
-}
-
 export function uuidIsValid(uuid) {
   const uuidSchema = z.string().uuid({ message: 'Invalid UUID' })
   return uuidSchema.safeParse(uuid).success

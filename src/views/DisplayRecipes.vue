@@ -55,9 +55,7 @@ const canDisplayMoreRecipes = computed(() => {
 })
 
 async function fetchUserRecipes(userId) {
-  await fetchUserPhysicalTraitsById(userId)
-  await fetchUserHairIssueId(userId)
-  await fetchUserSkinIssueId(userId)
+  await fetchUserData(userId)
   await fetchSkinRecipeBySkinTypeId()
   await fetchHairRecipeByHairTypeId()
 }
@@ -76,39 +74,16 @@ onAuthStateChanged(auth, (user) => {
     fetchHairRecipeByHairTypeId()
   }
 })
-
-async function fetchUserPhysicalTraitsById(userId) {
+async function fetchUserData(userId) {
   try {
-    const queryString = `/api/user-physical-trait-fetch?user_id=${userId}`
+    const queryString = `/api/v1/users?user_id=${userId}`
     const url = apiUrl + queryString
     const response = await fetch(url)
-    const fetchedPhysicalTraits = await response.json()
-    skinTypeId.value = fetchedPhysicalTraits[0].skin_type_id
-    hairTypeId.value = fetchedPhysicalTraits[0].hair_type_id
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function fetchUserHairIssueId(userId) {
-  try {
-    const queryString = `/api/user-hair-issue?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedHairIssueId = await response.json()
-    arrOfHairProblemId.value = pushObjectValueInNewArr(fetchedHairIssueId)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function fetchUserSkinIssueId(userId) {
-  try {
-    const queryString = `/api/user-skin-issue?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedSkinIssueId = await response.json()
-    arrOfSkinProblemId.value = pushObjectValueInNewArr(fetchedSkinIssueId)
+    const dataUser = await response.json()
+    skinTypeId.value = dataUser.physicalTrait[0].skin_type_id
+    hairTypeId.value = dataUser.physicalTrait[0].hair_type_id
+    arrOfHairProblemId.value = pushObjectValueInNewArr(dataUser.hairIssue)
+    arrOfSkinProblemId.value = pushObjectValueInNewArr(dataUser.skinIssue)
   } catch (error) {
     console.error(error)
   }

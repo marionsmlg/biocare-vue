@@ -17,67 +17,10 @@ import { capitalizeFirstLetter, apiUrl } from '@/utils.js'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
-const recipe = ref({})
-
 const router = useRouter()
 const route = useRoute()
 const recipeId = route.params.id
 const catgeoryName = route.params.category
-
-async function fetchRecipeById() {
-  try {
-    const queryString = `/api/recipe?id=${recipeId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedRecipe = await response.json()
-    recipe.value = fetchedRecipe[0]
-  } catch (error) {
-    console.error(error)
-  }
-}
-fetchRecipeById()
-
-const recipeIngredients = ref()
-
-async function fetchRecipeIngredientsById() {
-  try {
-    const queryString = `/api/recipe-ingredient?recipe_id=${recipeId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedIngredients = await response.json()
-    recipeIngredients.value = fetchedIngredients
-  } catch (error) {
-    console.error(error)
-  }
-}
-const recipeSteps = ref([])
-
-async function fetchRecipeStepsById() {
-  try {
-    const queryString = `/api/recipe-step?recipe_id=${recipeId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedSteps = await response.json()
-    recipeSteps.value = fetchedSteps
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const recipeBenefits = ref([])
-async function fetchRecipeBenefitsById() {
-  try {
-    const queryString = `/api/recipe-product-benefit?recipe_id=${recipeId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedBenefits = await response.json()
-    recipeBenefits.value = fetchedBenefits
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-const recipeAllergens = ref([])
 
 function displayAllergens(fetchedAllergens) {
   if (fetchedAllergens.length === 0) {
@@ -90,19 +33,6 @@ function displayAllergens(fetchedAllergens) {
     return arrOfAllergens.join(', ')
   }
 }
-
-async function fetchRecipeAllergensById() {
-  try {
-    const queryString = `/api/recipe-product-allergen?recipe_id=${recipeId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedAllergens = await response.json()
-    recipeAllergens.value = displayAllergens(fetchedAllergens)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 function displayPhysicalTraits(arrOfPhysicalTrait) {
   const arrOfPhysicalTraitWithoutObject = []
   for (const physicalTrait of arrOfPhysicalTrait) {
@@ -124,31 +54,34 @@ function displayBeautyIssues(arrOfBeautyIssues) {
   }
   return arrOfBeautyIssuesWithoutObject
 }
+
+const recipe = ref({})
+const recipeIngredients = ref()
+const recipeSteps = ref([])
+const recipeBenefits = ref([])
+const recipeAllergens = ref([])
 const recipeBeautyIssues = ref([])
 const recipePhysicalTrait = ref([])
 
-async function fetchRecipeBeautyIssuesById() {
+async function fetchDataRecipeById(recipeId) {
   try {
-    const queryStringBeautyIssue = `/api/recipe-beauty-issue?recipe_id=${recipeId}`
-    const apiUrlBeautyIssue = apiUrl + queryStringBeautyIssue
-    const responseBeautyIssue = await fetch(apiUrlBeautyIssue)
-    const fetchedDataBeautyIssue = await responseBeautyIssue.json()
-    const queryStringPhysicalTrait = `/api/recipe-physical-trait?recipe_id=${recipeId}`
-    const apiUrlPhysicalTrait = apiUrl + queryStringPhysicalTrait
-    const responsePhysicalTrait = await fetch(apiUrlPhysicalTrait)
-    const fetchedDataPhysicalTrait = await responsePhysicalTrait.json()
-    recipeBeautyIssues.value = displayBeautyIssues(fetchedDataBeautyIssue)
-    recipePhysicalTrait.value = displayPhysicalTraits(fetchedDataPhysicalTrait)
+    const queryString = `/api/v1/recipe?recipe_id=${recipeId}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
+    const dataRecipe = await response.json()
+    recipe.value = dataRecipe.recipe[0]
+    recipeIngredients.value = dataRecipe.ingredient
+    recipeSteps.value = dataRecipe.step
+    recipeBenefits.value = dataRecipe.benefit
+    recipeAllergens.value = displayAllergens(dataRecipe.allergen)
+    recipeBeautyIssues.value = displayBeautyIssues(dataRecipe.beautyIssue)
+    recipePhysicalTrait.value = displayPhysicalTraits(dataRecipe.physicalTrait)
   } catch (error) {
     console.error(error)
   }
 }
 
-fetchRecipeBeautyIssuesById()
-fetchRecipeAllergensById()
-fetchRecipeBenefitsById()
-fetchRecipeStepsById()
-fetchRecipeIngredientsById()
+fetchDataRecipeById(recipeId)
 </script>
 
 <template>

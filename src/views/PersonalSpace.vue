@@ -32,48 +32,25 @@ const hairTypeName = ref('')
 const highlightSkinRecipes = ref([])
 const highlightHairRecipes = ref([])
 
-async function fetchUserPhysicalTraitsById(userId) {
+async function fetchUserData(userId) {
   try {
-    const queryString = `/api/user-physical-trait-fetch?user_id=${userId}`
+    const queryString = `/api/v1/users?user_id=${userId}`
     const url = apiUrl + queryString
     const response = await fetch(url)
-    const fetchedPhysicalTraits = await response.json()
-    skinTypeId.value = fetchedPhysicalTraits[0].skin_type_id
-    hairTypeId.value = fetchedPhysicalTraits[0].hair_type_id
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function fetchUserHairIssueId(userId) {
-  try {
-    const queryString = `/api/user-hair-issue?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedHairIssueId = await response.json()
-    arrOfHairProblemId.value = pushObjectValueInNewArr(fetchedHairIssueId)
+    const dataUser = await response.json()
+    skinTypeId.value = dataUser.physicalTrait[0].skin_type_id
+    hairTypeId.value = dataUser.physicalTrait[0].hair_type_id
+    arrOfHairProblemId.value = pushObjectValueInNewArr(dataUser.hairIssue)
     const hairProblemCount = countProblems(arrOfHairProblemId.value)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function fetchUserSkinIssueId(userId) {
-  try {
-    const queryString = `/api/user-skin-issue?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedSkinIssueId = await response.json()
-    arrOfSkinProblemId.value = pushObjectValueInNewArr(fetchedSkinIssueId)
+    arrOfSkinProblemId.value = pushObjectValueInNewArr(dataUser.skinIssue)
+    const skinProblemCount = countProblems(arrOfSkinProblemId.value)
   } catch (error) {
     console.error(error)
   }
 }
 
 async function fetchUserRecipes(userId) {
-  await fetchUserPhysicalTraitsById(userId)
-  await fetchUserHairIssueId(userId)
-  await fetchUserSkinIssueId(userId)
+  await fetchUserData(userId)
   await findSkinHairTypeById()
   await fetchSkinRecipeBySkinTypeId()
   await fetchHairRecipeByHairTypeId()
@@ -133,6 +110,28 @@ async function findSkinHairTypeById() {
 
 const skinCategoryName = ref()
 const hairCategoryName = ref()
+
+// async function fetchRecipes() {
+//   const queryParams = new URLSearchParams({
+//     skin_type_id: `${skinTypeId.value},b9f90678-ea3f-4fde-952f-a26a88e13259`,
+//     skin_issue_id: arrOfSkinProblemId.value.join(','),
+//     hair_type_id: `${hairTypeId.value},c8898a24-04cb-4b1f-bb8b-38633aa3c670`,
+//     hair_issue_id: arrOfHairProblemId.value.join(','),
+//     limit: 5
+//   })
+//   try {
+//     const queryString = `/api/recipe?${queryParams}`
+//     const url = apiUrl + queryString
+//     const response = await fetch(url)
+//     const recipes = await response.json()
+//     console.log(recipes)
+//     // highlightSkinRecipes.value = recipes
+//     // skinCategoryName.value = recipes[0].recipe_category_name.toLowerCase()
+//     // skinProblemCount.value = countProblems(arrOfSkinProblemId.value)
+//   } catch (error) {
+//     console.error(error)
+//   }
+// }
 
 async function fetchSkinRecipeBySkinTypeId() {
   const queryParamsSkinType = new URLSearchParams({

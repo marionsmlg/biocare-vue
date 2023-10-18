@@ -45,7 +45,7 @@ const selectedHairProblem = ref([])
 
 async function fetchUserPhysicalTraitsById(userId) {
   try {
-    const queryString = `/api/user-physical-trait-fetch?user_id=${userId}`
+    const queryString = `/api/user-physical-trait?user_id=${userId}`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const fetchedPhysicalTraits = await response.json()
