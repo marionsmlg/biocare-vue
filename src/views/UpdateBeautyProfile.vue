@@ -141,30 +141,11 @@ async function quizDataExists() {
   }
 }
 
-// async function updateUserData(userId) {
-//   const queryParams = new URLSearchParams({
-//     user_id: userId,
-//     skin_type_id: selectedSkinType.value,
-//     hair_type_id: selectedHairType.value,
-//     skin_issue_id: selectedSkinProblem.value.join(','),
-//     hair_issue_id: selectedHairProblem.value.join(',')
-//   })
-//   try {
-//     const queryString = `/api/user-update-beauty-profile?${queryParams}`
-//     const url = apiUrl + queryString
-//     const response = await fetch(url)
-//     const data = await response
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
-
 async function findRecipes() {
   const quizDataAreValid = await quizDataExists()
   onAuthStateChanged(auth, async (user) => {
     if (user && quizDataAreValid) {
       await updateData(`${apiUrl}/api/v1/users`, {
-        user_id: user.uid,
         skin_type_id: selectedSkinType.value,
         hair_type_id: selectedHairType.value,
         skin_issue_id: selectedSkinProblem.value.join(','),

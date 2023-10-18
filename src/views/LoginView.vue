@@ -6,7 +6,8 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  FacebookAuthProvider
+  FacebookAuthProvider,
+  sendPasswordResetEmail
 } from 'firebase/auth'
 import { ref, computed } from 'vue'
 import { firebaseApp } from '@/firebaseconfig.js'
@@ -71,6 +72,10 @@ const loginUser = computed(() => {
       }
     })
 })
+
+async function forgotPassword() {
+  await sendPasswordResetEmail(auth, 'marion.schimmerling@hotmail.fr')
+}
 </script>
 
 <template>
@@ -121,22 +126,13 @@ const loginUser = computed(() => {
           </div>
 
           <div class="flex items-center justify-between">
-            <!-- <div class="flex items-center">
-            <input
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-              class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-            />
-            <label for="remember-me" class="ml-3 block text-sm leading-6 text-gray-900"
-              >Se souvenir de moi</label
-            >
-          </div> -->
-
             <div class="text-sm leading-6">
-              <a href="#" class="font-semibold text-gray-600 hover:text-gray-500"
-                >Mot de passe oublié ?</a
+              <button
+                @click="forgotPassword"
+                class="font-semibold text-gray-600 hover:text-gray-500"
               >
+                Mot de passe oublié ?
+              </button>
             </div>
           </div>
           <p v-if="showErrorMessage" class="text-red-500 text-sm">

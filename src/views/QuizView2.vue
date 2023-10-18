@@ -122,9 +122,8 @@ async function quizDataExists() {
 async function findRecipes() {
   const quizDataAreValid = await quizDataExists()
   onAuthStateChanged(auth, async (user) => {
-    if (user && quizDataAreValid && quizDataAreUuids() && uidFirebaseValid(user.uid)) {
+    if (user && quizDataAreValid && quizDataAreUuids()) {
       await postData(`${apiUrl}/api/v1/users`, {
-        user_id: user.uid,
         skin_type_id: selectedOption.value['skinType'],
         hair_type_id: selectedOption.value['hairType'],
         skin_issue_id: selectedSkinProblem.value.join(','),

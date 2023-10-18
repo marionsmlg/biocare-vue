@@ -87,8 +87,10 @@ onAuthStateChanged(auth, (user) => {
     isUserLoggedIn.value = false
     hairTypeId.value = localStorage.getItem('hairType')
     skinTypeId.value = localStorage.getItem('skinType')
-    arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
-    arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)
+    if (strOfHairProblemId && strOfSkinProblemId) {
+      arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
+      arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)
+    }
     findSkinHairTypeById()
     fetchSkinRecipeBySkinTypeId()
     fetchHairRecipeByHairTypeId()

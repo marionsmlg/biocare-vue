@@ -6,7 +6,8 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  FacebookAuthProvider
+  FacebookAuthProvider,
+  sendEmailVerification
 } from 'firebase/auth'
 import { ref, computed } from 'vue'
 import { firebaseApp } from '@/firebaseconfig.js'
@@ -48,7 +49,6 @@ async function loginWithGoogle() {
     // Gérez les erreurs ici
   }
 }
-console.log(apiUrl)
 
 const userEmail = ref()
 const userPassword = ref()
@@ -67,10 +67,8 @@ async function createUser() {
     createUserWithEmailAndPassword(auth, userEmail.value, userPassword.value)
       .then(async (userCredential) => {
         const user = userCredential.user
-        const userId = uidFirebaseValid(user.uid)
         if (Boolean(hairTypeId && skinTypeId)) {
           await postData(`${apiUrl}/api/v1/users`, {
-            user_id: user.uid,
             skin_type_id: selectedOption.value['skinType'],
             hair_type_id: selectedOption.value['hairType'],
             skin_issue_id: selectedSkinProblem.value.join(','),

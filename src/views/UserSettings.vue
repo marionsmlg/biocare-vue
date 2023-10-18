@@ -1,6 +1,12 @@
 <script setup>
 import { ref } from 'vue'
-import { getAuth, onAuthStateChanged, updateEmail, deleteUser } from 'firebase/auth'
+import {
+  getAuth,
+  onAuthStateChanged,
+  updateEmail,
+  deleteUser,
+  sendEmailVerification
+} from 'firebase/auth'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { RouterLink, useRouter } from 'vue-router'
 import { apiUrl, uidFirebaseValid, deleteData } from '@/utils.js'
@@ -30,12 +36,17 @@ async function updateUserEmail() {
 async function deleteCurrentUser() {
   const user = auth.currentUser
   try {
+    await deleteData(`${apiUrl}/api/v1/users`)
     await deleteUser(user)
-    await deleteData(`${apiUrl}/api/v1/users`, { user_id: user.uid })
     router.push('/')
   } catch (error) {
     console.error(error)
   }
+}
+
+async function verifyEmail() {
+  await sendEmailVerification(auth.currentUser)
+  console.log('email sent')
 }
 </script>
 
@@ -53,7 +64,7 @@ async function deleteCurrentUser() {
             </p>
           </div>
 
-          <form class="md:col-span-2" @submit.prevent="updateUserEmail">
+          <form class="md:col-span-2" @submit.prevent="verifyEmail">
             <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
               <div class="col-span-full">
                 <label for="email" class="block text-sm font-medium leading-6"

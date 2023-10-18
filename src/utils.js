@@ -8,6 +8,8 @@ import IconWavyHair from '@/components/icons/HairTypes/IconWavyHair.vue'
 import IconCurlyHair from '@/components/icons/HairTypes/IconCurlyHair.vue'
 import { markRaw } from 'vue'
 import { z } from 'zod'
+import { auth } from '@/firebaseconfig.js'
+import { onAuthStateChanged } from 'firebase/auth'
 
 export function addIcon(objectWithoutIcon) {
   const arrOfIcons = [
@@ -75,7 +77,7 @@ export function pushObjectValueInNewArr(arrOfobject) {
 
 export function dataUserAreValid(user) {
   const UserSchema = z.object({
-    email: z.string().email(),
+    email: z.string().email({ message: 'Invalid email' }),
     password: z
       .string()
       .min(6)
@@ -121,14 +123,20 @@ export async function userHasBeautyProfile(userId) {
 
 export async function postData(url, data) {
   try {
-    await fetch(url, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+    const user = auth.currentUser
+    if (user) {
+      const token = await user.getIdToken()
+      await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      })
+    } else {
+      console.error("L'utilisateur n'est pas connecté.")
+    }
   } catch (error) {
     console.error(error)
   }
@@ -136,27 +144,40 @@ export async function postData(url, data) {
 
 export async function updateData(url, data) {
   try {
-    await fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+    const user = auth.currentUser
+    if (user) {
+      const token = await user.getIdToken()
+      await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      })
+    } else {
+      console.error("L'utilisateur n'est pas connecté.")
+    }
   } catch (error) {
     console.error(error)
   }
 }
 
-export async function deleteData(url, data) {
+export async function deleteData(url) {
+  const user = auth.currentUser
   try {
-    await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+    if (user) {
+      const token = await user.getIdToken()
+      await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+    } else {
+      console.error("L'utilisateur n'est pas connecté.")
+    }
   } catch (error) {
     console.error(error)
   }
