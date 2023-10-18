@@ -40,13 +40,13 @@ const canDisplayMoreRecipes = computed(() => {
   return recipesByProblem.value.length > limit
 })
 async function fetchRecipeProblemId() {
-  const queryParamsSkinType = new URLSearchParams({
+  const queryParams = new URLSearchParams({
     physical_trait_id: getPhysicalTrait(bodyPart.name),
     beauty_issue_id: problem.id,
     limit: limit
   })
   try {
-    const queryString = `/api/recipe?${queryParamsSkinType}`
+    const queryString = `/api/v1/recipes?${queryParams}`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const recipes = await response.json()

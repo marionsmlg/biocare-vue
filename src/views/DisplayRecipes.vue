@@ -36,13 +36,13 @@ function displayNextRecipes() {
   if (recipeCategoryName === 'cheveux') {
     if (hairRecipes.value.length === limit) {
       limit = 9 * page
-      fetchHairRecipeByHairTypeId()
+      fetchRecipes()
     }
   } else {
     if (skinRecipes.value.length === limit) {
       limit = 9 * page
     }
-    fetchSkinRecipeBySkinTypeId()
+    fetchRecipes()
   }
 }
 
@@ -56,8 +56,7 @@ const canDisplayMoreRecipes = computed(() => {
 
 async function fetchUserRecipes(userId) {
   await fetchUserData(userId)
-  await fetchSkinRecipeBySkinTypeId()
-  await fetchHairRecipeByHairTypeId()
+  await fetchRecipes()
 }
 
 onAuthStateChanged(auth, (user) => {
@@ -70,8 +69,7 @@ onAuthStateChanged(auth, (user) => {
     skinTypeId.value = localStorage.getItem('skinType') || ''
     arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
     arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)
-    fetchSkinRecipeBySkinTypeId()
-    fetchHairRecipeByHairTypeId()
+    fetchRecipes()
   }
 })
 async function fetchUserData(userId) {
@@ -94,37 +92,24 @@ async function fetchUserData(userId) {
 const skinRecipes = ref([])
 const hairRecipes = ref([])
 
-async function fetchSkinRecipeBySkinTypeId() {
+async function fetchRecipes() {
   const skinPb = addnoProblemId(arrOfSkinProblemId.value, noSkinProblemId)
-  const queryParamsSkinType = new URLSearchParams({
-    physical_trait_id: `${skinTypeId.value},b9f90678-ea3f-4fde-952f-a26a88e13259`,
-    beauty_issue_id: skinPb.join(','),
-    limit: limit
-  })
-  try {
-    const queryString = `/api/recipe?${queryParamsSkinType}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const recipes = await response.json()
-    skinRecipes.value = recipes
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function fetchHairRecipeByHairTypeId() {
   const hairPb = addnoProblemId(arrOfHairProblemId.value, noHairProblemId)
-  const queryParamsHairType = new URLSearchParams({
-    physical_trait_id: `${hairTypeId.value},c8898a24-04cb-4b1f-bb8b-38633aa3c670`,
-    beauty_issue_id: hairPb.join(','),
+  const queryParams = new URLSearchParams({
+    skin_type_id: `${skinTypeId.value},b9f90678-ea3f-4fde-952f-a26a88e13259`,
+    skin_issue_id: skinPb.join(','),
+    hair_type_id: `${hairTypeId.value},c8898a24-04cb-4b1f-bb8b-38633aa3c670`,
+    hair_issue_id: hairPb.join(','),
     limit: limit
   })
   try {
-    const queryString = `/api/recipe?${queryParamsHairType}`
+    const queryString = `/api/v1/recipes?${queryParams}`
     const url = apiUrl + queryString
     const response = await fetch(url)
-    const recipes = await response.json()
-    hairRecipes.value = recipes
+    const dataRecipes = await response.json()
+    console.log(dataRecipes)
+    skinRecipes.value = dataRecipes.skinRecipe
+    hairRecipes.value = dataRecipes.hairRecipe
   } catch (error) {
     console.error(error)
   }
