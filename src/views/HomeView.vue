@@ -176,7 +176,7 @@ function findRecipes() {
               !allOptionsSelected
                 ? 'bg-red-200 cursor-not-allowed text-gray-400'
                 : 'bg-[#F3B8B4] hover:bg-[#F19B95]',
-              'w-full md:px-14 md:py-3 w-full rounded-xl px-3 py-2 text-md font-bold shadow-sm text-sm md:text-base'
+              'w-full md:px-14 md:py-3 w-full rounded-xl px-3 py-2 text-md font-bold shadow-sm'
             ]"
           >
             Trouver ma recette
