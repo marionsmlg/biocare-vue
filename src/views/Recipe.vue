@@ -120,35 +120,35 @@ fetchDataRecipeById(recipeId)
       <img :src="recipe.img_url" class="w-full h-auto object-cover lg:rounded-xl" />
     </div>
 
-    <div
-      class="bg-[#FBDFDB] lg:w-4/5 lg:rounded-xl w-full px-4 py-3 flex justify-center items-center"
-    >
-      <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 flex items-baseline text-center">
+    <div class="bg-[#FBDFDB] lg:w-4/5 lg:rounded-xl w-full px-4 py-3 flex justify-center">
+      <div
+        class="grid grid-cols-2 gap-12 sm:gap-6 sm:grid-cols-4 flex items-baseline text-center sm:w-full"
+      >
         <div class="flex flex-col items-center">
           <IconTexture class="w-8 h-8" />
-          <p class="text-xs md:text-sm mt-2 font-semibold">Texture</p>
-          <p class="text-xs md:text-sm mt-2">{{ recipe.product_texture_type_name }}</p>
+          <p class="text-sm mt-2 font-semibold">Texture</p>
+          <p class="text-sm mt-2">{{ recipe.product_texture_type_name }}</p>
         </div>
         <div class="flex flex-col items-center">
           <IconClock class="w-8 h-8" />
-          <p class="text-xs md:text-sm mt-2 font-semibold">Préparation</p>
-          <p class="text-xs md:text-sm mt-2">{{ recipe.preparation_time }}</p>
+          <p class="text-sm mt-2 font-semibold">Préparation</p>
+          <p class="text-sm mt-2">{{ recipe.preparation_time }}</p>
         </div>
         <div class="flex flex-col items-center">
           <component
             :is="recipe.recipe_category_name === 'Cheveux' ? HairIcon : SkinIcon"
             class="w-8"
           ></component>
-          <p class="text-xs md:text-sm mt-2 font-semibold">
+          <p class="text-sm mt-2 font-semibold">
             {{ recipe.recipe_category_name === 'Cheveux' ? 'Type de cheveux' : 'Type de peau' }}
           </p>
-          <p class="text-xs md:text-sm flex flex-row mt-2">{{ recipePhysicalTrait }}</p>
+          <p class="text-sm flex flex-row mt-2">{{ recipePhysicalTrait }}</p>
         </div>
 
         <div class="flex flex-col items-center">
           <IconConservation class="w-10 h-10" />
-          <p class="text-xs md:text-sm mt-2 font-semibold">Conservation</p>
-          <p class="text-xs md:text-sm mt-2">{{ recipe.storage_time }}</p>
+          <p class="text-sm mt-2 font-semibold">Conservation</p>
+          <p class="text-sm mt-2">{{ recipe.storage_time }}</p>
         </div>
       </div>
     </div>
