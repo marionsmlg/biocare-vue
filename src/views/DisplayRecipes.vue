@@ -72,6 +72,7 @@ onAuthStateChanged(auth, (user) => {
     fetchRecipes()
   }
 })
+
 async function fetchUserData(userId) {
   try {
     const queryString = `/api/v1/users?user_id=${userId}`
@@ -107,7 +108,6 @@ async function fetchRecipes() {
     const url = apiUrl + queryString
     const response = await fetch(url)
     const dataRecipes = await response.json()
-    console.log(dataRecipes)
     skinRecipes.value = dataRecipes.skinRecipe
     hairRecipes.value = dataRecipes.hairRecipe
   } catch (error) {

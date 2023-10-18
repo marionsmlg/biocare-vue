@@ -44,7 +44,7 @@ const selectedHairType = ref('')
       >
         <div
           :class="[
-            checked ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]' : 'border-gray-300',
+            checked ? 'border-cyan-500 ring-1 ring-cyan-500' : 'border-gray-300',
             'relative block cursor-pointer rounded-xl border bg-white px-6 py-4 shadow-sm focus:outline-none w-40 md:w-56'
           ]"
         >
@@ -61,8 +61,8 @@ const selectedHairType = ref('')
           <span
             :class="[
               active ? 'border' : 'border-1',
-              checked ? 'border-[#8CD4E0]' : 'border-transparent',
-              'pointer-events-none absolute -inset-px rounded-lg'
+              checked ? 'border-cyan-500' : 'border-transparent',
+              'pointer-events-none absolute -inset-px rounded-xl'
             ]"
             aria-hidden="true"
           />

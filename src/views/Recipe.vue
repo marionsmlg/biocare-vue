@@ -119,26 +119,35 @@ fetchDataRecipeById(recipeId)
     <div class="flex w-full lg:w-4/5 h-96 overflow-hidden lg:mb-8">
       <img :src="recipe.img_url" class="w-full h-auto object-cover lg:rounded-xl" />
     </div>
-    <div class="bg-[#FBDFDB] lg:w-4/5 lg:rounded-xl w-full px-4 py-3">
-      <div class="flex items-baseline justify-center">
-        <div class="flex flex-col items-center px-8">
+
+    <div
+      class="bg-[#FBDFDB] lg:w-4/5 lg:rounded-xl w-full px-4 py-3 flex justify-center items-center"
+    >
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-4 flex items-baseline text-center">
+        <div class="flex flex-col items-center">
           <IconTexture class="w-8 h-8" />
+          <p class="text-xs md:text-sm mt-2 font-semibold">Texture</p>
           <p class="text-xs md:text-sm mt-2">{{ recipe.product_texture_type_name }}</p>
         </div>
-        <div class="flex flex-col items-center px-8">
+        <div class="flex flex-col items-center">
           <IconClock class="w-8 h-8" />
+          <p class="text-xs md:text-sm mt-2 font-semibold">Préparation</p>
           <p class="text-xs md:text-sm mt-2">{{ recipe.preparation_time }}</p>
         </div>
-        <div class="flex flex-col items-center px-8">
+        <div class="flex flex-col items-center">
           <component
             :is="recipe.recipe_category_name === 'Cheveux' ? HairIcon : SkinIcon"
             class="w-8"
           ></component>
+          <p class="text-xs md:text-sm mt-2 font-semibold">
+            {{ recipe.recipe_category_name === 'Cheveux' ? 'Type de cheveux' : 'Type de peau' }}
+          </p>
           <p class="text-xs md:text-sm flex flex-row mt-2">{{ recipePhysicalTrait }}</p>
         </div>
 
-        <div class="flex flex-col items-center px-8">
+        <div class="flex flex-col items-center">
           <IconConservation class="w-10 h-10" />
+          <p class="text-xs md:text-sm mt-2 font-semibold">Conservation</p>
           <p class="text-xs md:text-sm mt-2">{{ recipe.storage_time }}</p>
         </div>
       </div>

@@ -42,7 +42,7 @@ const selectedSkinType = ref('')
       >
         <div
           :class="[
-            checked ? 'border-[#8CD4E0] ring-1 ring-[#8CD4E0]' : 'border-gray-300',
+            checked ? 'border-cyan-500 ring-1 ring-cyan-500' : 'border-gray-300',
             'relative block cursor-pointer rounded-xl border bg-white px-4 py-2 shadow-sm focus:outline-none sm:flex sm:justify-between'
           ]"
         >
@@ -63,8 +63,8 @@ const selectedSkinType = ref('')
           <span
             :class="[
               active ? 'border' : 'border-transparent',
-              checked ? 'border-[#8CD4E0]' : 'border-transparent',
-              'pointer-events-none absolute -inset-px rounded-lg'
+              checked ? 'border-cyan-500' : 'border-transparent',
+              'pointer-events-none absolute -inset-px rounded-xl'
             ]"
             aria-hidden="true"
           />

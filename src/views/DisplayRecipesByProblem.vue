@@ -39,6 +39,7 @@ function getPhysicalTrait(categoryName) {
 const canDisplayMoreRecipes = computed(() => {
   return recipesByProblem.value.length > limit
 })
+
 async function fetchRecipeProblemId() {
   const queryParams = new URLSearchParams({
     physical_trait_id: getPhysicalTrait(bodyPart.name),

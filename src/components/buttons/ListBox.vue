@@ -41,14 +41,10 @@ const updateSelectedOption = () => {
             'md:px-14 md:py-3 w-full rounded-xl bg-white px-3 py-2 text-md font-semibold shadow-sm border-2'
           ]"
         >
-          <span class="block truncate text-sm md:text-base" v-if="selectedOption">{{
-            selectedOption.name
+          <span class="block truncate" v-if="selectedOption">{{ selectedOption.name }}</span>
+          <span v-else :class="[isDisabled ? 'text-gray-400' : 'text-gray-500']">{{
+            props.placeholder
           }}</span>
-          <span
-            v-else
-            :class="[isDisabled ? 'text-gray-400' : 'text-gray-500', 'text-sm md:text-base']"
-            >{{ props.placeholder }}</span
-          >
           <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
           </span>
