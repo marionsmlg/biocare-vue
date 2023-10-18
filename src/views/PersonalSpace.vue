@@ -122,7 +122,6 @@ async function fetchRecipes() {
     const url = apiUrl + queryString
     const response = await fetch(url)
     const dataRecipes = await response.json()
-    console.log(dataRecipes)
     highlightSkinRecipes.value = dataRecipes.skinRecipe
     skinCategoryName.value = dataRecipes.skinRecipe[0].recipe_category_name.toLowerCase()
     skinProblemCount.value = countProblems(arrOfSkinProblemId.value)

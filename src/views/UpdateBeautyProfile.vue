@@ -43,42 +43,21 @@ const selectedHairType = ref('')
 const selectedSkinProblem = ref([])
 const selectedHairProblem = ref([])
 
-async function fetchUserPhysicalTraitsById(userId) {
+async function fetchUserData(userId) {
   try {
-    const queryString = `/api/user-physical-trait?user_id=${userId}`
+    const queryString = `/api/v1/users?user_id=${userId}`
     const url = apiUrl + queryString
     const response = await fetch(url)
-    const fetchedPhysicalTraits = await response.json()
-    selectedSkinType.value = fetchedPhysicalTraits[0].skin_type_id
-    selectedHairType.value = fetchedPhysicalTraits[0].hair_type_id
-  } catch (error) {
-    console.error(error)
-  }
-}
+    const dataUser = await response.json()
+    selectedSkinType.value = dataUser.physicalTrait[0].skin_type_id
+    selectedHairType.value = dataUser.physicalTrait[0].hair_type_id
 
-async function fetchUserHairIssueId(userId) {
-  try {
-    const queryString = `/api/user-hair-issue?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedHairIssueId = await response.json()
-    for (const object of fetchedHairIssueId) {
+    for (const object of dataUser.hairIssue) {
       const arrOfkey = Object.keys(object)
       const key = arrOfkey[0]
       selectedHairProblem.value.push(object[key])
     }
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function fetchUserSkinIssueId(userId) {
-  try {
-    const queryString = `/api/user-skin-issue?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const fetchedSkinIssueId = await response.json()
-    for (const object of fetchedSkinIssueId) {
+    for (const object of dataUser.skinIssue) {
       const arrOfkey = Object.keys(object)
       const key = arrOfkey[0]
       selectedSkinProblem.value.push(object[key])
@@ -86,12 +65,6 @@ async function fetchUserSkinIssueId(userId) {
   } catch (error) {
     console.error(error)
   }
-}
-
-async function fetchUserData(userId) {
-  await fetchUserPhysicalTraitsById(userId)
-  await fetchUserHairIssueId(userId)
-  await fetchUserSkinIssueId(userId)
 }
 
 const allQuestionsAnswered = computed(() => {
