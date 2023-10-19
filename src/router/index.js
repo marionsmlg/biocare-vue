@@ -45,8 +45,7 @@ const router = createRouter({
     {
       path: '/recettes/:category/:slug',
       name: 'recipe',
-      component: () => import('../views/Recipe.vue'),
-      meta: { requiresQuizOrAuthOrQuickResearch: true }
+      component: () => import('../views/Recipe.vue')
     },
     {
       path: '/mes-recettes/:category',
