@@ -124,7 +124,7 @@ async function findRecipes() {
         skin_issue_id: selectedSkinProblem.value.join(','),
         hair_issue_id: selectedHairProblem.value.join(',')
       })
-      router.push('/personal-space')
+      router.push('/mes-recettes')
     } else {
       console.log('Pas connecte!!')
     }

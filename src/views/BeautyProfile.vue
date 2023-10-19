@@ -129,14 +129,14 @@ async function findRecipes() {
         skin_issue_id: selectedSkinProblem.value.join(','),
         hair_issue_id: selectedHairProblem.value.join(',')
       })
-      router.push('/personal-space')
+      router.push('/mes-recettes')
     } else {
       if (quizDataAreValid && quizDataAreUuids()) {
         localStorage.setItem('skinType', selectedOption.value['skinType'])
         localStorage.setItem('hairType', selectedOption.value['hairType'])
         localStorage.setItem('skinProblem', JSON.stringify(selectedSkinProblem.value))
         localStorage.setItem('hairProblem', JSON.stringify(selectedHairProblem.value))
-        router.push('/personal-space')
+        router.push('/mes-recettes')
       } else {
         console.error('Les donnees ne sont pas valides!!!')
       }

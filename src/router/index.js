@@ -2,11 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import SignUp from '../views/SignUp.vue'
-import QuizView from '../views/QuizView2.vue'
+import BeautyProfile from '../views/BeautyProfile.vue'
 import Recipe from '../views/Recipe.vue'
 import DisplayRecipes from '../views/DisplayRecipes.vue'
 import DisplayRecipesByProblem from '../views/DisplayRecipesByProblem.vue'
-import PersonalSpace from '../views/PersonalSpace.vue'
+import MyRecipes from '../views/MyRecipes.vue'
 import UserSettings from '@/views/UserSettings.vue'
 import NotFound from '@/views/NotFound.vue'
 import { getAuth } from 'firebase/auth'
@@ -37,33 +37,33 @@ const router = createRouter({
       meta: { requiresNotAuth: true }
     },
     {
-      path: '/quiz',
-      name: 'quiz',
-      component: () => import('../views/QuizView2.vue'),
+      path: '/profil-beaute',
+      name: 'profil-beaute',
+      component: () => import('../views/BeautyProfile.vue'),
       meta: { requiresQuizNotCompleted: true }
     },
     {
-      path: '/recipe/:category/:id',
+      path: '/recettes/:category/:slug',
       name: 'recipe',
       component: () => import('../views/Recipe.vue'),
       meta: { requiresQuizOrAuthOrQuickResearch: true }
     },
     {
-      path: '/recipe/:category',
+      path: '/mes-recettes/:category',
       name: 'category',
       component: () => import('../views/DisplayRecipes.vue'),
       meta: { requiresQuizOrAuth: true }
     },
     {
-      path: '/recipe-by-problem',
+      path: '/recettes/:category',
       name: 'recipe-by-problem',
       component: () => import('../views/DisplayRecipesByProblem.vue'),
       meta: { requiresQuickResearchData: true }
     },
     {
-      path: '/personal-space',
-      name: 'personal-space',
-      component: () => import('../views/PersonalSpace.vue'),
+      path: '/mes-recettes',
+      name: 'my-recipes',
+      component: MyRecipes,
       meta: { requiresQuizOrAuth: true }
     },
     {
@@ -78,8 +78,8 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/beauty-profile-update',
-      name: 'beauty-profile-update',
+      path: '/mon-profil-beaute',
+      name: 'mon-profil-beaute',
       component: () => import('../views/UpdateBeautyProfile.vue'),
       meta: { requiresAuth: true, requiresBeautyProfile: true }
     },
@@ -140,17 +140,17 @@ router.beforeEach(async (to, from, next) => {
   if (requiresAuth && !user) {
     next('login')
   } else if (requiresQuizOrAuth && !beautyProfileCompleted(user, hasBeautyProfile)) {
-    next('/quiz')
+    next('/profil-beaute')
   } else if (requiresQuickResearchData && !categoryAndProblemSelected()) {
     next(currentPath)
   } else if (requiresQuizOrAuthOrQuickResearch && !dataSelected(user, hasBeautyProfile)) {
     next(currentPath)
   } else if (requiresBeautyProfile && !hasBeautyProfile) {
-    next('/quiz')
+    next('/profil-beaute')
   } else if (requiresNotAuth && user) {
-    next('/personal-space')
+    next('/mes-recettes')
   } else if (requiresQuizNotCompleted && beautyProfileCompleted(user, hasBeautyProfile)) {
-    next('/personal-space')
+    next('/mes-recettes')
   } else {
     next()
   }

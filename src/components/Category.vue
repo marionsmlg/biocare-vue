@@ -23,7 +23,7 @@ const props = defineProps({
 
     <ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 px-4 lg:w-3/5">
       <div v-for="recipe in props.recipes" class="mb-4 w-full hover:opacity-75">
-        <RouterLink :to="`/recipe/${props.categoryName}/${recipe.id}`">
+        <RouterLink :to="`/recettes/${props.categoryName}/${recipe.slug}`">
           <div class="relative flex w-full h-96 overflow-hidden lg:mb-8 rounded-xl">
             <!-- <span
               class="bg-white bg-opacity-80 absolute top-4 left-4 px-2 py-1 text-sm text-gray-600 rounded-tl-lg rounded-br-lg sm:top-2 xl:top-4 sm:left-2 xl:left-4"

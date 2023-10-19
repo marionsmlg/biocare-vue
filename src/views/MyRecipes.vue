@@ -187,7 +187,7 @@ const beautyProfile = [
     <Banner v-if="!isUserLoggedIn" />
     <RouterLink
       v-else
-      to="/beauty-profile-update"
+      to="/mon-profil-beaute"
       class="flex-none rounded-full bg-[#27304D] px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
       >Modifier mon profil beauté <span aria-hidden="true">&rarr;</span></RouterLink
     >
@@ -205,7 +205,7 @@ const beautyProfile = [
         </div>
 
         <RouterLink
-          :to="`/recipe/${hairCategoryName}`"
+          :to="`/mes-recettes/${hairCategoryName}`"
           class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
         >
           Voir tout
@@ -224,7 +224,7 @@ const beautyProfile = [
               <RouterLink
                 v-for="recipe in highlightHairRecipes"
                 :key="recipe.id"
-                :to="`/recipe/${hairCategoryName}/${recipe.id}`"
+                :to="`/recettes/${hairCategoryName}/${recipe.slug}`"
                 class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
               >
                 <span aria-hidden="true" class="absolute inset-0">
@@ -262,7 +262,7 @@ const beautyProfile = [
 
       <div class="mt-6 px-4 sm:hidden text-right">
         <RouterLink
-          :to="`/recipe/${hairCategoryName}`"
+          :to="`/mes-recettes/${hairCategoryName}`"
           class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
         >
           Voir tout
@@ -278,7 +278,7 @@ const beautyProfile = [
         Soins visage<SkinCareIcon class="w-10 h-10 ml-3" />
       </h2>
       <RouterLink
-        :to="`/recipe/${skinCategoryName}`"
+        :to="`/mes-recettes/${skinCategoryName}`"
         class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
       >
         Voir tout
@@ -297,7 +297,7 @@ const beautyProfile = [
             <RouterLink
               v-for="recipe in highlightSkinRecipes"
               :key="recipe.id"
-              :to="`/recipe/${skinCategoryName}/${recipe.id}`"
+              :to="`/recettes/${skinCategoryName}/${recipe.slug}`"
               class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
             >
               <span aria-hidden="true" class="absolute inset-0">
@@ -335,7 +335,7 @@ const beautyProfile = [
 
     <div class="mt-6 px-4 sm:hidden text-right">
       <RouterLink
-        :to="`/recipe/${skinCategoryName}`"
+        :to="`/mes-recettes/${skinCategoryName}`"
         class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
       >
         Voir tout

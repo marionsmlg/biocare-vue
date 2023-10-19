@@ -24,8 +24,6 @@ function updateSelectedOption() {
 function updateBeautyIssues() {
   updateSelectedOption()
   emits('updateCheckboxes', { instance: props.instance, values: selectedOption.value })
-  console.log(Boolean(selectedOption.value))
-  console.log(selectedOption.value)
 }
 </script>
 

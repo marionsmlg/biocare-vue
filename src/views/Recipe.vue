@@ -19,7 +19,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 const router = useRouter()
 const route = useRoute()
-const recipeId = route.params.id
+const recipeSlug = route.params.slug
 const catgeoryName = route.params.category
 
 function displayAllergens(fetchedAllergens) {
@@ -63,9 +63,9 @@ const recipeAllergens = ref([])
 const recipeBeautyIssues = ref([])
 const recipePhysicalTrait = ref([])
 
-async function fetchDataRecipeById(recipeId) {
+async function fetchDataRecipeBySlug(recipeSlug) {
   try {
-    const queryString = `/api/v1/recipe?recipe_id=${recipeId}`
+    const queryString = `/api/v1/recipe?slug=${recipeSlug}`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const dataRecipe = await response.json()
@@ -81,7 +81,7 @@ async function fetchDataRecipeById(recipeId) {
   }
 }
 
-fetchDataRecipeById(recipeId)
+fetchDataRecipeBySlug(recipeSlug)
 </script>
 
 <template>

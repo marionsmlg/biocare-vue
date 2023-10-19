@@ -24,9 +24,9 @@ async function loginWithFacebook() {
     console.log(user.uid)
     const hasBeautyProfile = await userHasBeautyProfile(user.uid)
     if (hasBeautyProfile) {
-      router.push('/personal-space')
+      router.push('/mes-recettes')
     } else {
-      router.push('/quiz')
+      router.push('/profil-beaute')
     }
   } catch (error) {
     // Gérez les erreurs ici
@@ -41,9 +41,9 @@ async function loginWithGoogle() {
     console.log(user.uid)
     const hasBeautyProfile = await userHasBeautyProfile(user.uid)
     if (hasBeautyProfile) {
-      router.push('/personal-space')
+      router.push('/mes-recettes')
     } else {
-      router.push('/quiz')
+      router.push('/profil-beaute')
     }
   } catch (error) {
     // Gérez les erreurs ici
@@ -74,9 +74,9 @@ async function createUser() {
             skin_issue_id: selectedSkinProblem.value.join(','),
             hair_issue_id: selectedHairProblem.value.join(',')
           })
-          router.push('/personal-space')
+          router.push('/mes-recettes')
         } else {
-          router.push('/quiz')
+          router.push('/profil-beaute')
         }
       })
       .catch((error) => {

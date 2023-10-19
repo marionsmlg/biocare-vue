@@ -3,6 +3,7 @@ import Category from '@/components/Category.vue'
 import { ref, computed } from 'vue'
 import BackButton from '@/components/buttons/BackButton.vue'
 import { apiUrl } from '@/utils.js'
+import { useRouter } from 'vue-router'
 
 const strOfBodyPart = ref(localStorage.getItem('category') || '')
 const strOfProblem = ref(localStorage.getItem('problem') || '')

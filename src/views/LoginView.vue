@@ -29,9 +29,9 @@ async function loginWithFacebook() {
     console.log(user.uid)
     const hasBeautyProfile = await userHasBeautyProfile(user.uid)
     if (hasBeautyProfile) {
-      router.push('/personal-space')
+      router.push('/mes-recettes')
     } else {
-      router.push('/quiz')
+      router.push('/profil-beaute')
     }
   } catch (error) {
     // Gérez les erreurs ici
@@ -46,9 +46,9 @@ async function loginWithGoogle() {
     console.log(user.uid)
     const hasBeautyProfile = await userHasBeautyProfile(user.uid)
     if (hasBeautyProfile) {
-      router.push('/personal-space')
+      router.push('/mes-recettes')
     } else {
-      router.push('/quiz')
+      router.push('/profil-beaute')
     }
   } catch (error) {
     // Gérez les erreurs ici
@@ -62,7 +62,7 @@ const loginUser = computed(() => {
   signInWithEmailAndPassword(auth, userEmail.value, userPassword.value)
     .then((userCredential) => {
       const user = userCredential.user
-      router.push('/personal-space')
+      router.push('/mes-recettes')
     })
     .catch((error) => {
       const errorCode = error.code

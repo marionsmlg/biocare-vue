@@ -14,6 +14,7 @@ import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { apiUrl } from '@/utils.js'
 import { ref, computed } from 'vue'
+import slugify from '@sindresorhus/slugify'
 
 localStorage.clear()
 const auth = getAuth(firebaseApp)
@@ -105,7 +106,10 @@ const router = useRouter()
 function findRecipes() {
   localStorage.setItem('category', JSON.stringify(selectedBodyPart.value))
   localStorage.setItem('problem', JSON.stringify(selectedProblem.value))
-  router.push('/recipe-by-problem')
+  router.push({
+    path: `/recettes/${slugify(selectedBodyPart.value.name)}`,
+    query: { issue: slugify(selectedProblem.value.name) }
+  })
 }
 </script>
 
@@ -116,13 +120,13 @@ function findRecipes() {
         <div class="px-6 lg:absolute lg:w-1/2">
           <h1 class="text-[#605E5E] text-xl font-medium mb-3 md:text-2xl lg:text-4xl">
             Vous cherchez une recette cosmétique adaptée à
-            <span class="text-[#62D0E3]">vous</span> ?
+            <span class="text-cyan-500">vous</span> ?
           </h1>
           <h2 class="text-[#605E5E] md:text-xl lg:text-2xl lg:mb-12">
             PureCare sélectionne des recettes de cosmétiques DIY qui vous ressemblent !
           </h2>
           <div class="hidden lg:flex justify-center">
-            <RouterLink to="/quiz"
+            <RouterLink to="/profil-beaute"
               ><ButtonPrimary
                 >Découvrez vos recettes sur mesure
                 <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
@@ -134,7 +138,7 @@ function findRecipes() {
         </div>
 
         <div class="lg:hidden flex justify-center p-2">
-          <RouterLink to="/quiz"
+          <RouterLink to="/profil-beaute"
             ><ButtonPrimary
               >Découvrez vos recettes sur mesure
               <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
@@ -263,7 +267,7 @@ function findRecipes() {
           recettes adaptées à vous !
         </h1>
         <div class="z-10 p-2">
-          <RouterLink to="/quiz"
+          <RouterLink to="/profil-beaute"
             ><ButtonPrimary
               >Découvrez vos recettes sur mesure
               <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary

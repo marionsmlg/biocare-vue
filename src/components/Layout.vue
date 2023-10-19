@@ -77,7 +77,7 @@ function signOutUser() {
             >
               <div class="px-1 py-1">
                 <MenuItem v-slot="{ active }">
-                  <RouterLink to="/personal-space">
+                  <RouterLink to="/mes-recettes">
                     <button
                       :class="[
                         active ? 'bg-[#C7E8F1]' : 'text-gray-900',
@@ -95,7 +95,7 @@ function signOutUser() {
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <RouterLink
-                    to="/beauty-profile-update"
+                    to="/mon-profil-beaute"
                     :class="[
                       active ? 'bg-[#C7E8F1]' : 'text-gray-900',
                       'group flex w-full items-center rounded-md px-2 py-2 text-sm'
