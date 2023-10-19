@@ -57,7 +57,8 @@ const router = createRouter({
     {
       path: '/recettes/:category',
       name: 'recipe-by-problem',
-      component: () => import('../views/DisplayRecipesByProblem.vue')
+      component: () => import('../views/DisplayRecipesByProblem.vue'),
+      meta: { requiresQuickResearchData: true }
     },
     {
       path: '/mes-recettes',
