@@ -106,14 +106,14 @@ async function findSkinHairTypeById() {
 
 ////////////////////////////
 
-const skinCategoryName = ref()
-const hairCategoryName = ref()
+const skinCategorySlug = ref()
+const hairCategorySlug = ref()
 
 async function fetchRecipes() {
   const queryParams = new URLSearchParams({
-    skin_type_id: `${skinTypeId.value},b9f90678-ea3f-4fde-952f-a26a88e13259`,
+    skin_type_id: skinTypeId.value,
     skin_issue_id: arrOfSkinProblemId.value.join(','),
-    hair_type_id: `${hairTypeId.value},c8898a24-04cb-4b1f-bb8b-38633aa3c670`,
+    hair_type_id: hairTypeId.value,
     hair_issue_id: arrOfHairProblemId.value.join(','),
     limit: 5
   })
@@ -122,11 +122,12 @@ async function fetchRecipes() {
     const url = apiUrl + queryString
     const response = await fetch(url)
     const dataRecipes = await response.json()
+    console.log(dataRecipes)
     highlightSkinRecipes.value = dataRecipes.skinRecipe
-    skinCategoryName.value = dataRecipes.skinRecipe[0].recipe_category_name.toLowerCase()
+    skinCategorySlug.value = dataRecipes.skinRecipe[0].recipe_category_slug
     skinProblemCount.value = countProblems(arrOfSkinProblemId.value)
     highlightHairRecipes.value = dataRecipes.hairRecipe
-    hairCategoryName.value = dataRecipes.hairRecipe[0].recipe_category_name.toLowerCase()
+    hairCategorySlug.value = dataRecipes.hairRecipe[0].recipe_category_slug
     hairProblemCount.value = countProblems(arrOfHairProblemId.value)
   } catch (error) {
     console.error(error)
@@ -205,7 +206,7 @@ const beautyProfile = [
         </div>
 
         <RouterLink
-          :to="`/mes-recettes/${hairCategoryName}`"
+          :to="`/mes-recettes/${hairCategorySlug}`"
           class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
         >
           Voir tout
@@ -224,7 +225,7 @@ const beautyProfile = [
               <RouterLink
                 v-for="recipe in highlightHairRecipes"
                 :key="recipe.id"
-                :to="`/recettes/${hairCategoryName}/${recipe.slug}`"
+                :to="`/recettes/${hairCategorySlug}/${recipe.slug}`"
                 class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
               >
                 <span aria-hidden="true" class="absolute inset-0">
@@ -262,7 +263,7 @@ const beautyProfile = [
 
       <div class="mt-6 px-4 sm:hidden text-right">
         <RouterLink
-          :to="`/mes-recettes/${hairCategoryName}`"
+          :to="`/mes-recettes/${hairCategorySlug}`"
           class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
         >
           Voir tout
@@ -278,7 +279,7 @@ const beautyProfile = [
         Soins visage<SkinCareIcon class="w-10 h-10 ml-3" />
       </h2>
       <RouterLink
-        :to="`/mes-recettes/${skinCategoryName}`"
+        :to="`/mes-recettes/${skinCategorySlug}`"
         class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
       >
         Voir tout
@@ -297,7 +298,7 @@ const beautyProfile = [
             <RouterLink
               v-for="recipe in highlightSkinRecipes"
               :key="recipe.id"
-              :to="`/recettes/${skinCategoryName}/${recipe.slug}`"
+              :to="`/recettes/${skinCategorySlug}/${recipe.slug}`"
               class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
             >
               <span aria-hidden="true" class="absolute inset-0">
@@ -335,86 +336,12 @@ const beautyProfile = [
 
     <div class="mt-6 px-4 sm:hidden text-right">
       <RouterLink
-        :to="`/mes-recettes/${skinCategoryName}`"
+        :to="`/mes-recettes/${skinCategorySlug}`"
         class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
       >
         Voir tout
         <span aria-hidden="true"> &rarr;</span>
       </RouterLink>
     </div>
-
-    <!-- ////////////////////////////////// -->
-
-    <!-- <div class="xl:mx-auto xl:max-w-7xl xl:px-8">
-      <div class="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0">
-        <h2 class="text-base font-bold tracking-tight text-gray-900 flex">
-          Soins corps<BodyIcon class="w-7 ml-3" />
-        </h2>
-        <a
-          href="/category"
-          class="hidden text-sm font-semibold text-[##27304D] hover:text-gray-500 sm:block"
-        >
-          Voir tout
-          <span aria-hidden="true"> &rarr;</span>
-        </a>
-      </div>
-
-      <div class="mt-4 flow-root">
-        <div class="-my-2">
-          <div
-            class="relative box-content h-80 overflow-y-hidden overflow-x-auto pb-5 pt-2 xl:overflow-visible"
-          >
-            <div
-              class="absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0"
-            >
-              <a
-                v-for="category in categories"
-                :key="category.name"
-                :href="category.href"
-                class="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
-              >
-                <span aria-hidden="true" class="absolute inset-0">
-                  <img
-                    :src="category.imageSrc"
-                    alt=""
-                    class="h-full w-full object-cover object-center"
-                  />
-                </span>
-                <span
-                  aria-hidden="true"
-                  class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-800 opacity-50"
-                />
-                <div
-                  class="absolute right-0 left-0 bottom-4 px-4 mx-auto sm:px-2 lg:px-4 sm:bottom-2 lg:bottom-4"
-                >
-                  <div class="p-4 w-full bg-white bg-opacity-80 rounded rounded-lg">
-                    <div class="flex flex-row items-center text-gray-800">
-                      <p class="ml-2 text-sm flex items-center">
-                        Facile | <ClockIcon class="w-4 h-4 mx-1" />5 min
-                      </p>
-                    </div>
-                    <p class="mt-4 text-sm text-gray-800 sm:mt-2 lg:mt-3 font-bold">
-                      {{ category.name }}
-                    </p>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-6 px-4 sm:hidden text-right">
-        <RouterLink
-          to="/category"
-          class="block text-sm font-semibold text-[##27304D] hover:text-gray-500"
-        >
-          Voir tout
-          <span aria-hidden="true"> &rarr;</span>
-        </RouterLink>
-      </div>
-    </div>
-  </div>
-</template> -->
   </div>
 </template>

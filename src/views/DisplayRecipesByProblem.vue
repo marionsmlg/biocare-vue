@@ -3,16 +3,13 @@ import Category from '@/components/Category.vue'
 import { ref, computed } from 'vue'
 import BackButton from '@/components/buttons/BackButton.vue'
 import { apiUrl } from '@/utils.js'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
-const strOfBodyPart = ref(localStorage.getItem('category') || '')
-const strOfProblem = ref(localStorage.getItem('problem') || '')
-const bodyPart = JSON.parse(strOfBodyPart.value)
-const problem = JSON.parse(strOfProblem.value)
+const route = useRoute()
+const category = route.params.category
+const beautyIssueSlug = route.query.issue
 
 const recipesByProblem = ref([])
-
-const bodyPartName = bodyPart.name.toLowerCase()
 
 let page = 1
 let limit = 9
@@ -27,24 +24,13 @@ function displayNextRecipes() {
   }
 }
 
-function getPhysicalTrait(categoryName) {
-  const allSkinTypesId = `b9f90678-ea3f-4fde-952f-a26a88e13259`
-  const allHairTypesId = 'c8898a24-04cb-4b1f-bb8b-38633aa3c670'
-  if (categoryName === 'Cheveux') {
-    return allHairTypesId
-  } else {
-    return allSkinTypesId
-  }
-}
-
 const canDisplayMoreRecipes = computed(() => {
   return recipesByProblem.value.length > limit
 })
 
 async function fetchRecipeProblemId() {
   const queryParams = new URLSearchParams({
-    physical_trait_id: getPhysicalTrait(bodyPart.name),
-    beauty_issue_id: problem.id,
+    beauty_issue_slug: beautyIssueSlug,
     limit: limit
   })
   try {
@@ -64,7 +50,7 @@ fetchRecipeProblemId()
   <div class="xl:px-8 px-4 py-8">
     <BackButton />
   </div>
-  <Category :categoryName="bodyPartName" :recipes="recipesByProblem" :beautyIssue="problem.name" />
+  <Category :categoryName="category" :recipes="recipesByProblem" :beautyIssue="beautyIssueSlug" />
   <div class="flex justify-center" v-if="canDisplayMoreRecipes">
     <button
       @click="displayNextRecipes"

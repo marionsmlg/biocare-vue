@@ -20,14 +20,6 @@ const strOfSkinProblemId = localStorage.getItem('skinProblem') || ''
 const arrOfSkinProblemId = ref()
 const arrOfHairProblemId = ref()
 
-const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
-const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
-
-function addnoProblemId(arrOfProblemId, noProblemId) {
-  arrOfProblemId.push(noProblemId)
-  return arrOfProblemId
-}
-
 let page = 1
 let limit = 9
 
@@ -94,13 +86,11 @@ const skinRecipes = ref([])
 const hairRecipes = ref([])
 
 async function fetchRecipes() {
-  const skinPb = addnoProblemId(arrOfSkinProblemId.value, noSkinProblemId)
-  const hairPb = addnoProblemId(arrOfHairProblemId.value, noHairProblemId)
   const queryParams = new URLSearchParams({
-    skin_type_id: `${skinTypeId.value},b9f90678-ea3f-4fde-952f-a26a88e13259`,
-    skin_issue_id: skinPb.join(','),
-    hair_type_id: `${hairTypeId.value},c8898a24-04cb-4b1f-bb8b-38633aa3c670`,
-    hair_issue_id: hairPb.join(','),
+    skin_type_id: skinTypeId.value,
+    skin_issue_id: arrOfSkinProblemId.value.join(','),
+    hair_type_id: hairTypeId.value,
+    hair_issue_id: arrOfHairProblemId.value.join(','),
     limit: limit
   })
   try {

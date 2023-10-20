@@ -104,11 +104,9 @@ const selectedProblems = computed(() => {
 const router = useRouter()
 
 function findRecipes() {
-  localStorage.setItem('category', JSON.stringify(selectedBodyPart.value))
-  localStorage.setItem('problem', JSON.stringify(selectedProblem.value))
   router.push({
-    path: `/recettes/${slugify(selectedBodyPart.value.name)}`,
-    query: { issue: slugify(selectedProblem.value.name) }
+    path: `/recettes/${selectedBodyPart.value.slug}`,
+    query: { issue: slugify(selectedProblem.value.slug) }
   })
 }
 </script>
