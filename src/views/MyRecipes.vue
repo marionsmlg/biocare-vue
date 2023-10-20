@@ -152,12 +152,12 @@ onAuthStateChanged(auth, async (user) => {
       </li>
       <li class="flex flex-col items-center">
         <SkinCareIcon class="w-12 h-12" />
-        <!-- <p class="text-center text-xs md:text-sm font-bold">
-          {{ `Problèmes de peau (${skinProblemCount})` }}
-        </p> -->
         <p class="text-center text-xs md:text-sm font-bold">
-          {{ skinIssue }}
+          {{ `Problèmes de peau (${skinProblemCount})` }}
         </p>
+        <!-- <p class="text-center text-xs md:text-sm font-bold">
+          {{ skinIssue }}
+        </p> -->
       </li>
       <li class="flex flex-col items-center">
         <component :is="hairType.icon" class="w-12 h-12" />
@@ -167,12 +167,12 @@ onAuthStateChanged(auth, async (user) => {
       </li>
       <li class="flex flex-col items-center">
         <DamagedHairIcon class="w-12 h-12" />
-        <!-- <p class="text-center text-xs md:text-sm font-bold">
-          {{ `Problèmes capillaires (${hairProblemCount})` }}
-        </p> -->
         <p class="text-center text-xs md:text-sm font-bold">
-          {{ hairIssue }}
+          {{ `Problèmes capillaires (${hairProblemCount})` }}
         </p>
+        <!-- <p class="text-center text-xs md:text-sm font-bold">
+          {{ hairIssue }}
+        </p> -->
       </li>
     </ul>
 
