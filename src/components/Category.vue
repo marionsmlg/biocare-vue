@@ -14,7 +14,10 @@ const props = defineProps({
     <h1 class="text-2xl font-bold text-center mb-8 text-gray-900">
       Soins {{ props.categoryName }}
     </h1>
-    <div class="flex space-x-3 mb-8" v-if="props.beautyIssue">
+    <div
+      class="flex space-x-3 mb-8"
+      v-if="props.beautyIssue && props.beautyIssue !== 'Aucun problème'"
+    >
       <span
         class="bg-[#C7E8F1] inline-flex items-center text-center gap-x-1.5 rounded-full px-3 py-1 text-sm font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
         >{{ props.beautyIssue }}

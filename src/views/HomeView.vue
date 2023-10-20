@@ -106,7 +106,7 @@ const router = useRouter()
 function findRecipes() {
   router.push({
     path: `/recettes/${selectedBodyPart.value.slug}`,
-    query: { issue: slugify(selectedProblem.value.slug) }
+    query: { issue: selectedProblem.value.slug }
   })
 }
 </script>

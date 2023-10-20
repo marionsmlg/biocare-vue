@@ -6,7 +6,7 @@ import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import BackButton from '../components/buttons/BackButton.vue'
 import { ref, computed, onMounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { apiUrl, pushObjectValueInNewArr, updateData } from '@/utils.js'
+import { apiUrl, pushObjectValueInNewArr, updateData, fetchUserBeautyProfile } from '@/utils.js'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
@@ -44,26 +44,19 @@ const selectedSkinProblem = ref([])
 const selectedHairProblem = ref([])
 
 async function fetchUserData(userId) {
-  try {
-    const queryString = `/api/v1/users?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const dataUser = await response.json()
-    selectedSkinType.value = dataUser.physicalTrait[0].skin_type_id
-    selectedHairType.value = dataUser.physicalTrait[0].hair_type_id
+  const dataUser = await fetchUserBeautyProfile(userId)
+  selectedSkinType.value = dataUser.physicalTrait[0].skin_type_id
+  selectedHairType.value = dataUser.physicalTrait[0].hair_type_id
 
-    for (const object of dataUser.hairIssue) {
-      const arrOfkey = Object.keys(object)
-      const key = arrOfkey[0]
-      selectedHairProblem.value.push(object[key])
-    }
-    for (const object of dataUser.skinIssue) {
-      const arrOfkey = Object.keys(object)
-      const key = arrOfkey[0]
-      selectedSkinProblem.value.push(object[key])
-    }
-  } catch (error) {
-    console.error(error)
+  for (const object of dataUser.hairIssue) {
+    const arrOfkey = Object.keys(object)
+    const key = arrOfkey[0]
+    selectedHairProblem.value.push(object[key])
+  }
+  for (const object of dataUser.skinIssue) {
+    const arrOfkey = Object.keys(object)
+    const key = arrOfkey[0]
+    selectedSkinProblem.value.push(object[key])
   }
 }
 

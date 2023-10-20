@@ -8,6 +8,7 @@ import { useRouter, useRoute } from 'vue-router'
 const route = useRoute()
 const category = route.params.category
 const beautyIssueSlug = route.query.issue
+const beautyIssueName = ref()
 
 const recipesByProblem = ref([])
 
@@ -39,6 +40,7 @@ async function fetchRecipeProblemId() {
     const response = await fetch(url)
     const recipes = await response.json()
     recipesByProblem.value = recipes
+    beautyIssueName.value = recipes[0].beauty_issue_name
   } catch (error) {
     console.error(error)
   }
@@ -50,7 +52,7 @@ fetchRecipeProblemId()
   <div class="xl:px-8 px-4 py-8">
     <BackButton />
   </div>
-  <Category :categoryName="category" :recipes="recipesByProblem" :beautyIssue="beautyIssueSlug" />
+  <Category :categoryName="category" :recipes="recipesByProblem" :beautyIssue="beautyIssueName" />
   <div class="flex justify-center" v-if="canDisplayMoreRecipes">
     <button
       @click="displayNextRecipes"

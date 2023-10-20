@@ -131,7 +131,7 @@ async function findRecipes() {
       })
       router.push('/mes-recettes')
     } else {
-      if (quizDataAreValid && quizDataAreUuids()) {
+      if (quizDataAreValid && quizDataAreUuids() && allQuestionsAnswered) {
         localStorage.setItem('skinType', selectedOption.value['skinType'])
         localStorage.setItem('hairType', selectedOption.value['hairType'])
         localStorage.setItem('skinProblem', JSON.stringify(selectedSkinProblem.value))

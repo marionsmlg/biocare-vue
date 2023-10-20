@@ -165,3 +165,15 @@ export async function deleteData(url) {
     console.error(error)
   }
 }
+
+export async function fetchUserBeautyProfile(userId) {
+  try {
+    const queryString = `/api/v1/users?user_id=${userId}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
+    const dataUser = await response.json()
+    return dataUser
+  } catch (error) {
+    console.error(error)
+  }
+}

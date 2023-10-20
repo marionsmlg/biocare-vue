@@ -3,7 +3,7 @@ import Category from '@/components/Category.vue'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import BackButton from '@/components/buttons/BackButton.vue'
-import { apiUrl, pushObjectValueInNewArr } from '@/utils.js'
+import { apiUrl, pushObjectValueInNewArr, fetchUserBeautyProfile } from '@/utils.js'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
@@ -15,8 +15,7 @@ const isUserLoggedIn = ref(false)
 
 const hairTypeId = ref()
 const skinTypeId = ref()
-const strOfHairProblemId = localStorage.getItem('hairProblem') || ''
-const strOfSkinProblemId = localStorage.getItem('skinProblem') || ''
+
 const arrOfSkinProblemId = ref()
 const arrOfHairProblemId = ref()
 
@@ -46,41 +45,13 @@ const canDisplayMoreRecipes = computed(() => {
   }
 })
 
-async function fetchUserRecipes(userId) {
-  await fetchUserData(userId)
-  await fetchRecipes()
-}
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    isUserLoggedIn.value = true
-    fetchUserRecipes(user.uid)
-  } else {
-    isUserLoggedIn.value = false
-    hairTypeId.value = localStorage.getItem('hairType') || ''
-    skinTypeId.value = localStorage.getItem('skinType') || ''
-    arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
-    arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)
-    fetchRecipes()
-  }
-})
-
 async function fetchUserData(userId) {
-  try {
-    const queryString = `/api/v1/users?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const dataUser = await response.json()
-    skinTypeId.value = dataUser.physicalTrait[0].skin_type_id
-    hairTypeId.value = dataUser.physicalTrait[0].hair_type_id
-    arrOfHairProblemId.value = pushObjectValueInNewArr(dataUser.hairIssue)
-    arrOfSkinProblemId.value = pushObjectValueInNewArr(dataUser.skinIssue)
-  } catch (error) {
-    console.error(error)
-  }
+  const dataUser = await fetchUserBeautyProfile(userId)
+  skinTypeId.value = dataUser.physicalTrait[0].skin_type_id
+  hairTypeId.value = dataUser.physicalTrait[0].hair_type_id
+  arrOfHairProblemId.value = pushObjectValueInNewArr(dataUser.hairIssue)
+  arrOfSkinProblemId.value = pushObjectValueInNewArr(dataUser.skinIssue)
 }
-
-///////////////////////////////////////
 
 const skinRecipes = ref([])
 const hairRecipes = ref([])
@@ -104,6 +75,25 @@ async function fetchRecipes() {
     console.error(error)
   }
 }
+
+async function fetchUserRecipes(userId) {
+  await fetchUserData(userId)
+  await fetchRecipes()
+}
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    isUserLoggedIn.value = true
+    fetchUserRecipes(user.uid)
+  } else {
+    isUserLoggedIn.value = false
+    hairTypeId.value = localStorage.getItem('hairType') || ''
+    skinTypeId.value = localStorage.getItem('skinType') || ''
+    arrOfHairProblemId.value = JSON.parse(localStorage.getItem('hairProblem') || '')
+    arrOfSkinProblemId.value = JSON.parse(localStorage.getItem('skinProblem') || '')
+    fetchRecipes()
+  }
+})
 </script>
 
 <template>

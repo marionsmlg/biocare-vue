@@ -6,7 +6,13 @@ import HairIcon from '@/components/icons/RecipeCategories/IconHair.vue'
 import SkinCareIcon from '@/components/icons/RecipeCategories/SkinCare.vue'
 import DamagedHairIcon from '@/components/icons/RecipeCategories/DamagedHair.vue'
 import recipeIcon from '@/components/icons/Recipe/IconRecipe.vue'
-import { addIcon, capitalizeFirstLetter, apiUrl, pushObjectValueInNewArr } from '@/utils.js'
+import {
+  addIcon,
+  capitalizeFirstLetter,
+  apiUrl,
+  pushObjectValueInNewArr,
+  fetchUserBeautyProfile
+} from '@/utils.js'
 import Banner from '@/components/Banner.vue'
 import BackButton from '@/components/buttons/BackButton.vue'
 import { firebaseApp } from '@/firebaseconfig.js'
@@ -16,12 +22,12 @@ const auth = getAuth(firebaseApp)
 
 const isUserLoggedIn = ref(false)
 
-const hairTypeId = ref()
-const skinTypeId = ref()
+const hairTypeId = ref('')
+const skinTypeId = ref('')
 const strOfHairProblemId = localStorage.getItem('hairProblem')
 const strOfSkinProblemId = localStorage.getItem('skinProblem')
-const arrOfSkinProblemId = ref()
-const arrOfHairProblemId = ref()
+const arrOfSkinProblemId = ref([])
+const arrOfHairProblemId = ref([])
 
 const skinType = ref('')
 const hairType = ref('')
@@ -32,45 +38,10 @@ const hairTypeName = ref('')
 const highlightSkinRecipes = ref([])
 const highlightHairRecipes = ref([])
 
-async function fetchUserData(userId) {
-  try {
-    const queryString = `/api/v1/users?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const dataUser = await response.json()
-    skinTypeId.value = dataUser.physicalTrait[0].skin_type_id
-    hairTypeId.value = dataUser.physicalTrait[0].hair_type_id
-    arrOfHairProblemId.value = pushObjectValueInNewArr(dataUser.hairIssue)
-    const hairProblemCount = countProblems(arrOfHairProblemId.value)
-    arrOfSkinProblemId.value = pushObjectValueInNewArr(dataUser.skinIssue)
-    const skinProblemCount = countProblems(arrOfSkinProblemId.value)
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-async function fetchUserRecipes(userId) {
-  await fetchUserData(userId)
-  await findSkinHairTypeById()
-  await fetchRecipes()
-}
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    isUserLoggedIn.value = true
-    fetchUserRecipes(user.uid)
-  } else {
-    isUserLoggedIn.value = false
-    hairTypeId.value = localStorage.getItem('hairType')
-    skinTypeId.value = localStorage.getItem('skinType')
-    if (strOfHairProblemId && strOfSkinProblemId) {
-      arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
-      arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)
-    }
-    findSkinHairTypeById()
-    fetchRecipes()
-  }
-})
+const skinCategorySlug = ref()
+const hairCategorySlug = ref()
+const skinProblemCount = ref('')
+const hairProblemCount = ref('')
 
 const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
 const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
@@ -82,8 +53,41 @@ function countProblems(arrOfProblemId) {
     return 0
   }
 }
-const skinProblemCount = ref('')
-const hairProblemCount = ref('')
+
+async function fetchRecipes() {
+  const queryParams = new URLSearchParams({
+    skin_type_id: skinTypeId.value,
+    skin_issue_id: arrOfSkinProblemId.value.join(','),
+    hair_type_id: hairTypeId.value,
+    hair_issue_id: arrOfHairProblemId.value.join(','),
+    limit: 5
+  })
+  try {
+    const queryString = `/api/v1/recipes?${queryParams}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
+    const dataRecipes = await response.json()
+    highlightSkinRecipes.value = dataRecipes.skinRecipe
+    skinCategorySlug.value = dataRecipes.skinRecipe[0].recipe_category_slug
+    skinProblemCount.value = countProblems(arrOfSkinProblemId.value)
+    highlightHairRecipes.value = dataRecipes.hairRecipe
+    hairCategorySlug.value = dataRecipes.hairRecipe[0].recipe_category_slug
+    hairProblemCount.value = countProblems(arrOfHairProblemId.value)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+async function fetchUserData(userId) {
+  const dataUser = await fetchUserBeautyProfile(userId)
+
+  skinTypeId.value = dataUser.physicalTrait[0].skin_type_id
+  hairTypeId.value = dataUser.physicalTrait[0].hair_type_id
+  arrOfHairProblemId.value = pushObjectValueInNewArr(dataUser.hairIssue)
+  const hairProblemCount = countProblems(arrOfHairProblemId.value)
+  arrOfSkinProblemId.value = pushObjectValueInNewArr(dataUser.skinIssue)
+  const skinProblemCount = countProblems(arrOfSkinProblemId.value)
+}
 
 async function findSkinHairTypeById() {
   try {
@@ -104,35 +108,28 @@ async function findSkinHairTypeById() {
   }
 }
 
-////////////////////////////
-
-const skinCategorySlug = ref()
-const hairCategorySlug = ref()
-
-async function fetchRecipes() {
-  const queryParams = new URLSearchParams({
-    skin_type_id: skinTypeId.value,
-    skin_issue_id: arrOfSkinProblemId.value.join(','),
-    hair_type_id: hairTypeId.value,
-    hair_issue_id: arrOfHairProblemId.value.join(','),
-    limit: 5
-  })
-  try {
-    const queryString = `/api/v1/recipes?${queryParams}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const dataRecipes = await response.json()
-    console.log(dataRecipes)
-    highlightSkinRecipes.value = dataRecipes.skinRecipe
-    skinCategorySlug.value = dataRecipes.skinRecipe[0].recipe_category_slug
-    skinProblemCount.value = countProblems(arrOfSkinProblemId.value)
-    highlightHairRecipes.value = dataRecipes.hairRecipe
-    hairCategorySlug.value = dataRecipes.hairRecipe[0].recipe_category_slug
-    hairProblemCount.value = countProblems(arrOfHairProblemId.value)
-  } catch (error) {
-    console.error(error)
-  }
+async function fetchUserRecipes(userId) {
+  await fetchUserData(userId)
+  await Promise.all([findSkinHairTypeById(), fetchRecipes()])
 }
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    isUserLoggedIn.value = true
+    await fetchUserRecipes(user.uid)
+  } else {
+    isUserLoggedIn.value = false
+    hairTypeId.value = localStorage.getItem('hairType')
+    skinTypeId.value = localStorage.getItem('skinType')
+    if (strOfHairProblemId && strOfSkinProblemId && skinTypeId.value && hairTypeId.value) {
+      arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
+      arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)
+      await Promise.all([findSkinHairTypeById(), fetchRecipes()])
+    }
+  }
+})
+
+////////////////////////////
 
 const beautyProfile = [
   {

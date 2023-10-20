@@ -87,12 +87,6 @@ const router = createRouter({
 
 const auth = getAuth(firebaseApp)
 
-function categoryAndProblemSelected() {
-  const category = localStorage.getItem('category')
-  const problem = localStorage.getItem('problem')
-  return category && problem
-}
-
 function beautyProfileCompleted(user, hasBeautyProfile) {
   const strOfHairProblemId = localStorage.getItem('hairProblem')
   const strOfSkinProblemId = localStorage.getItem('skinProblem')
@@ -100,10 +94,6 @@ function beautyProfileCompleted(user, hasBeautyProfile) {
   const hairTypeId = localStorage.getItem('hairType')
   const quizCompleted = strOfHairProblemId && strOfSkinProblemId && skinTypeId && hairTypeId
   return quizCompleted || (user && hasBeautyProfile)
-}
-
-function dataSelected(user, hasBeautyProfile) {
-  return categoryAndProblemSelected() || beautyProfileCompleted(user, hasBeautyProfile)
 }
 
 async function checkUserAuthentication() {
@@ -124,25 +114,15 @@ router.beforeEach(async (to, from, next) => {
   const hasBeautyProfile = await userHasBeautyProfile(user)
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const requiresQuizOrAuth = to.matched.some((record) => record.meta.requiresQuizOrAuth)
-  const requiresQuickResearchData = to.matched.some(
-    (record) => record.meta.requiresQuickResearchData
-  )
-  const requiresQuizOrAuthOrQuickResearch = to.matched.some(
-    (record) => record.meta.requiresQuizOrAuthOrQuickResearch
-  )
+
   const requiresBeautyProfile = to.matched.some((record) => record.meta.requiresBeautyProfile)
   const requiresNotAuth = to.matched.some((record) => record.meta.requiresNotAuth)
   const requiresQuizNotCompleted = to.matched.some((record) => record.meta.requiresQuizNotCompleted)
 
-  const currentPath = from.path
   if (requiresAuth && !user) {
     next('login')
   } else if (requiresQuizOrAuth && !beautyProfileCompleted(user, hasBeautyProfile)) {
     next('/profil-beaute')
-  } else if (requiresQuickResearchData && !categoryAndProblemSelected()) {
-    next(currentPath)
-  } else if (requiresQuizOrAuthOrQuickResearch && !dataSelected(user, hasBeautyProfile)) {
-    next(currentPath)
   } else if (requiresBeautyProfile && !hasBeautyProfile) {
     next('/profil-beaute')
   } else if (requiresNotAuth && user) {
