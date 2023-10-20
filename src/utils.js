@@ -9,7 +9,6 @@ import IconCurlyHair from '@/components/icons/HairTypes/IconCurlyHair.vue'
 import { markRaw } from 'vue'
 import { z } from 'zod'
 import { auth } from '@/firebaseconfig.js'
-import { onAuthStateChanged } from 'firebase/auth'
 
 export function addIcon(objectWithoutIcon) {
   const arrOfIcons = [
@@ -92,18 +91,6 @@ export function uidFirebaseValid(uidFirebase) {
   }
 }
 
-export async function userHasBeautyProfile(userId) {
-  if (userId) {
-    const queryString = `/api/user?user_id=${userId}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
-  } else {
-    return
-  }
-}
-
 export async function postData(url, data) {
   try {
     const user = auth.currentUser
@@ -172,7 +159,23 @@ export async function fetchUserBeautyProfile(userId) {
     const url = apiUrl + queryString
     const response = await fetch(url)
     const dataUser = await response.json()
-    return dataUser
+    if (dataUser.physicalTrait.length === 0) {
+      return false
+    } else {
+      return dataUser
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function fetchRecipes(queryParams) {
+  try {
+    const queryString = `/api/v1/recipes?${queryParams}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
+    const dataRecipes = await response.json()
+    return dataRecipes
   } catch (error) {
     console.error(error)
   }

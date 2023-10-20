@@ -11,7 +11,7 @@ import UserSettings from '@/views/UserSettings.vue'
 import NotFound from '@/views/NotFound.vue'
 import { getAuth } from 'firebase/auth'
 import { firebaseApp } from '@/firebaseconfig.js'
-import { userHasBeautyProfile } from '@/utils.js'
+import { fetchUserBeautyProfile } from '@/utils.js'
 
 const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
@@ -111,7 +111,7 @@ async function checkUserAuthentication() {
 
 router.beforeEach(async (to, from, next) => {
   const user = await checkUserAuthentication()
-  const hasBeautyProfile = await userHasBeautyProfile(user)
+  const hasBeautyProfile = await fetchUserBeautyProfile(user)
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const requiresQuizOrAuth = to.matched.some((record) => record.meta.requiresQuizOrAuth)
 

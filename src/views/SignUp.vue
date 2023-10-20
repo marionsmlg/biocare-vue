@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth'
 import { ref, computed } from 'vue'
 import { firebaseApp } from '@/firebaseconfig.js'
-import { apiUrl, uidFirebaseValid, userHasBeautyProfile, postData } from '@/utils.js'
+import { apiUrl, uidFirebaseValid, fetchUserBeautyProfile, postData } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
 const router = useRouter()
@@ -22,7 +22,7 @@ async function loginWithFacebook() {
     const result = await signInWithPopup(auth, provider)
     const user = result.user
     console.log(user.uid)
-    const hasBeautyProfile = await userHasBeautyProfile(user.uid)
+    const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
     if (hasBeautyProfile) {
       router.push('/mes-recettes')
     } else {
@@ -39,7 +39,7 @@ async function loginWithGoogle() {
     const result = await signInWithPopup(auth, provider)
     const user = result.user
     console.log(user.uid)
-    const hasBeautyProfile = await userHasBeautyProfile(user.uid)
+    const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
     if (hasBeautyProfile) {
       router.push('/mes-recettes')
     } else {

@@ -14,15 +14,24 @@ const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
 const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
 
 function updateSelectedOption() {
-  if (selectedOption.value.includes(noHairProblemId)) {
-    return (selectedOption.value = [noHairProblemId])
-  } else if (selectedOption.value.includes(noSkinProblemId)) {
-    return (selectedOption.value = [noSkinProblemId])
+  if (selectedOption.value.includes(noHairProblemId) && selectedOption.value.length > 1) {
+    // Si noHairProblemId est coché et d'autres éléments sont cochés, retirez tous les autres éléments.
+    selectedOption.value = [noHairProblemId]
+  } else if (selectedOption.value.includes(noSkinProblemId) && selectedOption.value.length > 1) {
+    // Si noSkinProblemId est coché et d'autres éléments sont cochés, retirez tous les autres éléments.
+    selectedOption.value = [noSkinProblemId]
+  } else if (selectedOption.value.includes(noHairProblemId) && selectedOption.value.length > 1) {
+    // Si noHairProblemId est coché et d'autres éléments sont cochés, retirez-le du tableau.
+    selectedOption.value = selectedOption.value.filter((id) => id !== noHairProblemId)
+  } else if (selectedOption.value.includes(noSkinProblemId) && selectedOption.value.length > 1) {
+    // Si noSkinProblemId est coché et d'autres éléments sont cochés, retirez-le du tableau.
+    selectedOption.value = selectedOption.value.filter((id) => id !== noSkinProblemId)
   }
 }
 
 function updateBeautyIssues() {
   updateSelectedOption()
+
   emits('updateCheckboxes', { instance: props.instance, values: selectedOption.value })
 }
 </script>

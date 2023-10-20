@@ -3,7 +3,7 @@ import Category from '@/components/Category.vue'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import BackButton from '@/components/buttons/BackButton.vue'
-import { apiUrl, pushObjectValueInNewArr, fetchUserBeautyProfile } from '@/utils.js'
+import { apiUrl, pushObjectValueInNewArr, fetchUserBeautyProfile, fetchRecipes } from '@/utils.js'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
@@ -27,13 +27,13 @@ function displayNextRecipes() {
   if (recipeCategoryName === 'cheveux') {
     if (hairRecipes.value.length === limit) {
       limit = 9 * page
-      fetchRecipes()
+      getRecipes()
     }
   } else {
     if (skinRecipes.value.length === limit) {
       limit = 9 * page
     }
-    fetchRecipes()
+    getRecipes()
   }
 }
 
@@ -56,7 +56,7 @@ async function fetchUserData(userId) {
 const skinRecipes = ref([])
 const hairRecipes = ref([])
 
-async function fetchRecipes() {
+async function getRecipes() {
   const queryParams = new URLSearchParams({
     skin_type_id: skinTypeId.value,
     skin_issue_id: arrOfSkinProblemId.value.join(','),
@@ -64,21 +64,14 @@ async function fetchRecipes() {
     hair_issue_id: arrOfHairProblemId.value.join(','),
     limit: limit
   })
-  try {
-    const queryString = `/api/v1/recipes?${queryParams}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const dataRecipes = await response.json()
-    skinRecipes.value = dataRecipes.skinRecipe
-    hairRecipes.value = dataRecipes.hairRecipe
-  } catch (error) {
-    console.error(error)
-  }
+  const dataRecipes = await fetchRecipes(queryParams)
+  skinRecipes.value = dataRecipes.skinRecipe
+  hairRecipes.value = dataRecipes.hairRecipe
 }
 
 async function fetchUserRecipes(userId) {
   await fetchUserData(userId)
-  await fetchRecipes()
+  await getRecipes()
 }
 
 onAuthStateChanged(auth, (user) => {
@@ -91,7 +84,7 @@ onAuthStateChanged(auth, (user) => {
     skinTypeId.value = localStorage.getItem('skinType') || ''
     arrOfHairProblemId.value = JSON.parse(localStorage.getItem('hairProblem') || '')
     arrOfSkinProblemId.value = JSON.parse(localStorage.getItem('skinProblem') || '')
-    fetchRecipes()
+    getRecipes()
   }
 })
 </script>

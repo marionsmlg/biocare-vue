@@ -17,18 +17,12 @@ const hairProblems = ref([])
 
 async function fetchBeautyIssues() {
   try {
-    const queryString = `/api/beauty-issue`
+    const queryString = `/api/v1/beauty-issue`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const data = await response.json()
-    const skinData = data.filter(
-      (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
-    )
-    const hairData = data.filter(
-      (id) => id.recipe_category_id === '157bb376-f516-4cfe-9ce8-baa56f5dba89'
-    )
-    skinProblems.value = skinData
-    hairProblems.value = hairData
+    skinProblems.value = data.skinIssue
+    hairProblems.value = data.hairIssue
   } catch (error) {
     console.error(error)
   }

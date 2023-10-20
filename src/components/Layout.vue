@@ -13,7 +13,6 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { ref, computed } from 'vue'
-import { userHasBeautyProfile } from '@/utils.js'
 
 const auth = getAuth(firebaseApp)
 

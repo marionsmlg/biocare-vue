@@ -2,7 +2,7 @@
 import Category from '@/components/Category.vue'
 import { ref, computed } from 'vue'
 import BackButton from '@/components/buttons/BackButton.vue'
-import { apiUrl } from '@/utils.js'
+import { apiUrl, fetchRecipes } from '@/utils.js'
 import { useRouter, useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -34,16 +34,10 @@ async function fetchRecipeProblemId() {
     beauty_issue_slug: beautyIssueSlug,
     limit: limit
   })
-  try {
-    const queryString = `/api/v1/recipes?${queryParams}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const recipes = await response.json()
-    recipesByProblem.value = recipes
-    beautyIssueName.value = recipes[0].beauty_issue_name
-  } catch (error) {
-    console.error(error)
-  }
+
+  const recipes = await fetchRecipes(queryParams)
+  recipesByProblem.value = recipes
+  beautyIssueName.value = recipes[0].beauty_issue_name
 }
 fetchRecipeProblemId()
 </script>

@@ -11,7 +11,8 @@ import {
   capitalizeFirstLetter,
   apiUrl,
   pushObjectValueInNewArr,
-  fetchUserBeautyProfile
+  fetchUserBeautyProfile,
+  fetchRecipes
 } from '@/utils.js'
 import Banner from '@/components/Banner.vue'
 import BackButton from '@/components/buttons/BackButton.vue'
@@ -54,7 +55,7 @@ function countProblems(arrOfProblemId) {
   }
 }
 
-async function fetchRecipes() {
+async function getRecipes() {
   const queryParams = new URLSearchParams({
     skin_type_id: skinTypeId.value,
     skin_issue_id: arrOfSkinProblemId.value.join(','),
@@ -62,20 +63,13 @@ async function fetchRecipes() {
     hair_issue_id: arrOfHairProblemId.value.join(','),
     limit: 5
   })
-  try {
-    const queryString = `/api/v1/recipes?${queryParams}`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const dataRecipes = await response.json()
-    highlightSkinRecipes.value = dataRecipes.skinRecipe
-    skinCategorySlug.value = dataRecipes.skinRecipe[0].recipe_category_slug
-    skinProblemCount.value = countProblems(arrOfSkinProblemId.value)
-    highlightHairRecipes.value = dataRecipes.hairRecipe
-    hairCategorySlug.value = dataRecipes.hairRecipe[0].recipe_category_slug
-    hairProblemCount.value = countProblems(arrOfHairProblemId.value)
-  } catch (error) {
-    console.error(error)
-  }
+  const dataRecipes = await fetchRecipes(queryParams)
+  highlightSkinRecipes.value = dataRecipes.skinRecipe
+  skinCategorySlug.value = dataRecipes.skinRecipe[0].recipe_category_slug
+  skinProblemCount.value = countProblems(arrOfSkinProblemId.value)
+  highlightHairRecipes.value = dataRecipes.hairRecipe
+  hairCategorySlug.value = dataRecipes.hairRecipe[0].recipe_category_slug
+  hairProblemCount.value = countProblems(arrOfHairProblemId.value)
 }
 
 async function fetchUserData(userId) {
@@ -110,7 +104,7 @@ async function findSkinHairTypeById() {
 
 async function fetchUserRecipes(userId) {
   await fetchUserData(userId)
-  await Promise.all([findSkinHairTypeById(), fetchRecipes()])
+  await Promise.all([findSkinHairTypeById(), getRecipes()])
 }
 
 onAuthStateChanged(auth, async (user) => {
@@ -124,60 +118,38 @@ onAuthStateChanged(auth, async (user) => {
     if (strOfHairProblemId && strOfSkinProblemId && skinTypeId.value && hairTypeId.value) {
       arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
       arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)
-      await Promise.all([findSkinHairTypeById(), fetchRecipes()])
+      await Promise.all([findSkinHairTypeById(), getRecipes()])
     }
   }
 })
-
-////////////////////////////
-
-const beautyProfile = [
-  {
-    icon: SkinCareIcon,
-    text: `Peau`
-  },
-  {
-    icon: SkinCareIcon,
-    text: 'Problèmes de peau'
-  },
-  {
-    icon: HairIcon,
-    text: `Cheveux`
-  },
-  {
-    icon: DamagedHairIcon,
-    text: 'Problèmes capillaires'
-  }
-]
 </script>
 
 <template>
   <div class="sm:pb-12 xl:mx-auto xl:max-w-7xl xl:px-8 px-4 py-12">
     <BackButton />
     <ul class="flex justify-around border border-2 py-2 px-2 rounded-xl mt-6 mb-3 border-[#6ECDDF]">
-      <li v-for="element in beautyProfile" class="flex flex-col items-center p-2">
-        <component
-          :is="
-            element.text === 'Peau'
-              ? skinType.icon
-              : element.text === 'Cheveux'
-              ? hairType.icon
-              : element.icon
-          "
-          class="w-12 h-12"
-        />
+      <li class="flex flex-col items-center p-2">
+        <component :is="skinType.icon" class="w-12 h-12" />
         <p class="text-center text-xs md:text-sm font-bold">
-          {{
-            element.text === 'Peau'
-              ? `Peau ${skinTypeName}`
-              : element.text === 'Cheveux'
-              ? `Cheveux ${hairTypeName}`
-              : element.text === 'Problèmes de peau'
-              ? `Problèmes de peau (${skinProblemCount})`
-              : element.text === 'Problèmes capillaires'
-              ? `Problèmes capillaires (${hairProblemCount})`
-              : element.text
-          }}
+          {{ `Peau ${skinTypeName}` }}
+        </p>
+      </li>
+      <li class="flex flex-col items-center p-2">
+        <SkinCareIcon class="w-12 h-12" />
+        <p class="text-center text-xs md:text-sm font-bold">
+          {{ `Problèmes capillaires (${skinProblemCount})` }}
+        </p>
+      </li>
+      <li class="flex flex-col items-center p-2">
+        <component :is="hairType.icon" class="w-12 h-12" />
+        <p class="text-center text-xs md:text-sm font-bold">
+          {{ `Cheveux ${hairTypeName}` }}
+        </p>
+      </li>
+      <li class="flex flex-col items-center p-2">
+        <DamagedHairIcon class="w-12 h-12" />
+        <p class="text-center text-xs md:text-sm font-bold">
+          {{ `Problèmes capillaires (${hairProblemCount})` }}
         </p>
       </li>
     </ul>
