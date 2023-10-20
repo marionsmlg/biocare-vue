@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 const props = defineProps({
   problems: Array,
   instance: String,
@@ -14,18 +14,13 @@ const noHairProblemId = '77b4ae6d-a31f-4de5-a731-1249cd87eeff'
 const noSkinProblemId = '1ddab218-5489-4891-8fbb-1c7061271dc8'
 
 function updateSelectedOption() {
-  if (selectedOption.value.includes(noHairProblemId) && selectedOption.value.length > 1) {
-    // Si noHairProblemId est coché et d'autres éléments sont cochés, retirez tous les autres éléments.
-    selectedOption.value = [noHairProblemId]
-  } else if (selectedOption.value.includes(noSkinProblemId) && selectedOption.value.length > 1) {
-    // Si noSkinProblemId est coché et d'autres éléments sont cochés, retirez tous les autres éléments.
-    selectedOption.value = [noSkinProblemId]
-  } else if (selectedOption.value.includes(noHairProblemId) && selectedOption.value.length > 1) {
-    // Si noHairProblemId est coché et d'autres éléments sont cochés, retirez-le du tableau.
-    selectedOption.value = selectedOption.value.filter((id) => id !== noHairProblemId)
-  } else if (selectedOption.value.includes(noSkinProblemId) && selectedOption.value.length > 1) {
-    // Si noSkinProblemId est coché et d'autres éléments sont cochés, retirez-le du tableau.
-    selectedOption.value = selectedOption.value.filter((id) => id !== noSkinProblemId)
+  // Vérifier si noHairProblemId ou noSkinProblemId sont cochés
+  const hairChecked = selectedOption.value.includes(noHairProblemId)
+  const skinChecked = selectedOption.value.includes(noSkinProblemId)
+
+  // Si l'une des cases est cochée et d'autres éléments sont cochés, décochez les autres
+  if ((hairChecked || skinChecked) && selectedOption.value.length > 1) {
+    selectedOption.value = [hairChecked ? noHairProblemId : noSkinProblemId]
   }
 }
 
@@ -39,31 +34,28 @@ function updateBeautyIssues() {
 <template>
   <p class="mb-8 text-sm text-gray-500">Plusieurs choix sont possibles</p>
   <fieldset class="grid grid-cols-1 gap-4">
-    <div
+    <label
       :class="[
         selectedOption.includes(problem.id)
           ? 'border-cyan-500 ring-1 ring-cyan-500'
           : 'border-gray-300',
-        'relative flex items-center px-12 py-4 rounded-xl border'
+        'relative flex items-center justify-center px-12 py-4 rounded-xl border'
       ]"
       v-for="problem in props.problems"
       :key="problem.id"
       :value="problem.id"
+      :for="problem.id"
     >
-      <div class="min-w-0 flex-1 text-sm leading-6">
-        <label :for="problem.id" class="font-medium text-gray-900">{{ problem.name }}</label>
-      </div>
-      <div class="ml-3 flex h-6 items-center">
-        <input
-          :id="problem.id"
-          :name="problem.name"
-          :value="problem.id"
-          type="checkbox"
-          class="h-4 w-4 rounded border-gray-300"
-          @change="updateBeautyIssues"
-          v-model="selectedOption"
-        />
-      </div>
-    </div>
+      <input
+        :id="problem.id"
+        :name="problem.name"
+        :value="problem.id"
+        type="checkbox"
+        class="h-4 w-4 rounded border-gray-300 hidden"
+        @change="updateBeautyIssues"
+        v-model="selectedOption"
+      />
+      <span class="font-medium text-gray-900 text-sm">{{ problem.name }}</span>
+    </label>
   </fieldset>
 </template>
