@@ -49,7 +49,6 @@ async function fetchRecipeCategories() {
     const queryString = '/api/recipe-category'
     const response = await fetch(apiUrl + queryString)
     const data = await response.json()
-    console.log(data)
     bodyParts.value = data
   } catch (error) {
     console.error(error)
