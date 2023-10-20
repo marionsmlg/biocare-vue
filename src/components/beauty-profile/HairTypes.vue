@@ -9,26 +9,23 @@ import {
 
 import { addIcon, apiUrl } from '@/utils.js'
 
+const hairTypes = ref([])
+const selectedHairType = ref('')
+
 async function fetchHairTypes() {
   try {
-    const queryString = `/api/physical-trait`
+    const queryString = `/api/v1/hair-types`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const data = await response.json()
-    const hairData = data.filter(
-      (id) => id.recipe_category_id === '157bb376-f516-4cfe-9ce8-baa56f5dba89'
-    )
-    const filteredData = hairData.filter((obj) => obj.name !== 'Tous types')
-    addIcon(hairData)
-    hairTypes.value = filteredData
+    addIcon(data)
+    hairTypes.value = data
   } catch (error) {
     console.error(error)
   }
 }
-fetchHairTypes()
-const hairTypes = ref([])
 
-const selectedHairType = ref('')
+fetchHairTypes()
 </script>
 
 <template>

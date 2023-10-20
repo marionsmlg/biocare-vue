@@ -8,25 +8,22 @@ import {
 } from '@headlessui/vue'
 import { addIcon, apiUrl } from '@/utils.js'
 
-async function fetchPhysicalTraits() {
+const skinTypes = ref([])
+const selectedSkinType = ref('')
+
+async function fetchSkinTypes() {
   try {
-    const queryString = `/api/physical-trait`
+    const queryString = `/api/v1/skin-types`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const data = await response.json()
-    const types = data.filter(
-      (id) => id.recipe_category_id === '6c250d76-bfad-4968-a334-52e06119c591'
-    )
-    addIcon(types)
-    skinTypes.value = types
+    addIcon(data)
+    skinTypes.value = data
   } catch (error) {
     console.error(error)
   }
 }
-fetchPhysicalTraits()
-
-const skinTypes = ref([])
-const selectedSkinType = ref('')
+fetchSkinTypes()
 </script>
 
 <template>

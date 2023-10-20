@@ -12,7 +12,8 @@ import {
   apiUrl,
   pushObjectValueInNewArr,
   fetchUserBeautyProfile,
-  fetchRecipes
+  fetchRecipes,
+  fetchBeautyProfile
 } from '@/utils.js'
 import Banner from '@/components/Banner.vue'
 import BackButton from '@/components/buttons/BackButton.vue'
@@ -74,7 +75,6 @@ async function getRecipes() {
 
 async function fetchUserData(userId) {
   const dataUser = await fetchUserBeautyProfile(userId)
-
   skinTypeId.value = dataUser.physicalTrait[0].skin_type_id
   hairTypeId.value = dataUser.physicalTrait[0].hair_type_id
   arrOfHairProblemId.value = pushObjectValueInNewArr(dataUser.hairIssue)
@@ -83,28 +83,42 @@ async function fetchUserData(userId) {
   const skinProblemCount = countProblems(arrOfSkinProblemId.value)
 }
 
-async function findSkinHairTypeById() {
-  try {
-    const queryString = `/api/physical-trait`
-    const url = apiUrl + queryString
-    const response = await fetch(url)
-    const data = await response.json()
-    const skinTypeData = data.find((skinType) => skinType.id === skinTypeId.value)
-    const hairTypeData = data.find((hairType) => hairType.id === hairTypeId.value)
-    addIcon(skinTypeData)
-    addIcon(hairTypeData)
-    skinType.value = skinTypeData
-    hairType.value = hairTypeData
-    skinTypeName.value = skinTypeData.name.toLowerCase()
-    hairTypeName.value = hairTypeData.name.toLowerCase()
-  } catch (error) {
-    console.error(error)
+const hairIssue = ref('')
+const skinIssue = ref('')
+
+function displayBeautyIssues(arrOfBeautyIssues) {
+  const arrWithBeautyIssues = []
+  for (let i = 0; i < arrOfBeautyIssues.length; i++) {
+    if (i === 0) {
+      arrWithBeautyIssues.push(arrOfBeautyIssues[i].name)
+    } else {
+      arrWithBeautyIssues.push(arrOfBeautyIssues[i].name.toLowerCase())
+    }
   }
+  return arrWithBeautyIssues.join(', ')
+}
+
+async function getBeautyProfile() {
+  const queryParams = new URLSearchParams({
+    skin_type_id: skinTypeId.value,
+    skin_issue_id: arrOfSkinProblemId.value.join(','),
+    hair_type_id: hairTypeId.value,
+    hair_issue_id: arrOfHairProblemId.value.join(',')
+  })
+  const data = await fetchBeautyProfile(queryParams)
+  addIcon(data.skinType[0])
+  addIcon(data.hairType[0])
+  skinType.value = data.skinType[0]
+  hairType.value = data.hairType[0]
+  skinTypeName.value = data.skinType[0].name.toLowerCase()
+  hairTypeName.value = data.hairType[0].name.toLowerCase()
+  skinIssue.value = displayBeautyIssues(data.skinIssue)
+  hairIssue.value = displayBeautyIssues(data.hairIssue)
 }
 
 async function fetchUserRecipes(userId) {
   await fetchUserData(userId)
-  await Promise.all([findSkinHairTypeById(), getRecipes()])
+  await Promise.all([getBeautyProfile(), getRecipes()])
 }
 
 onAuthStateChanged(auth, async (user) => {
@@ -118,7 +132,7 @@ onAuthStateChanged(auth, async (user) => {
     if (strOfHairProblemId && strOfSkinProblemId && skinTypeId.value && hairTypeId.value) {
       arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
       arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)
-      await Promise.all([findSkinHairTypeById(), getRecipes()])
+      await Promise.all([getBeautyProfile(), getRecipes()])
     }
   }
 })
@@ -136,8 +150,11 @@ onAuthStateChanged(auth, async (user) => {
       </li>
       <li class="flex flex-col items-center p-2">
         <SkinCareIcon class="w-12 h-12" />
+        <!-- <p class="text-center text-xs md:text-sm font-bold">
+          {{ `Problèmes de peau (${skinProblemCount})` }}
+        </p> -->
         <p class="text-center text-xs md:text-sm font-bold">
-          {{ `Problèmes capillaires (${skinProblemCount})` }}
+          {{ skinIssue }}
         </p>
       </li>
       <li class="flex flex-col items-center p-2">
@@ -148,8 +165,11 @@ onAuthStateChanged(auth, async (user) => {
       </li>
       <li class="flex flex-col items-center p-2">
         <DamagedHairIcon class="w-12 h-12" />
-        <p class="text-center text-xs md:text-sm font-bold">
+        <!-- <p class="text-center text-xs md:text-sm font-bold">
           {{ `Problèmes capillaires (${hairProblemCount})` }}
+        </p> -->
+        <p class="text-center text-xs md:text-sm font-bold">
+          {{ hairIssue }}
         </p>
       </li>
     </ul>

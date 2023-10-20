@@ -155,7 +155,7 @@ export async function deleteData(url) {
 
 export async function fetchUserBeautyProfile(userId) {
   try {
-    const queryString = `/api/v1/users?user_id=${userId}`
+    const queryString = `/api/v1/user-beauty-profile?user_id=${userId}`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const dataUser = await response.json()
@@ -176,6 +176,18 @@ export async function fetchRecipes(queryParams) {
     const response = await fetch(url)
     const dataRecipes = await response.json()
     return dataRecipes
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export async function fetchBeautyProfile(queryParams) {
+  try {
+    const queryString = `/api/v1/beauty-profile?${queryParams}`
+    const url = apiUrl + queryString
+    const response = await fetch(url)
+    const data = await response.json()
+    return data
   } catch (error) {
     console.error(error)
   }
