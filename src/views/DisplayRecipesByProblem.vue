@@ -34,11 +34,11 @@ async function fetchRecipeProblemId() {
     beauty_issue_slug: beautyIssueSlug,
     limit: limit
   })
-
   const recipes = await fetchRecipes(queryParams)
   recipesByProblem.value = recipes
   beautyIssueName.value = recipes[0].beauty_issue_name
 }
+
 fetchRecipeProblemId()
 </script>
 

@@ -141,14 +141,16 @@ onAuthStateChanged(auth, async (user) => {
 <template>
   <div class="sm:pb-12 xl:mx-auto xl:max-w-7xl xl:px-8 px-4 py-12">
     <BackButton />
-    <ul class="flex justify-around border border-2 py-2 px-2 rounded-xl mt-6 mb-3 border-[#6ECDDF]">
-      <li class="flex flex-col items-center p-2">
-        <component :is="skinType.icon" class="w-12 h-12" />
+    <ul
+      class="flex justify-around p-4 border border-2 rounded-xl mt-6 mb-3 border-[#6ECDDF] grid gap-6 grid-cols-4 flex items-center text-center sm:w-full"
+    >
+      <li class="flex flex-col items-center">
+        <component :is="skinType.icon" class="w-12 h-12 mb-1" />
         <p class="text-center text-xs md:text-sm font-bold">
           {{ `Peau ${skinTypeName}` }}
         </p>
       </li>
-      <li class="flex flex-col items-center p-2">
+      <li class="flex flex-col items-center">
         <SkinCareIcon class="w-12 h-12" />
         <!-- <p class="text-center text-xs md:text-sm font-bold">
           {{ `Problèmes de peau (${skinProblemCount})` }}
@@ -157,13 +159,13 @@ onAuthStateChanged(auth, async (user) => {
           {{ skinIssue }}
         </p>
       </li>
-      <li class="flex flex-col items-center p-2">
+      <li class="flex flex-col items-center">
         <component :is="hairType.icon" class="w-12 h-12" />
         <p class="text-center text-xs md:text-sm font-bold">
           {{ `Cheveux ${hairTypeName}` }}
         </p>
       </li>
-      <li class="flex flex-col items-center p-2">
+      <li class="flex flex-col items-center">
         <DamagedHairIcon class="w-12 h-12" />
         <!-- <p class="text-center text-xs md:text-sm font-bold">
           {{ `Problèmes capillaires (${hairProblemCount})` }}

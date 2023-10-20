@@ -128,7 +128,7 @@ router.beforeEach(async (to, from, next) => {
   } else if (requiresNotAuth && user) {
     next('/mes-recettes')
   } else if (requiresQuizNotCompleted && beautyProfileCompleted(user, hasBeautyProfile)) {
-    next('/mes-recettes')
+    next('/')
   } else {
     next()
   }
