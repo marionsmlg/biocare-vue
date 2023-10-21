@@ -39,7 +39,7 @@ function updateBeautyIssues() {
         selectedOption.includes(problem.id)
           ? 'border-cyan-500 ring-1 ring-cyan-500'
           : 'border-gray-300',
-        'relative flex items-center justify-center px-12 py-4 rounded-xl border'
+        'relative flex items-center justify-center text-center px-12 py-4 rounded-xl border'
       ]"
       v-for="problem in props.problems"
       :key="problem.id"

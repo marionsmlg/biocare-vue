@@ -43,8 +43,8 @@ fetchSkinTypes()
             'relative block cursor-pointer rounded-xl border bg-white px-4 py-2 shadow-sm focus:outline-none sm:flex sm:justify-between'
           ]"
         >
-          <div class="flex">
-            <component :is="skinType.icon" class="w-20 h-20" />
+          <div class="flex items-center">
+            <component :is="skinType.icon" class="w-16 h-16 md:w-20 md:h-20 min-w-max" />
             <span class="flex items-center ml-3">
               <span class="flex flex-col text-sm">
                 <RadioGroupLabel as="span" class="font-medium text-gray-900">{{

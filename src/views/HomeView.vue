@@ -19,6 +19,16 @@ import slugify from '@sindresorhus/slugify'
 localStorage.clear()
 const auth = getAuth(firebaseApp)
 
+const mainButtonRoute = ref('')
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    mainButtonRoute.value = '/mes-recettes'
+  } else {
+    mainButtonRoute.value = '/profil-beaute'
+  }
+})
+
 const argumentsList = [
   {
     title: 'Evitez les ingrédients nocifs, priviligiez le fait maison',
@@ -46,7 +56,7 @@ const bodyParts = ref([])
 
 async function fetchRecipeCategories() {
   try {
-    const queryString = '/api/recipe-category'
+    const queryString = '/api/v1/recipe-category'
     const response = await fetch(apiUrl + queryString)
     const data = await response.json()
     bodyParts.value = data
@@ -118,7 +128,7 @@ function findRecipes() {
             PureCare sélectionne des recettes de cosmétiques DIY qui vous ressemblent !
           </h2>
           <div class="hidden lg:flex justify-center">
-            <RouterLink to="/profil-beaute"
+            <RouterLink :to="mainButtonRoute"
               ><ButtonPrimary
                 >Découvrez vos recettes sur mesure
                 <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
@@ -130,7 +140,7 @@ function findRecipes() {
         </div>
 
         <div class="lg:hidden flex justify-center p-2">
-          <RouterLink to="/profil-beaute"
+          <RouterLink :to="mainButtonRoute"
             ><ButtonPrimary
               >Découvrez vos recettes sur mesure
               <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary
@@ -259,7 +269,7 @@ function findRecipes() {
           recettes adaptées à vous !
         </h1>
         <div class="z-10 p-2">
-          <RouterLink to="/profil-beaute"
+          <RouterLink :to="mainButtonRoute"
             ><ButtonPrimary
               >Découvrez vos recettes sur mesure
               <ArrowLongRightIcon class="w-4 h-4 ml-2" /></ButtonPrimary

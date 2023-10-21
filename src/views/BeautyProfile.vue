@@ -103,7 +103,7 @@ async function quizDataExists() {
     hair_issue_id: selectedHairProblem.value.join(',')
   })
   try {
-    const queryString = `/api/quiz-data-exists?${queryParams}`
+    const queryString = `/api/v1/quiz-data-exists?${queryParams}`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const data = await response.json()
@@ -175,7 +175,7 @@ async function findRecipes() {
           !allQuestionsAnswered
             ? 'bg-sky-200 text-gray-500 cursor-not-allowed'
             : 'bg-[#8CD4E0] hover:bg-[#6ECDDF]',
-          'rounded-xl px-24 py-3 text-md font-bold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+          'rounded-xl px-24 py-3 md:text-md text-sm font-bold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
         ]"
         @click="findRecipes"
       >
