@@ -40,7 +40,7 @@ fetchSkinTypes()
         <div
           :class="[
             checked ? 'border-cyan-500 ring-1 ring-cyan-500' : 'border-gray-300',
-            'relative block cursor-pointer rounded-xl border bg-white px-4 py-2 shadow-sm focus:outline-none sm:flex sm:justify-between'
+            'relative block cursor-pointer h-24 flex items-center rounded-xl border bg-white px-4 py-2 shadow-sm focus:outline-none sm:flex sm:justify-between'
           ]"
         >
           <div class="flex items-center">
