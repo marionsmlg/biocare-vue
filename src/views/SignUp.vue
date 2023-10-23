@@ -67,11 +67,13 @@ async function createUser() {
       .then(async (userCredential) => {
         const user = userCredential.user
         if (Boolean(hairTypeId && skinTypeId)) {
+          const arrOfHairProblemId = JSON.parse(strOfHairProblemId)
+          const arrOfSkinProblemId = JSON.parse(strOfSkinProblemId)
           postData(`${apiUrl}/api/v1/users`, {
             skin_type_id: skinTypeId,
             hair_type_id: hairTypeId,
-            skin_issue_id: JSON.parse(strOfSkinProblemId).join(','),
-            hair_issue_id: JSON.parse(strOfHairProblemId).join(',')
+            skin_issue_id: arrOfSkinProblemId.join(','),
+            hair_issue_id: arrOfHairProblemId.join(',')
           }).then(() => router.push('/mes-recettes'))
         } else {
           router.push('/profil-beaute')
