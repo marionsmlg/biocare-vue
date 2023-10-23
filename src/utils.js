@@ -62,7 +62,7 @@ export const apiUrl =
     ? 'https://purecare-api-production.up.railway.app'
     : 'http://localhost:3000'
 
-// export const apiUrl = 'http://localhost:5174'
+// export const apiUrl = 'http://localhost:3000'
 
 export function pushObjectValueInNewArr(arrOfobject) {
   const newArr = []
@@ -93,6 +93,7 @@ export function uidFirebaseValid(uidFirebase) {
 
 export async function postData(url, data) {
   try {
+    console.log(data)
     const user = auth.currentUser
     if (user) {
       const token = await user.getIdToken()
