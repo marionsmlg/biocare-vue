@@ -26,8 +26,7 @@ const isUserLoggedIn = ref(false)
 
 const hairTypeId = ref('')
 const skinTypeId = ref('')
-const strOfHairProblemId = localStorage.getItem('hairProblem')
-const strOfSkinProblemId = localStorage.getItem('skinProblem')
+
 const arrOfSkinProblemId = ref([])
 const arrOfHairProblemId = ref([])
 
@@ -129,6 +128,8 @@ onAuthStateChanged(auth, async (user) => {
     isUserLoggedIn.value = false
     hairTypeId.value = localStorage.getItem('hairType')
     skinTypeId.value = localStorage.getItem('skinType')
+    const strOfHairProblemId = localStorage.getItem('hairProblem')
+    const strOfSkinProblemId = localStorage.getItem('skinProblem')
     if (strOfHairProblemId && strOfSkinProblemId && skinTypeId.value && hairTypeId.value) {
       arrOfHairProblemId.value = JSON.parse(strOfHairProblemId)
       arrOfSkinProblemId.value = JSON.parse(strOfSkinProblemId)

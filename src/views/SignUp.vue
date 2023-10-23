@@ -22,7 +22,7 @@ async function loginWithFacebook() {
     const result = await signInWithPopup(auth, provider)
     const user = result.user
     console.log(user.uid)
-    const hasBeautyProfile = true
+    const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
     if (hasBeautyProfile) {
       router.push('/mes-recettes')
     } else {
@@ -39,7 +39,7 @@ async function loginWithGoogle() {
     const result = await signInWithPopup(auth, provider)
     const user = result.user
     console.log(user.uid)
-    const hasBeautyProfile = true
+    const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
     if (hasBeautyProfile) {
       router.push('/mes-recettes')
     } else {
@@ -69,10 +69,10 @@ async function createUser() {
         const user = userCredential.user
         if (Boolean(hairTypeId && skinTypeId)) {
           await postData(`${apiUrl}/api/v1/users`, {
-            skin_type_id: selectedOption.value['skinType'],
-            hair_type_id: selectedOption.value['hairType'],
-            skin_issue_id: selectedSkinProblem.value.join(','),
-            hair_issue_id: selectedHairProblem.value.join(',')
+            skin_type_id: skinTypeId,
+            hair_type_id: hairTypeId,
+            skin_issue_id: JSON.parse(strOfHairProblemId).join(','),
+            hair_issue_id: JSON.parse(strOfSkinProblemId).join(',')
           })
           router.push('/mes-recettes')
         } else {
