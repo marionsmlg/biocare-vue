@@ -71,8 +71,8 @@ async function createUser() {
           await postData(`${apiUrl}/api/v1/users`, {
             skin_type_id: skinTypeId,
             hair_type_id: hairTypeId,
-            skin_issue_id: JSON.parse(strOfHairProblemId).join(','),
-            hair_issue_id: JSON.parse(strOfSkinProblemId).join(',')
+            skin_issue_id: JSON.parse(strOfSkinProblemId).join(','),
+            hair_issue_id: JSON.parse(strOfHairProblemId).join(',')
           })
           router.push('/mes-recettes')
         } else {
