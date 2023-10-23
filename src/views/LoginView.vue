@@ -73,9 +73,9 @@ const loginUser = computed(() => {
     })
 })
 
-async function forgotPassword() {
-  await sendPasswordResetEmail(auth, 'marion.schimmerling@hotmail.fr')
-}
+// async function forgotPassword() {
+//   await sendPasswordResetEmail(auth, 'marion.schimmerling@hotmail.fr')
+// }
 </script>
 
 <template>
@@ -125,7 +125,7 @@ async function forgotPassword() {
             </div>
           </div>
 
-          <div class="flex items-center justify-between">
+          <!-- <div class="flex items-center justify-between">
             <div class="text-sm leading-6">
               <button
                 @click="forgotPassword"
@@ -134,7 +134,7 @@ async function forgotPassword() {
                 Mot de passe oublié ?
               </button>
             </div>
-          </div>
+          </div> -->
           <p v-if="showErrorMessage" class="text-red-500 text-sm">
             {{ errorMessage }}
           </p>

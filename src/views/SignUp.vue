@@ -16,22 +16,22 @@ import { apiUrl, uidFirebaseValid, fetchUserBeautyProfile, postData } from '@/ut
 const auth = getAuth(firebaseApp)
 const router = useRouter()
 
-async function loginWithFacebook() {
-  const provider = new FacebookAuthProvider()
-  try {
-    const result = await signInWithPopup(auth, provider)
-    const user = result.user
-    console.log(user.uid)
-    const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
-    if (hasBeautyProfile) {
-      router.push('/mes-recettes')
-    } else {
-      router.push('/profil-beaute')
-    }
-  } catch (error) {
-    // Gérez les erreurs ici
-  }
-}
+// async function loginWithFacebook() {
+//   const provider = new FacebookAuthProvider()
+//   try {
+//     const result = await signInWithPopup(auth, provider)
+//     const user = result.user
+//     console.log(user.uid)
+//     const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
+//     if (hasBeautyProfile) {
+//       router.push('/mes-recettes')
+//     } else {
+//       router.push('/profil-beaute')
+//     }
+//   } catch (error) {
+//     // Gérez les erreurs ici
+//   }
+// }
 
 async function loginWithGoogle() {
   const provider = new GoogleAuthProvider()
@@ -212,7 +212,7 @@ async function createUser() {
               <span class="text-sm font-semibold leading-6">Google</span>
             </button>
 
-            <button
+            <!-- <button
               @click="loginWithFacebook"
               class="flex w-full hover:border-[#0a80ec] hover:border-2 items-center justify-center gap-3 rounded-md border px-3 py-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
             >
@@ -244,7 +244,7 @@ async function createUser() {
                 />
               </svg>
               <span class="text-sm font-semibold leading-6">Facebook</span>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
