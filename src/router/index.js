@@ -33,7 +33,7 @@ const router = createRouter({
     {
       path: '/sign-up',
       name: 'sign-up',
-      component: () => SignUp,
+      component: SignUp,
       meta: { requiresNotAuth: true }
     },
     {
