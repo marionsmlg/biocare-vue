@@ -26,7 +26,7 @@ async function loginWithFacebook() {
   try {
     const result = await signInWithPopup(auth, provider)
     const user = result.user
-    console.log(user.uid)
+
     const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
     if (hasBeautyProfile) {
       router.push('/mes-recettes')
@@ -43,7 +43,6 @@ async function loginWithGoogle() {
   try {
     const result = await signInWithPopup(auth, provider)
     const user = result.user
-    console.log(user.uid)
     const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
     if (hasBeautyProfile) {
       router.push('/mes-recettes')

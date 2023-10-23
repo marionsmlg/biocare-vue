@@ -75,25 +75,26 @@ function signOutUser() {
               class="z-10 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
               <div class="px-1 py-1">
-                <MenuItem v-slot="{ active }">
-                  <RouterLink to="/mes-recettes">
-                    <button
-                      :class="[
-                        active ? 'bg-[#C7E8F1]' : 'text-gray-900',
-                        'group flex w-full items-center rounded-md px-2 py-2 text-sm'
-                      ]"
-                    >
-                      <UserIcon
-                        :active="active"
-                        class="mr-2 h-5 w-5 text-[#0C8294]"
-                        aria-hidden="true"
-                      />
-                      Mes recettes
-                    </button>
+                <MenuItem v-slot="{ active, close }" as="div">
+                  <RouterLink
+                    @click="close"
+                    to="/mes-recettes"
+                    :class="[
+                      active ? 'bg-[#C7E8F1]' : 'text-gray-900',
+                      'group flex w-full items-center rounded-md px-2 py-2 text-sm'
+                    ]"
+                  >
+                    <UserIcon
+                      :active="active"
+                      class="mr-2 h-5 w-5 text-[#0C8294]"
+                      aria-hidden="true"
+                    />
+                    Mes recettes
                   </RouterLink>
                 </MenuItem>
-                <MenuItem v-slot="{ active }">
+                <MenuItem v-slot="{ active, close }" as="div">
                   <RouterLink
+                    @click="close"
                     to="/mon-profil-beaute"
                     :class="[
                       active ? 'bg-[#C7E8F1]' : 'text-gray-900',
@@ -108,8 +109,9 @@ function signOutUser() {
                     Mon profil
                   </RouterLink>
                 </MenuItem>
-                <MenuItem v-slot="{ active }">
+                <MenuItem v-slot="{ active, close }" as="div">
                   <RouterLink
+                    @click="close"
                     to="/user-settings"
                     :class="[
                       active ? 'bg-[#C7E8F1]' : 'text-gray-900',
@@ -126,7 +128,7 @@ function signOutUser() {
                 </MenuItem>
               </div>
               <div class="px-1 py-1">
-                <MenuItem v-slot="{ active }">
+                <MenuItem v-slot="{ active }" as="div">
                   <button
                     @click="signOutUser"
                     :class="[
@@ -172,8 +174,9 @@ function signOutUser() {
               class="z-10 absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
             >
               <div class="px-1 py-1">
-                <MenuItem v-slot="{ active }">
+                <MenuItem v-slot="{ active, close }" as="div">
                   <RouterLink
+                    @click="close"
                     to="/login"
                     :class="[
                       active ? 'bg-[#C7E8F1]' : 'text-gray-900',
@@ -190,8 +193,9 @@ function signOutUser() {
                 </MenuItem>
               </div>
               <div class="px-1 py-1">
-                <MenuItem v-slot="{ active }">
+                <MenuItem v-slot="{ active, close }" as="div">
                   <RouterLink
+                    @click="close"
                     to="/sign-up"
                     :class="[
                       active ? 'bg-[#C7E8F1]' : 'text-gray-900',
