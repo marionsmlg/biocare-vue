@@ -33,7 +33,7 @@ fetchHairTypes()
     <RadioGroupLabel class="sr-only">Hair Types</RadioGroupLabel>
     <div class="w-full grid grid-cols-2 gap-3 justify-center">
       <RadioGroupOption
-        as="template"
+        as="div"
         v-for="hairType in hairTypes"
         :key="hairType.id"
         :value="hairType.id"

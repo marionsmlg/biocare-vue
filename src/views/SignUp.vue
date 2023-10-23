@@ -21,7 +21,6 @@ async function loginWithFacebook() {
   try {
     const result = await signInWithPopup(auth, provider)
     const user = result.user
-    console.log(user.uid)
     const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
     if (hasBeautyProfile) {
       router.push('/mes-recettes')
@@ -37,8 +36,6 @@ async function loginWithGoogle() {
   const provider = new GoogleAuthProvider()
   try {
     const result = await signInWithPopup(auth, provider)
-    const user = result.user
-    console.log(user.uid)
     const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
     if (hasBeautyProfile) {
       router.push('/mes-recettes')
@@ -58,6 +55,8 @@ const hairTypeId = localStorage.getItem('hairType') || ''
 const skinTypeId = localStorage.getItem('skinType') || ''
 const strOfHairProblemId = localStorage.getItem('hairProblem') || ''
 const strOfSkinProblemId = localStorage.getItem('skinProblem') || ''
+console.log({ strOfSkinProblemId, strOfHairProblemId, hairTypeId, skinTypeId })
+console.log(Boolean(hairTypeId && skinTypeId))
 
 const showErrorMessage = ref(false)
 const errorMessage = ref('')
@@ -68,13 +67,12 @@ async function createUser() {
       .then(async (userCredential) => {
         const user = userCredential.user
         if (Boolean(hairTypeId && skinTypeId)) {
-          await postData(`${apiUrl}/api/v1/users`, {
+          postData(`${apiUrl}/api/v1/users`, {
             skin_type_id: skinTypeId,
             hair_type_id: hairTypeId,
             skin_issue_id: JSON.parse(strOfSkinProblemId).join(','),
             hair_issue_id: JSON.parse(strOfHairProblemId).join(',')
-          })
-          router.push('/mes-recettes')
+          }).then(() => router.push('/mes-recettes'))
         } else {
           router.push('/profil-beaute')
         }

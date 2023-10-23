@@ -117,13 +117,12 @@ async function findRecipes() {
   const quizDataAreValid = await quizDataExists()
   onAuthStateChanged(auth, async (user) => {
     if (user && quizDataAreValid && quizDataAreUuids()) {
-      await postData(`${apiUrl}/api/v1/users`, {
+      postData(`${apiUrl}/api/v1/users`, {
         skin_type_id: selectedOption.value['skinType'],
         hair_type_id: selectedOption.value['hairType'],
         skin_issue_id: selectedSkinProblem.value.join(','),
         hair_issue_id: selectedHairProblem.value.join(',')
-      })
-      router.push('/mes-recettes')
+      }).then(() => router.push('/mes-recettes'))
     } else {
       if (quizDataAreValid && quizDataAreUuids() && allQuestionsAnswered) {
         localStorage.setItem('skinType', selectedOption.value['skinType'])
@@ -175,7 +174,7 @@ async function findRecipes() {
           !allQuestionsAnswered
             ? 'bg-sky-200 text-gray-500 cursor-not-allowed'
             : 'bg-[#8CD4E0] hover:bg-[#6ECDDF]',
-          'rounded-xl px-24 py-3 md:text-md text-sm font-bold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+          'rounded-xl px-24 py-3 md:text-base text-sm font-bold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
         ]"
         @click="findRecipes"
       >

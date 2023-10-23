@@ -146,7 +146,7 @@ onAuthStateChanged(auth, async (user) => {
       class="flex justify-around p-4 border border-2 rounded-xl mt-6 mb-3 border-[#6ECDDF] grid gap-6 grid-cols-4 flex items-start text-center sm:w-full"
     >
       <li class="flex flex-col items-center">
-        <component :is="skinType.icon" class="w-12 h-12 mb-1" />
+        <component :is="skinType.icon" class="w-12 h-12 pb-1" />
         <p class="text-center text-xs md:text-sm font-bold">
           {{ `Peau ${skinTypeName}` }}
         </p>

@@ -51,7 +51,7 @@ function updateBeautyIssues() {
         :name="problem.name"
         :value="problem.id"
         type="checkbox"
-        class="h-4 w-4 rounded border-gray-300 hidden"
+        class="hidden"
         @change="updateBeautyIssues"
         v-model="selectedOption"
       />
