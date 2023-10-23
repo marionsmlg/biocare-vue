@@ -64,9 +64,6 @@ const allQuestionsAnswered = computed(() => {
 onAuthStateChanged(auth, (user) => {
   if (user) {
     fetchUserData(user.uid)
-  } else {
-    // User is signed out
-    // ...
   }
 })
 
@@ -88,11 +85,10 @@ async function quizDataExists() {
     hair_issue_id: selectedHairProblem.value.join(',')
   })
   try {
-    const queryString = `/api/quiz-data-exists?${queryParams}`
+    const queryString = `/api/v1/quiz-data-exists?${queryParams}`
     const url = apiUrl + queryString
     const response = await fetch(url)
     const data = await response.json()
-    console.log(data)
     return data
   } catch (error) {
     console.error('les donnees n existent pas')
