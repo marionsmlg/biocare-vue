@@ -1,5 +1,4 @@
 <script setup>
-import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import { RouterLink, useRouter } from 'vue-router'
 import {
   getAuth,

@@ -2,8 +2,8 @@
 import Category from '@/components/Category.vue'
 import { ref, computed } from 'vue'
 import BackButton from '@/components/buttons/BackButton.vue'
-import { apiUrl, fetchRecipes } from '@/utils.js'
-import { useRouter, useRoute } from 'vue-router'
+import { fetchRecipes } from '@/utils.js'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const category = route.params.category

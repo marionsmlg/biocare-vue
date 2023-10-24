@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   BeakerIcon,
@@ -13,14 +13,13 @@ import BackButton from '../components/buttons/BackButton.vue'
 import IconConservation from '../components/icons/Recipe/IconConservation.vue'
 import IconTexture from '../components/icons/Recipe/IconTexture.vue'
 import IconClock from '../components/icons/Recipe/IconClock.vue'
-import { capitalizeFirstLetter, apiUrl } from '@/utils.js'
+import { apiUrl } from '@/utils.js'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
-const router = useRouter()
 const route = useRoute()
 const recipeSlug = route.params.slug
-const catgeoryName = route.params.category
+// const catgeoryName = route.params.category
 
 function displayAllergens(fetchedAllergens) {
   if (fetchedAllergens.length === 0) {

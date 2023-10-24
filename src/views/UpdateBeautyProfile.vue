@@ -1,12 +1,11 @@
 <script setup>
-import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import SkinTypes from '../components/beauty-profile/SkinTypes.vue'
 import SkinHairProblems from '../components/beauty-profile/SkinHairProblems.vue'
 import HairTypes from '../components/beauty-profile/HairTypes.vue'
 import BackButton from '../components/buttons/BackButton.vue'
-import { ref, computed, onMounted } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
-import { apiUrl, pushObjectValueInNewArr, updateData, fetchUserBeautyProfile } from '@/utils.js'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { apiUrl, updateData, fetchUserBeautyProfile } from '@/utils.js'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 

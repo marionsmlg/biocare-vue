@@ -1,15 +1,13 @@
 <script setup>
 import { ClockIcon } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import HairIcon from '@/components/icons/RecipeCategories/IconHair.vue'
 import SkinCareIcon from '@/components/icons/RecipeCategories/SkinCare.vue'
 import DamagedHairIcon from '@/components/icons/RecipeCategories/DamagedHair.vue'
 import recipeIcon from '@/components/icons/Recipe/IconRecipe.vue'
 import {
   addIcon,
-  capitalizeFirstLetter,
-  apiUrl,
   pushObjectValueInNewArr,
   fetchUserBeautyProfile,
   fetchRecipes,
@@ -66,10 +64,8 @@ async function getRecipes() {
   const dataRecipes = await fetchRecipes(queryParams)
   highlightSkinRecipes.value = dataRecipes.skinRecipe
   skinCategorySlug.value = dataRecipes.skinRecipe[0].recipe_category_slug
-  skinProblemCount.value = countProblems(arrOfSkinProblemId.value)
   highlightHairRecipes.value = dataRecipes.hairRecipe
   hairCategorySlug.value = dataRecipes.hairRecipe[0].recipe_category_slug
-  hairProblemCount.value = countProblems(arrOfHairProblemId.value)
 }
 
 async function fetchUserData(userId) {
@@ -77,9 +73,7 @@ async function fetchUserData(userId) {
   skinTypeId.value = dataUser.physicalTrait[0].skin_type_id
   hairTypeId.value = dataUser.physicalTrait[0].hair_type_id
   arrOfHairProblemId.value = pushObjectValueInNewArr(dataUser.hairIssue)
-  const hairProblemCount = countProblems(arrOfHairProblemId.value)
   arrOfSkinProblemId.value = pushObjectValueInNewArr(dataUser.skinIssue)
-  const skinProblemCount = countProblems(arrOfSkinProblemId.value)
 }
 
 const hairIssue = ref('')
@@ -113,6 +107,8 @@ async function getBeautyProfile() {
   hairTypeName.value = data.hairType[0].name.toLowerCase()
   skinIssue.value = displayBeautyIssues(data.skinIssue)
   hairIssue.value = displayBeautyIssues(data.hairIssue)
+  skinProblemCount.value = countProblems(arrOfSkinProblemId.value)
+  hairProblemCount.value = countProblems(arrOfHairProblemId.value)
 }
 
 async function fetchUserRecipes(userId) {

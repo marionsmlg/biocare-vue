@@ -3,7 +3,7 @@ import Category from '@/components/Category.vue'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import BackButton from '@/components/buttons/BackButton.vue'
-import { apiUrl, pushObjectValueInNewArr, fetchUserBeautyProfile, fetchRecipes } from '@/utils.js'
+import { pushObjectValueInNewArr, fetchUserBeautyProfile, fetchRecipes } from '@/utils.js'
 import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 

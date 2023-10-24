@@ -1,5 +1,4 @@
 <script setup>
-import { ChevronLeftIcon } from '@heroicons/vue/20/solid'
 import SkinTypes from '../components/beauty-profile/SkinTypes.vue'
 import SkinHairProblems from '../components/beauty-profile/SkinHairProblems.vue'
 import HairTypes from '../components/beauty-profile/HairTypes.vue'

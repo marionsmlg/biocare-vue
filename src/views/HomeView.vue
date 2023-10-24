@@ -14,7 +14,6 @@ import { firebaseApp } from '@/firebaseconfig.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { apiUrl } from '@/utils.js'
 import { ref, computed } from 'vue'
-import slugify from '@sindresorhus/slugify'
 
 localStorage.clear()
 const auth = getAuth(firebaseApp)

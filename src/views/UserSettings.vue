@@ -8,8 +8,8 @@ import {
   sendEmailVerification
 } from 'firebase/auth'
 import { firebaseApp } from '@/firebaseconfig.js'
-import { RouterLink, useRouter } from 'vue-router'
-import { apiUrl, uidFirebaseValid, deleteData } from '@/utils.js'
+import { useRouter } from 'vue-router'
+import { apiUrl, deleteData } from '@/utils.js'
 
 const router = useRouter()
 const auth = getAuth(firebaseApp)
