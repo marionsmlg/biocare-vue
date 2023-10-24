@@ -51,10 +51,14 @@ const userEmail = ref()
 const userPassword = ref()
 const userConfirmPassword = ref()
 
-const hairTypeId = localStorage.getItem('hairType') || ''
-const skinTypeId = localStorage.getItem('skinType') || ''
-const strOfHairProblemId = localStorage.getItem('hairProblem') || ''
-const strOfSkinProblemId = localStorage.getItem('skinProblem') || ''
+const hairTypeId = localStorage.getItem('hairType')
+const skinTypeId = localStorage.getItem('skinType')
+const strOfHairProblemId = localStorage.getItem('hairProblem')
+const strOfSkinProblemId = localStorage.getItem('skinProblem')
+
+const beautyProfileCompleted = Boolean(
+  hairTypeId && skinTypeId && strOfSkinProblemId && strOfHairProblemId
+)
 console.log({ strOfSkinProblemId, strOfHairProblemId, hairTypeId, skinTypeId })
 console.log(Boolean(hairTypeId && skinTypeId))
 
@@ -66,7 +70,8 @@ async function createUser() {
     createUserWithEmailAndPassword(auth, userEmail.value, userPassword.value)
       .then(async (userCredential) => {
         const user = userCredential.user
-        if (Boolean(hairTypeId && skinTypeId)) {
+        const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
+        if (beautyProfileCompleted && !hasBeautyProfile) {
           const arrOfHairProblemId = JSON.parse(strOfHairProblemId)
           const arrOfSkinProblemId = JSON.parse(strOfSkinProblemId)
           postData(`${apiUrl}/api/v1/users`, {
