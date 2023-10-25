@@ -112,9 +112,9 @@ async function checkUserAuthentication() {
 router.beforeEach(async (to, from, next) => {
   const user = await checkUserAuthentication()
   const hasBeautyProfile = await fetchUserBeautyProfile(user)
+
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
   const requiresQuizOrAuth = to.matched.some((record) => record.meta.requiresQuizOrAuth)
-
   const requiresBeautyProfile = to.matched.some((record) => record.meta.requiresBeautyProfile)
   const requiresNotAuth = to.matched.some((record) => record.meta.requiresNotAuth)
   const requiresQuizNotCompleted = to.matched.some((record) => record.meta.requiresQuizNotCompleted)
