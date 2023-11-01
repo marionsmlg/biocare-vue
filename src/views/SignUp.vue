@@ -35,6 +35,7 @@ async function loginWithGoogle() {
   const provider = new GoogleAuthProvider()
   try {
     const result = await signInWithPopup(auth, provider)
+    const user = result.user
     const hasBeautyProfile = await fetchUserBeautyProfile(user.uid)
     if (hasBeautyProfile) {
       router.push('/mes-recettes')
